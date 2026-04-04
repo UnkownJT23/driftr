@@ -1233,6 +1233,144 @@ canvas#welcomeCanvas {
 
 .view-itinerary-btn:hover { background: var(--accent); color: #fff; }
 
+
+@media (max-width: 768px) {
+
+  /* WELCOME SCREEN MOBILE */
+  #welcome-content {
+    padding: 0 8px;
+  }
+
+  #welcome-logo {
+    font-size: 44px;
+    margin-bottom: 12px;
+  }
+
+  #welcome-title {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
+
+  #welcome-subtitle {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  #welcome-badge {
+    font-size: 11px;
+    padding: 5px 12px;
+    margin-bottom: 16px;
+  }
+
+  #welcome-features {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .feature {
+    padding: 10px 12px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+
+  #welcome-btn {
+    padding: 14px 24px;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  #profile-btn {
+    padding: 12px 24px;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  #welcome-disclaimer {
+    font-size: 11px;
+  }
+
+  /* CHAT HEADER MOBILE */
+  #header {
+    padding: 10px 12px;
+  }
+
+  #header h1 {
+    font-size: 16px;
+    gap: 5px;
+  }
+
+  #home-btn {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  #menu-btn {
+    padding: 6px 8px;
+    font-size: 14px;
+  }
+
+  #header-buttons {
+    gap: 5px;
+  }
+
+  #theme-btn, #clear {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  #header-profile-btn {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  #header-new-chat-btn {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+
+  #clear {
+    display: none;
+  }
+
+  /* CHAT MOBILE */
+  .message {
+    max-width: 95%;
+    font-size: 13px;
+    padding: 10px 13px;
+  }
+
+  #input {
+    font-size: 16px;
+    padding: 11px 14px;
+  }
+
+  #send {
+    width: 44px;
+    height: 44px;
+  }
+
+  #input-area {
+    padding: 10px 12px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+
+  #suggestions {
+    padding: 8px 12px;
+  }
+
+  .suggestion {
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+
+  /* SIDEBAR MOBILE */
+  #sidebar {
+    width: 85%;
+    max-width: 300px;
+  }
+}
+
   </style>
 </head>
 <body>
