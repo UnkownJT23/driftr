@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <title>Driftr</title>
+  <style>
+    :root {
+      --bg: #080c14;
+      --surface: #0e1520;
+      --surface2: #141d2e;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.12);
+      --accent: #3b82f6;
+      --accent2: #60a5fa;
+      --accent-glow: rgba(59,130,246,0.15);
+      --text: #f0f4ff;
+      --text2: #8899bb;
+      --text3: #4a5a7a;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    body.light {
+      --bg: #f0f4ff;
+      --surface: #ffffff;
+      --surface2: #e8edf8;
+      --border: rgba(0,0,0,0.08);
+      --border2: rgba(0,0,0,0.15);
+      --accent: #1d4ed8;
+      --accent2: #3b82f6;
+      --accent-glow: rgba(29,78,216,0.1);
+      --text: #0a0f1e;
+      --text2: #4a5a7a;
+      --text3: #8899bb;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+    }
+
+    #welcome {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 24px;
+      transition: opacity 0.5s ease;
+      overflow: hidden;
+    }
+
+    #welcome-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+    #welcome-badge {
+      background: var(--accent-glow);
+      border: 1px solid rgba(59,130,246,0.3);
+      color: var(--accent2);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+
+    #welcome-logo {
+      font-size: 64px;
+      margin-bottom: 20px;
+      display: block;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(-5deg); }
+      50% { transform: translateY(-12px) rotate(5deg); }
+    }
+
+    #welcome-title {
+      font-family: var(--font-display);
+      font-size: 64px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 16px;
+      letter-spacing: -2px;
+    }
+
+    #welcome-title span { color: var(--accent); }
+
+    #welcome-subtitle {
+      font-size: 16px;
+      color: var(--text2);
+      margin-bottom: 36px;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    #welcome-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 36px;
+    }
+
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 13px;
+      color: var(--text2);
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .feature:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    #welcome-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 18px 48px;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 16px;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    #welcome-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(59,130,246,0.3);
+    }
+
+    #welcome-disclaimer { font-size: 12px; color: var(--text3); }
+
+    #header {
+      padding: 14px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    #header h1 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #header-dot {
+      width: 7px;
+      height: 7px;
+      background: #22c55e;
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    #header p { display: none; }
+
+    #home-btn {
+      position: static;
+      transform: none;
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      border-radius: 10px;
+      padding: 7px 14px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #home-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    #header-buttons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      position: static;
+      transform: none;
+    }
+
+    #theme-btn, #clear {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #theme-btn:hover, #clear:hover { border-color: var(--accent); color: var(--accent); }
+
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border2) transparent;
+    }
+
+    #chat::-webkit-scrollbar { width: 4px; }
+    #chat::-webkit-scrollbar-track { background: transparent; }
+    #chat::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+    .message {
+  max-width: 82%;
+  padding: 13px 17px;
+  border-radius: 20px;
+  line-height: 1.65;
+  font-size: 14px;
+  word-wrap: break-word;
+  font-weight: 300;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+    .user {
+      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 5px;
+      font-weight: 400;
+    }
+
+    .assistant {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+      color: var(--text);
+    }
+
+    .message.assistant p { margin-bottom: 8px; }
+    .message.assistant p:last-child { margin-bottom: 0; }
+    .message.assistant ul, .message.assistant ol { padding-left: 20px; margin-bottom: 8px; }
+    .message.assistant li { margin-bottom: 4px; }
+    .message.assistant strong { color: var(--text); font-weight: 600; }
+    .message.assistant h1, .message.assistant h2, .message.assistant h3 { color: var(--accent2); margin-bottom: 8px; margin-top: 12px; font-family: var(--font-display); }
+    .message.assistant code { background: var(--surface2); padding: 2px 6px; border-radius: 6px; font-size: 13px; color: var(--accent2); }
+    .message.assistant hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+
+    .typing-indicator {
+      display: flex;
+      gap: 5px;
+      padding: 14px 18px;
+      background: var(--surface);
+      border-radius: 20px;
+      border-bottom-left-radius: 5px;
+      border: 1px solid var(--border);
+      align-self: flex-start;
+      width: fit-content;
+    }
+
+    .typing-indicator span {
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: bounce 1.2s infinite;
+    }
+
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+      30% { transform: translateY(-7px); opacity: 1; }
+    }
+
+    .timestamp {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 4px;
+      padding: 0 4px;
+    }
+
+    .user-timestamp { align-self: flex-end; }
+    .assistant-timestamp { align-self: flex-start; }
+
+    #suggestions {
+      padding: 10px 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    #suggestions::-webkit-scrollbar { display: none; }
+
+    .suggestion {
+      background: var(--surface2);
+      color: var(--text2);
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .suggestion:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .suggestion:active { background: var(--accent); color: #fff; }
+
+    #input-area {
+      padding: 14px 16px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+      padding-bottom: max(14px, env(safe-area-inset-bottom));
+      align-items: center;
+    }
+
+    #input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 13px 18px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    #input::placeholder { color: var(--text3); }
+    #input:focus { border-color: var(--accent); }
+
+    #send {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-size: 18px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #send:hover { opacity: 0.9; transform: translateY(-1px); }
+    #send:active { transform: translateY(0); }
+    #send:disabled { background: var(--surface2); color: var(--text3); cursor: not-allowed; transform: none; }
+
+    #scroll-btn {
+      position: absolute;
+      bottom: 160px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(59,130,246,0.4);
+    }
+
+    #scroll-btn:hover { transform: translateY(-2px); }
+
+    .message-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+    .message-wrapper:hover .message-actions { opacity: 1; }
+
+    .action-btn {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text3);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .action-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .action-btn.copied { border-color: #22c55e; color: #22c55e; }
+
+    @media (max-width: 600px) {
+      .message { max-width: 92%; font-size: 14px; }
+      #welcome-title { font-size: 48px; }
+      #welcome-features { grid-template-columns: 1fr; }
+      #send { width: 44px; height: 44px; }
+    }
+
+    .stars-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+}
+
+.star-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  animation: twinkle-bg var(--d) ease-in-out infinite;
+}
+
+@keyframes twinkle-bg {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.4); }
+}
+
+.welcome-moon {
+  position: absolute;
+  top: 30px;
+  right: 80px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f0e6c8;
+  pointer-events: none;
+}
+
+.welcome-moon::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.welcome-moon-glow {
+  position: absolute;
+  top: 14px;
+  right: 64px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(240,230,200,0.05);
+  animation: moon-glow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes moon-glow {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+.welcome-waves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 130px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.welcome-wave-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.welcome-wave-svg {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 100%;
+}
+
+.welcome-wave-layer1 .welcome-wave-svg { animation: waveMove1 6s linear infinite; }
+.welcome-wave-layer2 .welcome-wave-svg { animation: waveMove2 8s linear infinite; opacity: 0.7; }
+.welcome-wave-layer3 .welcome-wave-svg { animation: waveMove3 10s linear infinite; opacity: 0.5; }
+
+@keyframes waveMove1 {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes waveMove2 {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes waveMove3 {
+  0% { transform: translateX(-25%); }
+  100% { transform: translateX(-75%); }
+}
+
+.welcome-foam {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  animation: foam-anim var(--d) ease-in-out infinite var(--delay);
+}
+
+@keyframes foam-anim {
+  0%, 100% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.3); opacity: 0.3; }
+}
+
+.fishing-scene {
+  position: absolute;
+  bottom: 55px;
+  left: 0;
+  right: 0;
+  height: 180px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.boat-el {
+  position: absolute;
+  bottom: 18px;
+  z-index: 4;
+}
+
+.boat-right-el {
+  right: 22%;
+  animation: boatFloatRight 3s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+.boat-left-el {
+  left: 22%;
+  animation: boatFloatLeft 3.5s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+@keyframes boatFloatRight {
+  0%,100% { transform: rotate(-2deg) translateY(0px); }
+  50% { transform: rotate(2deg) translateY(-6px); }
+}
+
+@keyframes boatFloatLeft {
+  0%,100% { transform: rotate(2deg) translateY(-2px); }
+  50% { transform: rotate(-2deg) translateY(4px); }
+}
+
+@keyframes boatRock {
+  0%,100% { transform: translateX(-50%) rotate(-2deg) translateY(0px); }
+  50% { transform: translateX(-50%) rotate(2deg) translateY(-4px); }
+}
+
+canvas#welcomeCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: all;
+}
+
+#welcome-theme-btn {
+  position: absolute;
+  top: 24px;
+  right: 74px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 20;
+  padding: 6px;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+#welcome-theme-btn:hover {
+  transform: scale(1.2);
+}
+
+#profile-btn {
+  background: transparent;
+  color: var(--accent2);
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+  padding: 14px 48px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 16px;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+
+#profile-btn:hover {
+  background: var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+#profile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+#profile-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+}
+
+#profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+#profile-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+#profile-close {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#profile-close:hover { border-color: var(--accent); color: var(--accent); }
+
+#profile-subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 28px;
+  font-weight: 300;
+}
+
+#profile-progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+
+.progress-dot {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--border2);
+  transition: background 0.3s;
+}
+
+.progress-dot.active { background: var(--accent); }
+.progress-dot.done { background: var(--accent2); }
+
+.profile-question {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.profile-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 13px 18px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 20px;
+}
+
+.profile-input:focus { border-color: var(--accent); }
+
+.profile-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.profile-option {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  padding: 10px 18px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.profile-option:hover { border-color: var(--accent); color: var(--accent); }
+.profile-option.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+#profile-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+#profile-back {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#profile-back:hover { border-color: var(--accent); color: var(--accent); }
+
+#profile-next {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 24px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#profile-next:hover { opacity: 0.9; transform: translateY(-1px); }
+#profile-skip {
+  font-size: 12px;
+  color: var(--text3);
+  cursor: pointer;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+}
+#profile-skip:hover { color: var(--text2); }
+
+#header-profile-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#header-profile-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 280px;
+  background: var(--surface);
+  border-right: 1px solid var(--border2);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+#sidebar.open { transform: translateX(0); }
+
+#sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 499;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#sidebar-overlay.open { display: block; opacity: 1; }
+
+#sidebar-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+#sidebar-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+#sidebar-close {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#sidebar-close:hover { border-color: var(--accent); color: var(--accent); }
+
+#new-chat-btn {
+  margin: 12px 16px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+#new-chat-btn:hover { opacity: 0.9; }
+
+#chat-history-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border2) transparent;
+}
+
+#chat-history-list::-webkit-scrollbar { width: 4px; }
+#chat-history-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+.history-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 4px;
+  position: relative;
+  border: 1px solid transparent;
+}
+
+.history-item:hover { background: var(--surface2); border-color: var(--border); }
+.history-item.active { background: var(--accent-glow); border-color: var(--accent); }
+
+.history-item-title {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+  font-family: var(--font-body);
+}
+
+.history-item-time {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--font-body);
+}
+
+.history-item-delete {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text3);
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.history-item:hover .history-item-delete { opacity: 1; }
+.history-item-delete:hover { color: #ef4444; }
+
+#sidebar-empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--text3);
+  font-size: 13px;
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+#menu-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+#menu-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+#header-new-chat-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+  font-weight: 600;
+}
+
+#header-new-chat-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#itinerary-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 3000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+#itinerary-overlay.open { display: flex; }
+
+#itinerary-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  padding: 28px;
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+}
+
+#itinerary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+#itinerary-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+#itinerary-close {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+
+#itinerary-close:hover { border-color: var(--accent); color: var(--accent); }
+
+#itinerary-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.itinerary-stat {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+
+.itinerary-stat-label {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--font-body);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.itinerary-stat-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: var(--font-display);
+}
+
+#itinerary-days {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.itinerary-day {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  transition: border-color 0.2s;
+}
+
+.itinerary-day:hover { border-color: var(--accent); }
+
+.itinerary-day-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.itinerary-day-number {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  flex-shrink: 0;
+}
+
+.itinerary-day-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.itinerary-day-content {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-family: var(--font-body);
+}
+
+.itinerary-day-content p { margin-bottom: 4px; }
+.itinerary-day-content p:last-child { margin-bottom: 0; }
+
+#itinerary-actions {
+  display: flex;
+  gap: 10px;
+}
+
+#itinerary-copy-btn {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: 12px;
+  padding: 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#itinerary-copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+#itinerary-share-btn {
+  flex: 1;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#itinerary-share-btn:hover { opacity: 0.9; }
+
+.view-itinerary-btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.view-itinerary-btn:hover { background: var(--accent); color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <div id="itinerary-overlay">
+  <div id="itinerary-card">
+    <div id="itinerary-header">
+      <span id="itinerary-title">✈️ Your Itinerary</span>
+      <button id="itinerary-close" onclick="closeItinerary()">✕ Close</button>
+    </div>
+    <div id="itinerary-summary"></div>
+    <div id="itinerary-days"></div>
+    <div id="itinerary-actions">
+      <button id="itinerary-copy-btn" onclick="copyItinerary()">📋 Copy Full Itinerary</button>
+      <button id="itinerary-share-btn" onclick="shareItinerary()">↗ Share</button>
+    </div>
+  </div>
+</div>
+  <div id="profile-overlay">
+  <div id="profile-card">
+    <div id="profile-header">
+      <span id="profile-title">Tell Bingus about you</span>
+      <button id="profile-close" onclick="closeProfile()">✕ Close</button>
+    </div>
+    <p id="profile-subtitle">So Bingus can give you personalized recommendations from day one.</p>
+    <div id="profile-progress"></div>
+    <div id="profile-step-content"></div>
+    <div id="profile-nav">
+      <button id="profile-back" onclick="profileBack()">← Back</button>
+      <button id="profile-skip" onclick="profileSkip()">Skip</button>
+      <button id="profile-next" onclick="profileNext()">Next →</button>
+    </div>
+  </div>
+</div>
+
+  <div id="welcome">
+
+  <div class="stars-bg">
+    <div class="star-dot" style="left:5%;top:8%;width:2px;height:2px;--d:2.1s"></div>
+    <div class="star-dot" style="left:12%;top:5%;width:1px;height:1px;--d:3.2s"></div>
+    <div class="star-dot" style="left:22%;top:12%;width:2px;height:2px;--d:1.8s"></div>
+    <div class="star-dot" style="left:35%;top:6%;width:1px;height:1px;--d:2.7s"></div>
+    <div class="star-dot" style="left:48%;top:10%;width:2px;height:2px;--d:3.5s"></div>
+    <div class="star-dot" style="left:58%;top:4%;width:1px;height:1px;--d:2.3s"></div>
+    <div class="star-dot" style="left:70%;top:14%;width:2px;height:2px;--d:1.6s"></div>
+    <div class="star-dot" style="left:15%;top:20%;width:1px;height:1px;--d:3.8s"></div>
+    <div class="star-dot" style="left:42%;top:18%;width:2px;height:2px;--d:2.4s"></div>
+    <div class="star-dot" style="left:65%;top:22%;width:1px;height:1px;--d:1.9s"></div>
+    <div class="star-dot" style="left:88%;top:9%;width:2px;height:2px;--d:2.8s"></div>
+    <div class="star-dot" style="left:78%;top:16%;width:1px;height:1px;--d:3.1s"></div>
+  </div>
+
+  <div class="welcome-moon-glow"></div>
+<div class="welcome-moon"></div>
+<button id="welcome-theme-btn" onclick="toggleTheme()">🌙</button>
+
+  <div class="fishing-scene">
+  <canvas id="welcomeCanvas"></canvas>
+
+  <div class="boat-el boat-right-el">
+    <svg width="120" height="60" viewBox="0 0 120 60" fill="none">
+      <ellipse cx="60" cy="48" rx="48" ry="12" fill="#2d1b0e"/>
+      <path d="M15 48 Q60 36 105 48" fill="#3d2510"/>
+      <rect x="38" y="20" width="44" height="28" rx="4" fill="#3d2510"/>
+      <rect x="44" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
+      <rect x="66" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
+      <rect x="54" y="12" width="3" height="20" fill="#8B7355"/>
+      <path d="M57 13 L72 20 L57 27 Z" fill="#f0e6c8" opacity="0.8"/>
+      <g transform="translate(75, 18)">
+        <ellipse cx="8" cy="6" rx="6" ry="6" fill="#C9956B"/>
+        <rect x="5" y="10" width="6" height="8" rx="2" fill="#4a6fa5"/>
+        <line x1="14" y1="8" x2="22" y2="14" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
+        <ellipse cx="22" cy="15" rx="3" ry="2" fill="#8B7355"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="boat-el boat-left-el">
+    <svg width="120" height="60" viewBox="0 0 120 60" fill="none" style="transform: scaleX(-1)">
+      <ellipse cx="60" cy="48" rx="48" ry="12" fill="#2d1b0e"/>
+      <path d="M15 48 Q60 36 105 48" fill="#3d2510"/>
+      <rect x="38" y="20" width="44" height="28" rx="4" fill="#3d2510"/>
+      <rect x="44" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
+      <rect x="66" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
+      <rect x="54" y="12" width="3" height="20" fill="#8B7355"/>
+      <path d="M57 13 L72 20 L57 27 Z" fill="#f0e6c8" opacity="0.8"/>
+      <g transform="translate(75, 18)">
+        <ellipse cx="8" cy="6" rx="6" ry="6" fill="#C9956B"/>
+        <rect x="5" y="10" width="6" height="8" rx="2" fill="#4a6fa5"/>
+        <line x1="14" y1="8" x2="22" y2="14" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
+        <ellipse cx="22" cy="15" rx="3" ry="2" fill="#8B7355"/>
+      </g>
+    </svg>
+  </div>
+
+</div>
+
+  <div class="welcome-waves">
+    <div class="welcome-wave-layer welcome-wave-layer1">
+      <svg class="welcome-wave-svg" viewBox="0 0 1440 130" preserveAspectRatio="none">
+        <path d="M0,60 C180,20 360,100 540,60 C720,20 900,100 1080,60 C1260,20 1440,100 1440,60 L1440,130 L0,130 Z" fill="#0d2137"/>
+      </svg>
+    </div>
+    <div class="welcome-wave-layer welcome-wave-layer2">
+      <svg class="welcome-wave-svg" viewBox="0 0 1440 130" preserveAspectRatio="none">
+        <path d="M0,80 C240,40 480,110 720,70 C960,30 1200,100 1440,65 L1440,130 L0,130 Z" fill="rgba(59,130,246,0.12)"/>
+      </svg>
+    </div>
+    <div class="welcome-wave-layer welcome-wave-layer3">
+      <svg class="welcome-wave-svg" viewBox="0 0 1440 130" preserveAspectRatio="none">
+        <path d="M0,85 C200,50 400,105 600,75 C800,45 1000,105 1200,75 C1440,45 1440,90 1440,80 L1440,130 L0,130 Z" fill="rgba(96,165,250,0.08)"/>
+      </svg>
+    </div>
+    <div class="welcome-foam" style="left:10%;bottom:70px;width:20px;height:8px;--d:3s;--delay:0s"></div>
+    <div class="welcome-foam" style="left:30%;bottom:75px;width:14px;height:6px;--d:4s;--delay:0.5s"></div>
+    <div class="welcome-foam" style="left:55%;bottom:72px;width:18px;height:7px;--d:3.5s;--delay:1s"></div>
+    <div class="welcome-foam" style="left:75%;bottom:68px;width:12px;height:5px;--d:4.5s;--delay:0.3s"></div>
+    <div class="welcome-foam" style="left:88%;bottom:74px;width:16px;height:6px;--d:3.2s;--delay:0.8s"></div>
+  </div>
+
+  <div id="welcome-content">
+      <span id="welcome-badge">🦦 Your AI Travel Companion</span>
+      <div id="welcome-logo">🦦</div>
+      <h1 id="welcome-title">Drif<span>tr</span></h1>
+      <p id="welcome-subtitle">Float into your next adventure. Budget hacks, hidden gems, and real advice — not tourist trap nonsense.</p>
+      <div id="welcome-features">
+        <div class="feature">🌍 Hidden gem destinations</div>
+        <div class="feature">💰 Budget travel hacks</div>
+        <div class="feature">🏄 Adventure experiences</div>
+        <div class="feature">🛡️ Real safety info</div>
+      </div>
+      <button id="welcome-btn">Start Exploring →</button>
+<button id="profile-btn" onclick="openProfile()">👤 Personalize Bingus</button>
+<p id="welcome-disclaimer">Free to use · Powered by Claude AI</p>
+    </div>
+  </div>
+
+  <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<div id="sidebar">
+  <div id="sidebar-header">
+    <span id="sidebar-title">💬 Chats</span>
+    <button id="sidebar-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <button id="new-chat-btn" onclick="newChat()">＋ New Chat</button>
+  <div id="chat-history-list">
+    <div id="sidebar-empty">No saved chats yet.<br>Start a conversation!</div>
+  </div>
+</div>
+
+<div id="header">
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button id="menu-btn" onclick="toggleSidebar()">☰</button>
+    <button id="home-btn" onclick="goHome()">← Home</button>
+  </div>
+    <h1 onclick="goHome()" style="cursor: pointer;">🦦 Driftr <span id="header-dot"></span></h1>
+    <p>Your budget travel expert for young adventurers</p>
+    <div id="header-buttons">
+  <button id="theme-btn" onclick="toggleTheme()">☀️</button>
+  <button id="header-profile-btn" onclick="openProfile()">👤</button>
+  <button id="header-new-chat-btn" onclick="newChat()">＋</button>
+  <button id="clear" onclick="clearChat()">Clear Chat</button>
+</div>
+  </div>
+
+  <div id="chat">
+    <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
+    <div class="message-wrapper">
+      <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
+    </div>
+  </div>
+
+  <div id="suggestions">
+    <button class="suggestion">🌍 Best budget countries right now</button>
+    <button class="suggestion">🏄 Plan me a surf trip</button>
+    <button class="suggestion">🌴 Hidden gems in Southeast Asia</button>
+    <button class="suggestion">🇨🇴 Is Colombia safe to visit?</button>
+    <button class="suggestion">✈️ Cheapest way to get to Europe</button>
+  </div>
+
+  <div id="input-area">
+    <input id="input" type="text" placeholder="Ask Bingus anything about travel..." />
+    <button id="send">➤</button>
+  </div>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const input = document.getElementById("input");
+    const send = document.getElementById("send");
+    const suggestions = document.getElementById("suggestions");
+    let messages = JSON.parse(localStorage.getItem("atlas_messages") || "[]");
+    let userScrolled = false;
+
+    if (localStorage.getItem("atlas_theme") === "light") {
+      document.body.classList.add("light");
+      document.getElementById("theme-btn").textContent = "🌙";
+      document.getElementById("welcome-theme-btn").textContent = "☀️";
+    }
+
+    function startChat() {
+      const welcome = document.getElementById("welcome");
+      welcome.style.transition = "opacity 0.4s ease";
+      welcome.style.opacity = "0";
+      setTimeout(() => { welcome.style.display = "none"; welcome.style.opacity = "1"; }, 400);
+    }
+
+    const welcomeBtn = document.getElementById("welcome-btn");
+    if (welcomeBtn) {
+      welcomeBtn.onclick = function() {
+        const welcome = document.getElementById("welcome");
+        welcome.style.transition = "opacity 0.4s ease";
+        welcome.style.opacity = "0";
+        setTimeout(() => { welcome.style.display = "none"; }, 400);
+      };
+    }
+
+    function goHome() {
+      const welcome = document.getElementById("welcome");
+      welcome.style.display = "flex";
+      welcome.style.opacity = "0";
+      setTimeout(() => {
+        welcome.style.opacity = "1";
+        welcome.style.transition = "opacity 0.4s ease";
+        wResize();
+      }, 10);
+    }
+
+    function toggleTheme() {
+      const isLight = document.body.classList.toggle("light");
+      localStorage.setItem("atlas_theme", isLight ? "light" : "dark");
+      document.getElementById("theme-btn").textContent = isLight ? "🌙" : "☀️";
+      document.getElementById("welcome-theme-btn").textContent = isLight ? "☀️" : "🌙";
+    }
+
+    function clearChat() {
+      messages = [];
+      localStorage.removeItem("atlas_messages");
+      chat.innerHTML = `
+        <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
+        <div class="message-wrapper">
+          <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
+        </div>`;
+      suggestions.style.display = "flex";
+    }
+
+    function showTyping() {
+      const div = document.createElement("div");
+      div.id = "typing-indicator";
+      div.className = "typing-indicator";
+      div.innerHTML = "<span></span><span></span><span></span>";
+      chat.appendChild(div);
+      if (!userScrolled) chat.scrollTop = chat.scrollHeight;
+    }
+
+    function hideTyping() {
+      const indicator = document.getElementById("typing-indicator");
+      if (indicator) indicator.remove();
+    }
+
+    function scrollToBottom() {
+      chat.scrollTo({ top: chat.scrollHeight, behavior: "smooth" });
+    }
+
+    function checkScroll() {
+      const distanceFromBottom = chat.scrollHeight - chat.scrollTop - chat.clientHeight;
+      const btn = document.getElementById("scroll-btn");
+      if (btn) btn.style.display = distanceFromBottom > 200 ? "flex" : "none";
+    }
+
+    chat.addEventListener("scroll", () => {
+      checkScroll();
+      const distanceFromBottom = chat.scrollHeight - chat.scrollTop - chat.clientHeight;
+      userScrolled = distanceFromBottom > 100;
+    });
+
+    function getTime() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+      const displayHour = hours % 12 || 12;
+      return `${displayHour}:${minutes} ${ampm}`;
+    }
+
+    function addMessage(role, text) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "message-wrapper";
+      const div = document.createElement("div");
+      div.className = `message ${role}`;
+      if (role === "assistant" && text) {
+        div.innerHTML = marked.parse(text);
+      } else {
+        div.textContent = text;
+      }
+      const timestamp = document.createElement("div");
+      timestamp.className = `timestamp ${role}-timestamp`;
+      timestamp.textContent = getTime();
+      wrapper.appendChild(div);
+      wrapper.appendChild(timestamp);
+      chat.appendChild(wrapper);
+      if (!userScrolled) chat.scrollTop = chat.scrollHeight;
+      return div;
+    }
+
+    function loadSavedMessages() {
+      if (messages.length > 0) {
+        const firstWrapper = chat.querySelector(".message-wrapper");
+        if (firstWrapper) firstWrapper.remove();
+        messages.forEach(msg => addMessage(msg.role, msg.content));
+      }
+    }
+
+    document.querySelectorAll(".suggestion").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const text = btn.textContent.replace(/^\S+\s/, "").trim();
+        input.value = text;
+        suggestions.style.display = "none";
+        sendMessage();
+      });
+    });
+
+    loadSavedMessages();
+
+    document.getElementById("welcome").style.display = "flex";
+    document.getElementById("welcome").style.opacity = "1";
+
+    async function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = "";
+      send.disabled = true;
+      suggestions.style.display = "none";
+      addMessage("user", text);
+      messages.push({ role: "user", content: text });
+      localStorage.setItem("atlas_messages", JSON.stringify(messages));
+      showTyping();
+      let fullResponse = "";
+
+      try {
+        const res = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages, profile: JSON.parse(localStorage.getItem("driftr_profile") || "{}") })
+        });
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value);
+          const lines = chunk.split("\n");
+          for (const line of lines) {
+            if (line.startsWith("data: ")) {
+              try {
+                const data = JSON.parse(line.slice(6));
+                if (data.text) {
+                  if (!window.responseDiv) {
+                    hideTyping();
+                    window.responseDiv = addMessage("assistant", "");
+                  }
+                  fullResponse += data.text;
+                  window.responseDiv.innerHTML = marked.parse(fullResponse);
+                  if (!userScrolled) chat.scrollTop = chat.scrollHeight;
+                }
+                if (data.done) {
+                  hideTyping();
+                  userScrolled = false;
+                  if (window.responseDiv) {
+                    const actions = document.createElement("div");
+                    actions.className = "message-actions";
+if (isItineraryResponse(fullResponse)) {
+  addItineraryButton(actions, fullResponse);
+}
+                    const copyBtn = document.createElement("button");
+                    copyBtn.className = "action-btn";
+                    copyBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`;
+                    copyBtn.onclick = () => {
+                      navigator.clipboard.writeText(fullResponse).then(() => {
+                        copyBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied`;
+                        copyBtn.classList.add("copied");
+                        setTimeout(() => {
+                          copyBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`;
+                          copyBtn.classList.remove("copied");
+                        }, 2000);
+                      });
+                    };
+                    const shareBtn = document.createElement("button");
+                    shareBtn.className = "action-btn";
+                    shareBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Share`;
+                    shareBtn.onclick = () => {
+                      if (navigator.share) {
+                        navigator.share({ title: "Driftr Travel Tip", text: fullResponse });
+                      } else {
+                        navigator.clipboard.writeText(fullResponse).then(() => {
+                          shareBtn.innerHTML = "✅ Copied";
+                          shareBtn.classList.add("copied");
+                          setTimeout(() => { shareBtn.innerHTML = "↗ Share"; shareBtn.classList.remove("copied"); }, 2000);
+                        });
+                      }
+                    };
+                    actions.appendChild(copyBtn);
+                    actions.appendChild(shareBtn);
+                    window.responseDiv.closest(".message-wrapper").appendChild(actions);
+                    window.responseDiv = null;
+                  }
+                  messages.push({ role: "assistant", content: fullResponse });
+                  localStorage.setItem("atlas_messages", JSON.stringify(messages));
+                  saveCurrentChat();
+                }
+                if (data.error) {
+                  hideTyping();
+                  window.responseDiv = null;
+                  addMessage("assistant", data.error);
+                }
+              } catch (e) {}
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+        hideTyping();
+        window.responseDiv = null;
+        addMessage("assistant", "Something went wrong. Try again.");
+      }
+      send.disabled = false;
+      input.focus();
+    }
+
+    send.addEventListener("click", sendMessage);
+    input.addEventListener("keydown", e => { if (e.key === "Enter") sendMessage(); });
+
+    // FISHING ANIMATION
+    let wW, wH, waterY;
+    let wctx = null;
+    let animationStarted = false;
+    let pillHitbox = null;
+
+    const destinations = [
+      "Colombia", "Bali", "Albania", "Japan", "Morocco", "Peru",
+      "Georgia", "Vietnam", "Portugal", "Kyrgyzstan", "Costa Rica",
+      "Tanzania", "Iceland", "Nepal", "Argentina", "Ethiopia", "Jordan", "Philippines"
+    ];
+
+    const activities = [
+      "🏄 Surfing", "🥾 Hiking", "🎿 Skiing", "🪂 Skydiving",
+      "🤿 Diving", "🧗 Climbing", "🚵 Mountain Biking", "🪁 Zip-lining",
+      "🏕️ Camping", "🛶 Kayaking", "🪂 Paragliding", "🏇 Horse Riding"
+    ];
+
+    const IDLE = 50, REEL = 130, THROW = 60, FLOAT = 50, DISSOLVE = 40;
+
+    function easeOut(t) { return 1 - Math.pow(1-t, 3); }
+    function easeInOut(t) { return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+    let rState="idle", rProgress=0, rTimer=0, rDestIdx=0;
+    let rPillX, rPillY, rPillOp=0, rPillScale=0.7;
+    let rCastX, rCastY, rThrowX, rThrowY, rThrowSX, rThrowSY;
+    let rDest="", rRodX, rRodY, rSplash=[];
+
+    let lState="idle", lProgress=0, lTimer=30, lActIdx=0;
+    let lPillX, lPillY, lPillOp=0, lPillScale=0.7;
+    let lCastX, lCastY, lThrowX, lThrowY, lThrowSX, lThrowSY;
+    let lAct="", lRodX, lRodY, lSplash=[];
+
+    function wResize() {
+      const welcomeCanvas = document.getElementById("welcomeCanvas");
+      if (!welcomeCanvas) return;
+      const rect = welcomeCanvas.parentElement.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      wW = welcomeCanvas.width = rect.width;
+      wH = welcomeCanvas.height = rect.height;
+      waterY = wH - 22;
+      rRodX = wW * 0.75 + 32;
+      rRodY = wH - 22 - 14;
+      lRodX = wW * 0.25 - 32;
+      lRodY = wH - 22 - 14;
+    }
+
+    function newRCast() {
+      rCastX = wW * 0.75 + (Math.random()-0.5) * wW * 0.45;
+      rCastY = waterY + 20 + Math.random()*20;
+    }
+
+    function newLCast() {
+      lCastX = wW * 0.25 + (Math.random()-0.5) * wW * 0.45;
+      lCastY = waterY + 20 + Math.random()*20;
+    }
+
+    function drawWPill(ctx, x, y, text, op, scale, glowing, accent) {
+      ctx.save();
+      ctx.globalAlpha = op;
+      ctx.translate(x, y);
+      ctx.scale(scale, scale);
+      ctx.font = "600 13px 'Syne', sans-serif";
+      const pw = ctx.measureText(text).width + 32;
+      const ph = 30;
+      if (glowing) { ctx.shadowColor = accent || "rgba(96,165,250,0.7)"; ctx.shadowBlur = 18; }
+      ctx.fillStyle = "rgba(13,33,55,0.9)";
+      ctx.strokeStyle = accent || "rgba(96,165,250,0.8)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(-pw/2, -ph/2, pw, ph, 15);
+      ctx.fill();
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = "#fff";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, 0, 0);
+      ctx.restore();
+    }
+
+    function drawWLine(ctx, x1, y1, x2, y2, op) {
+      ctx.save();
+      ctx.globalAlpha = op;
+      ctx.strokeStyle = "rgba(255,255,255,0.45)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4,4]);
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.restore();
+    }
+
+    function spawnSplash(arr) {
+      for (let i=0; i<10; i++) arr.push({ vx:(Math.random()-0.5)*5, vy:-(Math.random()*4+1), r:Math.random()*2.5+0.5, op:0.9, life:0 });
+    }
+
+    function drawWSplash(ctx, arr, x, y) {
+      arr.forEach(p => {
+        ctx.save();
+        ctx.globalAlpha = p.op;
+        ctx.fillStyle = "#60a5fa";
+        ctx.beginPath();
+        ctx.arc(x+p.vx*p.life, y+p.vy*p.life+0.15*p.life*p.life, p.r, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      });
+    }
+
+    function wAnimate() {
+      const welcomeCanvas = document.getElementById("welcomeCanvas");
+      if (!welcomeCanvas || !wctx) return;
+      requestAnimationFrame(wAnimate);
+      wctx.clearRect(0, 0, wW, wH);
+
+      [rSplash, lSplash].forEach(arr => {
+        arr.forEach(p => { p.life+=0.6; p.op=Math.max(0, p.op-0.04); });
+        arr.splice(0, arr.length, ...arr.filter(p => p.op > 0));
+      });
+      if (rSplash.length) drawWSplash(wctx, rSplash, rCastX, waterY);
+      if (lSplash.length) drawWSplash(wctx, lSplash, lCastX, waterY);
+
+      if (rState === "idle") {
+        drawWLine(wctx, rRodX, rRodY, rCastX||wW*0.75, waterY+30, 0.3);
+        rTimer++;
+        if (rTimer > IDLE) {
+          rTimer=0; newRCast();
+          rDest = destinations[rDestIdx++ % destinations.length];
+          rState="reeling"; rProgress=0; rPillOp=0; rPillScale=0.7;
+          rPillX=rCastX; rPillY=rCastY; rSplash=[];
+        }
+      } else if (rState === "reeling") {
+        rProgress++;
+        const t = easeInOut(Math.min(rProgress/REEL,1));
+        rPillX=rCastX+(rRodX-rCastX)*t;
+        rPillY=rCastY+(rRodY-rCastY)*t;
+        rPillOp=Math.min(rProgress/15,1); rPillScale=0.75+0.25*t;
+        if (rProgress===1) spawnSplash(rSplash);
+        drawWLine(wctx, rRodX, rRodY, rPillX, rPillY, 0.5);
+        drawWPill(wctx, rPillX, rPillY, rDest, rPillOp, rPillScale, false);
+        if (rProgress>=REEL) { rState="throwing"; rProgress=0; rThrowSX=rRodX; rThrowSY=rRodY; rThrowX=wW*0.75; rThrowY=rRodY-110; }
+      } else if (rState === "throwing") {
+        rProgress++;
+        const t = easeOut(Math.min(rProgress/THROW,1));
+        rPillX=rThrowSX+(rThrowX-rThrowSX)*t;
+        rPillY=rThrowSY+(rThrowY-rThrowSY)*t+Math.sin(t*Math.PI)*-50;
+        rPillScale=0.9+0.2*t; rPillOp=1;
+        drawWPill(wctx, rPillX, rPillY, rDest, rPillOp, rPillScale, true);
+        if (rProgress>=THROW) { rState="floating"; rProgress=0; }
+      } else if (rState === "floating") {
+        rProgress++;
+        rPillY=rThrowY+Math.sin(rProgress*0.15)*4;
+        rPillScale=1.1; rPillOp=1;
+        drawWPill(wctx, rPillX, rPillY, rDest, 1, 1.1, true);
+        wctx.font = "600 13px 'Syne', sans-serif";
+        const pw = wctx.measureText(rDest).width + 32;
+        const ph = 30;
+        pillHitbox = { x: rPillX-(pw*1.1)/2, y: rPillY-(ph*1.1)/2, w: pw*1.1, h: ph*1.1, dest: rDest, isActivity: false };
+        if (rProgress>=FLOAT) { rState="dissolving"; rProgress=0; pillHitbox=null; }
+      } else if (rState === "dissolving") {
+        rProgress++;
+        const t = easeInOut(Math.min(rProgress/DISSOLVE,1));
+        drawWPill(wctx, rPillX, rPillY, rDest, 1-t, 1.1+t*0.4, true);
+        if (rProgress>=DISSOLVE) { rState="idle"; rTimer=0; newRCast(); }
+      }
+
+      if (lState === "idle") {
+        drawWLine(wctx, lRodX, lRodY, lCastX||wW*0.25, waterY+30, 0.3);
+        lTimer++;
+        if (lTimer > IDLE) {
+          lTimer=0; newLCast();
+          lAct = activities[lActIdx++ % activities.length];
+          lState="reeling"; lProgress=0; lPillOp=0; lPillScale=0.7;
+          lPillX=lCastX; lPillY=lCastY; lSplash=[];
+        }
+      } else if (lState === "reeling") {
+        lProgress++;
+        const t = easeInOut(Math.min(lProgress/REEL,1));
+        lPillX=lCastX+(lRodX-lCastX)*t;
+        lPillY=lCastY+(lRodY-lCastY)*t;
+        lPillOp=Math.min(lProgress/15,1); lPillScale=0.75+0.25*t;
+        if (lProgress===1) spawnSplash(lSplash);
+        drawWLine(wctx, lRodX, lRodY, lPillX, lPillY, 0.5);
+        drawWPill(wctx, lPillX, lPillY, lAct, lPillOp, lPillScale, false, "rgba(52,211,153,0.8)");
+        if (lProgress>=REEL) { lState="throwing"; lProgress=0; lThrowSX=lRodX; lThrowSY=lRodY; lThrowX=wW*0.25; lThrowY=lRodY-110; }
+      } else if (lState === "throwing") {
+        lProgress++;
+        const t = easeOut(Math.min(lProgress/THROW,1));
+        lPillX=lThrowSX+(lThrowX-lThrowSX)*t;
+        lPillY=lThrowSY+(lThrowY-lThrowSY)*t+Math.sin(t*Math.PI)*-50;
+        lPillScale=0.9+0.2*t; lPillOp=1;
+        drawWPill(wctx, lPillX, lPillY, lAct, lPillOp, lPillScale, true, "rgba(52,211,153,0.8)");
+        if (lProgress>=THROW) { lState="floating"; lProgress=0; }
+      } else if (lState === "floating") {
+        lProgress++;
+        lPillY=lThrowY+Math.sin(lProgress*0.15)*4;
+        drawWPill(wctx, lPillX, lPillY, lAct, 1, 1.1, true, "rgba(52,211,153,0.8)");
+        wctx.font = "600 13px 'Syne', sans-serif";
+        const lpw = wctx.measureText(lAct).width + 32;
+        const lph = 30;
+        pillHitbox = { x: lPillX-(lpw*1.1)/2, y: lPillY-(lph*1.1)/2, w: lpw*1.1, h: lph*1.1, dest: lAct, isActivity: true };
+        if (lProgress>=FLOAT) { lState="dissolving"; lProgress=0; pillHitbox=null; }
+      } else if (lState === "dissolving") {
+        lProgress++;
+        const t = easeInOut(Math.min(lProgress/DISSOLVE,1));
+        drawWPill(wctx, lPillX, lPillY, lAct, 1-t, 1.1+t*0.4, true, "rgba(52,211,153,0.8)");
+        if (lProgress>=DISSOLVE) { lState="idle"; lTimer=0; newLCast(); }
+      }
+    }
+
+    function initFishing() {
+      const welcomeCanvas = document.getElementById("welcomeCanvas");
+      if (!welcomeCanvas || animationStarted) return;
+      const rect = welcomeCanvas.parentElement.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) { setTimeout(initFishing, 100); return; }
+      wctx = welcomeCanvas.getContext("2d");
+      animationStarted = true;
+      wResize();
+      newRCast(); newLCast();
+      wAnimate();
+
+      welcomeCanvas.style.cursor = "default";
+
+      welcomeCanvas.addEventListener("mousemove", (e) => {
+        const rect = welcomeCanvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        welcomeCanvas.style.cursor = (pillHitbox && mx >= pillHitbox.x && mx <= pillHitbox.x + pillHitbox.w && my >= pillHitbox.y && my <= pillHitbox.y + pillHitbox.h) ? "pointer" : "default";
+      });
+
+      welcomeCanvas.addEventListener("click", (e) => {
+        const rect = welcomeCanvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        if (pillHitbox && mx >= pillHitbox.x && mx <= pillHitbox.x + pillHitbox.w && my >= pillHitbox.y && my <= pillHitbox.y + pillHitbox.h) {
+          const item = pillHitbox.dest;
+          const isActivity = pillHitbox.isActivity;
+          startChat();
+          setTimeout(() => {
+            if (isActivity) {
+              const cleanActivity = item.replace(/^[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}]\s*/u, "").trim();
+              input.value = `What are the best countries and destinations in the world for ${cleanActivity}? Give me specific spots, best seasons, skill levels, and insider tips.`;
+            } else {
+              input.value = `Tell me everything about visiting ${item} — best cities, things to do, safety, budget tips and hidden gems`;
+            }
+            sendMessage();
+          }, 500);
+        }
+      });
+    }
+
+// PROFILE SYSTEM
+const profileSteps = [
+  {
+    id: "name",
+    question: "What's your name?",
+    type: "text",
+    placeholder: "Enter your name...",
+    multi: false
+  },
+  {
+    id: "age",
+    question: "How old are you?",
+    type: "single",
+    options: ["18-21", "22-25", "26-30", "30+"],
+    multi: false
+  },
+  {
+    id: "location",
+    question: "Where are you based?",
+    type: "text",
+    placeholder: "City, Country...",
+    multi: false
+  },
+  {
+    id: "style",
+    question: "How do you like to travel?",
+    type: "single",
+    options: ["Solo", "With friends", "Couple", "Flexible"],
+    multi: false
+  },
+  {
+    id: "vibe",
+    question: "What's your travel vibe?",
+    type: "multi",
+    options: ["🏖️ Beaches", "🏙️ Cities", "🏔️ Mountains", "🎉 Nightlife", "🏛️ Culture", "🧗 Adventure", "🌿 Nature", "🍜 Food"],
+    multi: true
+  },
+  {
+    id: "budget",
+    question: "What's your daily budget?",
+    type: "multi",
+    options: ["Under $50", "$50-100", "$100-200", "$200+"],
+    multi: true
+  },
+  {
+    id: "tripLength",
+    question: "How long do you usually travel?",
+    type: "multi",
+    options: ["Weekend", "1-2 weeks", "1 month+", "Flexible"],
+    multi: true
+  },
+  {
+    id: "experience",
+    question: "How experienced are you?",
+    type: "single",
+    options: ["First timer", "Some experience", "Seasoned backpacker", "Full nomad"],
+    multi: false
+  }
+];
+
+let currentProfileStep = 0;
+let profileData = JSON.parse(localStorage.getItem("driftr_profile") || "{}");
+let tempProfileData = {};
+
+function openProfile() {
+  tempProfileData = { ...profileData };
+  currentProfileStep = 0;
+  document.getElementById("profile-overlay").style.display = "flex";
+  renderProfileStep();
+  updateProfileBtn();
+}
+
+function closeProfile() {
+  document.getElementById("profile-overlay").style.display = "none";
+}
+
+function updateProfileBtn() {
+  const btn = document.getElementById("profile-btn");
+  const hasProfile = Object.keys(profileData).length > 0;
+  btn.textContent = hasProfile ? "✏️ Edit Profile" : "👤 Personalize Bingus";
+}
+
+function renderProfileStep() {
+  const step = profileSteps[currentProfileStep];
+  const content = document.getElementById("profile-step-content");
+  const progress = document.getElementById("profile-progress");
+
+  progress.innerHTML = profileSteps.map((s, i) => `
+    <div class="progress-dot ${i < currentProfileStep ? 'done' : i === currentProfileStep ? 'active' : ''}"></div>
+  `).join("");
+
+  document.getElementById("profile-back").style.visibility = currentProfileStep === 0 ? "hidden" : "visible";
+  document.getElementById("profile-next").textContent = currentProfileStep === profileSteps.length - 1 ? "Save Profile ✓" : "Next →";
+
+  if (step.type === "text") {
+    content.innerHTML = `
+      <div class="profile-question">${step.question}</div>
+      <input class="profile-input" type="text" placeholder="${step.placeholder}" id="profile-input-field" value="${tempProfileData[step.id] || ""}"/>
+    `;
+    document.getElementById("profile-input-field").focus();
+  } else {
+    const currentVal = tempProfileData[step.id] || (step.multi ? [] : "");
+    content.innerHTML = `
+      <div class="profile-question">${step.question}</div>
+      <div class="profile-options">
+        ${step.options.map(opt => `
+          <button class="profile-option ${step.multi ? (currentVal.includes(opt) ? 'selected' : '') : (currentVal === opt ? 'selected' : '')}" onclick="selectProfileOption(this, '${opt}', ${step.multi})">${opt}</button>
+        `).join("")}
+      </div>
+    `;
+  }
+}
+
+function selectProfileOption(btn, value, multi) {
+  const step = profileSteps[currentProfileStep];
+  if (multi) {
+    const current = tempProfileData[step.id] || [];
+    if (current.includes(value)) {
+      tempProfileData[step.id] = current.filter(v => v !== value);
+      btn.classList.remove("selected");
+    } else {
+      tempProfileData[step.id] = [...current, value];
+      btn.classList.add("selected");
+    }
+  } else {
+    document.querySelectorAll(".profile-option").forEach(b => b.classList.remove("selected"));
+    tempProfileData[step.id] = value;
+    btn.classList.add("selected");
+  }
+}
+
+function profileNext() {
+  const step = profileSteps[currentProfileStep];
+  if (step.type === "text") {
+    const val = document.getElementById("profile-input-field").value.trim();
+    if (val) tempProfileData[step.id] = val;
+  }
+
+  if (currentProfileStep === profileSteps.length - 1) {
+    profileData = { ...tempProfileData };
+    localStorage.setItem("driftr_profile", JSON.stringify(profileData));
+    closeProfile();
+    updateProfileBtn();
+    alert("Profile saved! Bingus now knows you 🦦");
+    return;
+  }
+
+  currentProfileStep++;
+  renderProfileStep();
+}
+
+function profileBack() {
+  if (currentProfileStep > 0) {
+    const step = profileSteps[currentProfileStep];
+    if (step.type === "text") {
+      const val = document.getElementById("profile-input-field")?.value.trim();
+      if (val) tempProfileData[step.id] = val;
+    }
+    currentProfileStep--;
+    renderProfileStep();
+  }
+}
+
+function profileSkip() {
+  if (currentProfileStep === profileSteps.length - 1) {
+    profileData = { ...tempProfileData };
+    localStorage.setItem("driftr_profile", JSON.stringify(profileData));
+    closeProfile();
+    updateProfileBtn();
+    return;
+  }
+  currentProfileStep++;
+  renderProfileStep();
+}
+
+updateProfileBtn();
+
+// CHAT HISTORY SYSTEM
+let currentChatId = null;
+let chatHistories = JSON.parse(localStorage.getItem("driftr_histories") || "{}");
+
+function generateId() {
+  return "chat_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+}
+
+function generateTitle(firstMessage) {
+  if (!firstMessage) return "New conversation";
+  const clean = firstMessage.replace(/^[\u{1F300}-\u{1F9FF}]\s*/u, "").trim();
+  return clean.length > 40 ? clean.substring(0, 40) + "..." : clean;
+}
+
+function formatTime(timestamp) {
+  const now = Date.now();
+  const diff = now - timestamp;
+  const mins = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+  if (mins < 1) return "Just now";
+  if (mins < 60) return `${mins}m ago`;
+  if (hours < 24) return `${hours}h ago`;
+  if (days < 7) return `${days}d ago`;
+  return new Date(timestamp).toLocaleDateString();
+}
+
+function saveCurrentChat() {
+  if (!currentChatId || messages.length === 0) return;
+  const firstUserMsg = messages.find(m => m.role === "user");
+  chatHistories[currentChatId] = {
+    id: currentChatId,
+    title: generateTitle(firstUserMsg?.content || "New conversation"),
+    messages: [...messages],
+    updatedAt: Date.now()
+  };
+  localStorage.setItem("driftr_histories", JSON.stringify(chatHistories));
+  renderSidebar();
+}
+
+function loadChat(id) {
+  saveCurrentChat();
+  currentChatId = id;
+  const history = chatHistories[id];
+  if (!history) return;
+  messages = [...history.messages];
+  localStorage.setItem("atlas_messages", JSON.stringify(messages));
+  chat.innerHTML = `
+    <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
+    <div class="message-wrapper">
+      <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
+    </div>`;
+  messages.forEach(msg => addMessage(msg.role, msg.content));
+  suggestions.style.display = "none";
+  renderSidebar();
+  closeSidebar();
+}
+
+function newChat() {
+  saveCurrentChat();
+  currentChatId = generateId();
+  messages = [];
+  localStorage.setItem("atlas_messages", JSON.stringify(messages));
+  chat.innerHTML = `
+    <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
+    <div class="message-wrapper">
+      <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
+    </div>`;
+  suggestions.style.display = "flex";
+  renderSidebar();
+  closeSidebar();
+}
+
+function deleteChat(id, e) {
+  e.stopPropagation();
+  delete chatHistories[id];
+  localStorage.setItem("driftr_histories", JSON.stringify(chatHistories));
+  if (currentChatId === id) newChat();
+  else renderSidebar();
+}
+
+function renderSidebar() {
+  const list = document.getElementById("chat-history-list");
+  const empty = document.getElementById("sidebar-empty");
+  const sorted = Object.values(chatHistories).sort((a, b) => b.updatedAt - a.updatedAt);
+
+  if (sorted.length === 0) {
+    list.innerHTML = `<div id="sidebar-empty">No saved chats yet.<br>Start a conversation!</div>`;
+    return;
+  }
+
+  list.innerHTML = sorted.map(h => `
+    <div class="history-item ${h.id === currentChatId ? 'active' : ''}" onclick="loadChat('${h.id}')">
+      <div class="history-item-title">${h.title}</div>
+      <div class="history-item-time">${formatTime(h.updatedAt)}</div>
+      <button class="history-item-delete" onclick="deleteChat('${h.id}', event)">✕</button>
+    </div>
+  `).join("");
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("open");
+}
+
+function closeSidebar() {
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sidebar-overlay").classList.remove("open");
+}
+
+// Initialize first chat
+if (!currentChatId) {
+  currentChatId = generateId();
+}
+
+// Auto-save when sending messages
+const originalSendMessage = sendMessage;
+
+renderSidebar();
+
+// ITINERARY SYSTEM
+let currentItineraryText = "";
+
+function isItineraryResponse(text) {
+  const lower = text.toLowerCase();
+  const hasDays = /day\s*\d+|days?\s*\d+[-–]\d+/i.test(text);
+  const hasMultipleDays = (text.match(/day\s*\d+/gi) || []).length >= 2;
+  const hasPlanningWords = lower.includes("itinerary") || lower.includes("morning") || lower.includes("afternoon") || lower.includes("evening") || lower.includes("overnight") || lower.includes("hostel") || lower.includes("accommodation");
+  const hasDestination = lower.includes("fly") || lower.includes("bus") || lower.includes("hotel") || lower.includes("arrive") || lower.includes("depart");
+  return hasDays || (hasPlanningWords && hasDestination) || hasMultipleDays;
+}
+
+function parseItinerary(text) {
+  const lines = text.split("\n").filter(l => l.trim());
+  const days = [];
+  let currentDay = null;
+  let intro = "";
+  let foundFirstDay = false;
+
+  const destMatch = text.match(/(?:trip to|visiting|explore|in)\s+([A-Z][a-zA-Z\s,]+?)(?:\s+for|\s+—|\s+-|\.|,|!)/);
+  const destination = destMatch ? destMatch[1].trim() : "Your Trip";
+
+  const daysMatch = text.match(/(\d+)\s*(?:days?|nights?)/i);
+  const totalDays = daysMatch ? daysMatch[1] : "?";
+
+  const budgetMatch = text.match(/\$[\d,]+[-–]\$?[\d,]+(?:\/day|per day)?|\$[\d,]+(?:\/day|per day)/i);
+  const budget = budgetMatch ? budgetMatch[0] : "See details";
+
+  const flightMatch = text.match(/flights?\s*(?:from\s+\w+\s+)?(?:run|cost|are|around)?\s*\$[\d,]+[-–]\$?[\d,]+/i);
+  const flights = flightMatch ? flightMatch[0].replace(/flights?\s*/i, "").trim() : "Check Skyscanner";
+
+  for (const line of lines) {
+    const dayMatch = line.match(/^(?:#{1,3}\s*)?days?\s*(\d+)(?:[-–]\d+)?[:\s]*(.*)$/i);
+    if (dayMatch) {
+      if (currentDay) days.push(currentDay);
+      currentDay = {
+        label: line.replace(/#{1,3}\s*/, "").trim(),
+        content: []
+      };
+      foundFirstDay = true;
+    } else if (currentDay) {
+      if (line.trim()) currentDay.content.push(line.trim());
+    } else if (!foundFirstDay && line.trim() && !line.startsWith("#")) {
+      intro += line.trim() + " ";
+    }
+  }
+
+  if (currentDay) days.push(currentDay);
+
+  return { destination, totalDays, budget, flights, days, intro: intro.trim() };
+}
+
+function openItinerary(text) {
+  currentItineraryText = text;
+
+  const destMatch = text.match(/(?:in|to|visiting|explore)\s+([A-Z][a-zA-Z\s]+?)(?:\s+for|\s+is|\s+—|\.|,|!)/);
+  const destination = destMatch ? destMatch[1].trim() : "Your Trip";
+
+  const daysMatch = text.match(/(\d+)\s*(?:days?|nights?)/i);
+  const totalDays = daysMatch ? daysMatch[1] : "?";
+
+  const budgetMatch = text.match(/\$[\d,]+[-–]\$?[\d,]+(?:\/day|per day)?/i);
+  const budget = budgetMatch ? budgetMatch[0] : "See details";
+
+  const flightMatch = text.match(/\$[\d,]+[-–]\$?[\d,]+(?=.*flight)|flights?.*\$[\d,]+[-–]\$?[\d,]+/i);
+  const flights = flightMatch ? flightMatch[0].replace(/flights?\s*/i, "").trim() : "Check Skyscanner";
+
+  document.getElementById("itinerary-title").textContent = `✈️ ${destination}`;
+  document.getElementById("itinerary-summary").innerHTML = `
+    <div class="itinerary-stat">
+      <div class="itinerary-stat-label">Duration</div>
+      <div class="itinerary-stat-value">${totalDays} Days</div>
+    </div>
+    <div class="itinerary-stat">
+      <div class="itinerary-stat-label">Daily Budget</div>
+      <div class="itinerary-stat-value">${budget}</div>
+    </div>
+    <div class="itinerary-stat">
+      <div class="itinerary-stat-label">Flights</div>
+      <div class="itinerary-stat-value">${flights}</div>
+    </div>
+  `;
+
+  const dayRegex = /\*\*Days?\s*[\d\-–]+[:\s]*([^*]*)\*\*|##?\s*Days?\s*[\d\-–]+[:\s]*([^\n]*)|Days?\s*[\d\-–]+[:\s]+([^\n]+)/gi;
+  const sections = [];
+  const parts = text.split(/(?=\*\*Days?\s*[\d\-–]+|\n#{1,3}\s*Days?\s*[\d\-–]+|\nDays?\s*[\d\-–]+:)/i);
+
+  parts.forEach(part => {
+    const headerMatch = part.match(/^(?:\*\*)?Days?\s*([\d\-–]+)[:\s]*([^*\n]*)\*?\*?/i);
+    if (headerMatch) {
+      const dayNum = headerMatch[1];
+      const location = headerMatch[2].replace(/\*+/g, "").trim();
+      const content = part.replace(/^(?:\*\*)?Days?\s*[\d\-–]+[:\s]*[^*\n]*\*?\*?\n?/i, "").replace(/\*+/g, "").trim();
+      if (content || location) {
+        sections.push({ dayNum, location, content });
+      }
+    }
+  });
+
+  if (sections.length > 0) {
+    document.getElementById("itinerary-days").innerHTML = sections.map(s => `
+      <div class="itinerary-day">
+        <div class="itinerary-day-header">
+          <span class="itinerary-day-number">Day ${s.dayNum}</span>
+          <span class="itinerary-day-title">${s.location}</span>
+        </div>
+        <div class="itinerary-day-content">
+          ${s.content.split("\n").filter(l => l.trim()).map(l => `<p>${l.replace(/^[-•*]\s*/, "")}</p>`).join("")}
+        </div>
+      </div>
+    `).join("");
+  } else {
+    const chunks = text.split("\n\n").filter(c => c.trim().length > 20);
+    document.getElementById("itinerary-days").innerHTML = chunks.map((chunk, i) => `
+      <div class="itinerary-day">
+        <div class="itinerary-day-header">
+          <span class="itinerary-day-number">Part ${i+1}</span>
+          <span class="itinerary-day-title"></span>
+        </div>
+        <div class="itinerary-day-content">
+          ${chunk.split("\n").filter(l => l.trim()).map(l => `<p>${l.replace(/\*+/g, "").replace(/^[-•*]\s*/, "").trim()}</p>`).join("")}
+        </div>
+      </div>
+    `).join("");
+  }
+
+  document.getElementById("itinerary-overlay").classList.add("open");
+}
+
+function closeItinerary() {
+  document.getElementById("itinerary-overlay").classList.remove("open");
+}
+
+function copyItinerary() {
+  navigator.clipboard.writeText(currentItineraryText).then(() => {
+    const btn = document.getElementById("itinerary-copy-btn");
+    btn.textContent = "✅ Copied!";
+    setTimeout(() => { btn.textContent = "📋 Copy Full Itinerary"; }, 2000);
+  });
+}
+
+function shareItinerary() {
+  if (navigator.share) {
+    navigator.share({ title: "My Driftr Itinerary", text: currentItineraryText });
+  } else {
+    copyItinerary();
+  }
+}
+
+function addItineraryButton(wrapper, text) {
+  const btn = document.createElement("button");
+  btn.className = "view-itinerary-btn";
+  btn.innerHTML = "📋 View as Itinerary";
+  btn.onclick = () => openItinerary(text);
+  wrapper.appendChild(btn);
+}
+
+    window.addEventListener("resize", wResize);
+    setTimeout(initFishing, 200);
+
+</script>
+
+</body>
+</html>
