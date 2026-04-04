@@ -6,7 +6,11 @@ const Anthropic = require("@anthropic-ai/sdk");
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static("."));
+const path = require("path");
+app.use(express.static(path.join(__dirname)));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 
 const client = new Anthropic.Anthropic();
 
@@ -191,4 +195,8 @@ Use this profile to personalize every response. Address them by name if provided
   }
 });
 
-app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+if (require.main === module) {
+  app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+}
+
+module.exports = app;
