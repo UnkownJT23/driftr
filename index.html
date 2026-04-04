@@ -2270,7 +2270,7 @@ function saveCurrentChat() {
     id: currentChatId,
     title: generateTitle(firstUserMsg.content),
     messages: [...messages],
-    updatedAt: Date.now()
+    updatedAt: chatHistories[currentChatId]?.updatedAt || Date.now()
   };
   localStorage.setItem("driftr_histories", JSON.stringify(chatHistories));
   renderSidebar();
@@ -2279,6 +2279,7 @@ function saveCurrentChat() {
 function loadChat(id) {
   saveCurrentChat();
   currentChatId = id;
+  localStorage.setItem("driftr_current_chat", id);
   const history = chatHistories[id];
   if (!history) return;
   messages = [...history.messages];
