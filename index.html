@@ -1581,6 +1581,7 @@ canvas#welcomeCanvas {
     const welcomeBtn = document.getElementById("welcome-btn");
     if (welcomeBtn) {
       welcomeBtn.onclick = function() {
+        newChat();
         const welcome = document.getElementById("welcome");
         welcome.style.transition = "opacity 0.4s ease";
         welcome.style.opacity = "0";
@@ -2264,9 +2265,10 @@ function formatTime(timestamp) {
 function saveCurrentChat() {
   if (!currentChatId || messages.length === 0) return;
   const firstUserMsg = messages.find(m => m.role === "user");
+  if (!firstUserMsg) return;
   chatHistories[currentChatId] = {
     id: currentChatId,
-    title: generateTitle(firstUserMsg?.content || "New conversation"),
+    title: generateTitle(firstUserMsg.content),
     messages: [...messages],
     updatedAt: Date.now()
   };
