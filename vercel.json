@@ -8,11 +8,15 @@
   ],
   "routes": [
     {
+      "src": "/Beach_Vacation.json",
+      "dest": "/Beach_Vacation.json"
+    },
+    {
       "src": "/chat",
       "dest": "server.js"
     },
     {
-      "src": "/",
+      "src": "/(.*)",
       "dest": "server.js"
     }
   ]
