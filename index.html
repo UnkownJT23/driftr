@@ -323,16 +323,18 @@
     .boat-el { position: absolute; bottom: 18px; z-index: 4; }
 
     .boat-right-el {
-      right: 22%;
-      animation: boatFloatRight 3s ease-in-out infinite;
-      transform-origin: center bottom;
-    }
+  right: 22%;
+  animation: boatFloatRight 3s ease-in-out infinite;
+  transform-origin: center bottom;
+  transition: bottom 0.1s ease;
+}
 
-    .boat-left-el {
-      left: 22%;
-      animation: boatFloatLeft 3.5s ease-in-out infinite;
-      transform-origin: center bottom;
-    }
+.boat-left-el {
+  left: 22%;
+  animation: boatFloatLeft 3.5s ease-in-out infinite;
+  transform-origin: center bottom;
+  transition: bottom 0.1s ease;
+}
 
     @keyframes boatFloatRight {
       0%,100% { transform: rotate(-2deg) translateY(0px); }
@@ -2191,6 +2193,8 @@ loadSuggestions();
       rRodY = wH - 22 - 14;
       lRodX = wW * 0.25 - 32;
       lRodY = wH - 22 - 14;
+      document.querySelector(".boat-right-el").style.bottom = "22px";
+  document.querySelector(".boat-left-el").style.bottom = "22px";
     }
 
     function newRCast() {
@@ -2262,6 +2266,12 @@ loadSuggestions();
       if (!welcomeCanvas || !wctx) return;
       requestAnimationFrame(wAnimate);
       wctx.clearRect(0, 0, wW, wH);
+      const waveOffset = Math.sin(Date.now() * 0.001) * 6;
+const waveOffset2 = Math.sin(Date.now() * 0.0008 + 1) * 6;
+const rightBoat = document.querySelector(".boat-right-el");
+const leftBoat = document.querySelector(".boat-left-el");
+if (rightBoat) rightBoat.style.bottom = (22 + waveOffset) + "px";
+if (leftBoat) leftBoat.style.bottom = (22 + waveOffset2) + "px";
 
       [rSplash, lSplash].forEach(arr => {
         arr.forEach(p => { p.life+=0.6; p.op=Math.max(0, p.op-0.04); });
