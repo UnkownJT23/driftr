@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
-  <script defer src="/_vercel/insights/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <title>Driftr</title>
   <style>
@@ -1372,6 +1373,201 @@ canvas#welcomeCanvas {
   }
 }
 
+#onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: #080c14;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  transition: opacity 0.4s ease;
+}
+
+#onboarding-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  padding: 28px 28px 24px;
+  max-width: 380px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+#ob-back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: none;
+  color: #8899bb;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.2s;
+  visibility: hidden;
+  line-height: 1;
+}
+
+#ob-back-btn.visible { visibility: visible; }
+#ob-back-btn:hover { color: #3b82f6; }
+
+.ob-slide {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.ob-slide.active { display: flex; }
+
+.ob-anim-container {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ob-emoji-anim {
+  font-size: 90px;
+  animation: obFloat 3s ease-in-out infinite;
+}
+
+@keyframes obFloat {
+  0%, 100% { transform: translateY(0px) rotate(-5deg); }
+  50% { transform: translateY(-14px) rotate(5deg); }
+}
+
+.ob-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+
+.ob-title span { color: var(--accent); }
+
+.ob-desc {
+  font-size: 14px;
+  color: var(--text2);
+  text-align: center;
+  line-height: 1.6;
+  font-weight: 300;
+  font-family: var(--font-body);
+  margin-bottom: 4px;
+}
+
+.ob-dots {
+  display: flex;
+  gap: 6px;
+  margin: 20px 0 16px;
+}
+
+.ob-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transition: all 0.3s;
+}
+
+.ob-dot.active {
+  background: var(--accent);
+  width: 20px;
+  border-radius: 3px;
+}
+
+#ob-next-btn {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 12px;
+}
+
+#ob-next-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+#ob-skip-btn {
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: var(--font-body);
+  transition: color 0.2s;
+}
+
+#ob-skip-btn:hover { color: var(--text2); }
+
+.ob-day-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.ob-day-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: obCardPop var(--d) ease-in-out infinite var(--delay);
+}
+
+@keyframes obCardPop {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.ob-day-badge {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  flex-shrink: 0;
+}
+
+.ob-day-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.ob-day-line {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border2);
+}
+
+.ob-day-line.short { width: 60%; }
+.ob-day-line.long { width: 85%; }
+
   </style>
 </head>
 <body>
@@ -1388,6 +1584,68 @@ canvas#welcomeCanvas {
       <button id="itinerary-copy-btn" onclick="copyItinerary()">📋 Copy Full Itinerary</button>
       <button id="itinerary-share-btn" onclick="shareItinerary()">↗ Share</button>
     </div>
+  </div>
+</div>
+<div id="onboarding-overlay">
+  <div id="onboarding-card">
+    <button id="ob-back-btn" onclick="obBack()">←</button>
+
+    <!-- Slide 1 — Beach animation -->
+    <div class="ob-slide active" id="ob-slide-0">
+      <div class="ob-anim-container">
+        <div id="beach-lottie" style="width:200px;height:200px;"></div>
+      </div>
+      <div class="ob-title">Meet <span>Bingus</span> 🦦</div>
+      <div class="ob-desc">Your personal AI travel expert. Ask anything about destinations, safety, budget, and activities — get real answers instantly.</div>
+    </div>
+
+    <!-- Slide 2 — Itinerary -->
+    <div class="ob-slide" id="ob-slide-1">
+      <div class="ob-anim-container" style="height:160px;">
+        <div class="ob-day-cards">
+          <div class="ob-day-card" style="--d:2s;--delay:0s;">
+            <span class="ob-day-badge">Day 1-2</span>
+            <div class="ob-day-lines">
+              <div class="ob-day-line long"></div>
+              <div class="ob-day-line short"></div>
+            </div>
+          </div>
+          <div class="ob-day-card" style="--d:2.3s;--delay:0.2s;">
+            <span class="ob-day-badge" style="background:var(--accent2);">Day 3-4</span>
+            <div class="ob-day-lines">
+              <div class="ob-day-line long"></div>
+              <div class="ob-day-line short"></div>
+            </div>
+          </div>
+          <div class="ob-day-card" style="--d:2.6s;--delay:0.4s;">
+            <span class="ob-day-badge" style="background:#0f3a8a;">Day 5-6</span>
+            <div class="ob-day-lines">
+              <div class="ob-day-line long"></div>
+              <div class="ob-day-line short"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ob-title">Plan Your <span>Itinerary</span></div>
+      <div class="ob-desc">Ask Bingus to plan a trip and get a beautiful day by day breakdown with restaurants, activities, and insider tips.</div>
+    </div>
+
+    <!-- Slide 3 — Otter -->
+    <div class="ob-slide" id="ob-slide-2">
+      <div class="ob-anim-container">
+        <span class="ob-emoji-anim">🦦</span>
+      </div>
+      <div class="ob-title">Make it <span>Yours</span></div>
+      <div class="ob-desc">Set up your travel profile — your vibe, budget, and experience level — so Bingus personalizes every recommendation just for you.</div>
+    </div>
+
+    <div class="ob-dots">
+      <div class="ob-dot active" id="ob-dot-0"></div>
+      <div class="ob-dot" id="ob-dot-1"></div>
+      <div class="ob-dot" id="ob-dot-2"></div>
+    </div>
+    <button id="ob-next-btn">Next →</button>
+    <button id="ob-skip-btn" onclick="finishOnboarding()">Skip</button>
   </div>
 </div>
   <div id="profile-overlay">
@@ -2605,6 +2863,51 @@ function addItineraryButton(wrapper, text) {
   btn.innerHTML = "📋 View as Itinerary";
   btn.onclick = () => openItinerary(text);
   wrapper.appendChild(btn);
+}
+
+// ONBOARDING SYSTEM
+let obCurrent = 0;
+const obTotal = 3;
+
+function obGoTo(n) {
+  document.getElementById(`ob-slide-${obCurrent}`).classList.remove("active");
+  document.getElementById(`ob-dot-${obCurrent}`).classList.remove("active");
+  obCurrent = n;
+  document.getElementById(`ob-slide-${obCurrent}`).classList.add("active");
+  document.getElementById(`ob-dot-${obCurrent}`).classList.add("active");
+  document.getElementById("ob-next-btn").textContent = obCurrent === obTotal - 1 ? "Get Started →" : "Next →";
+  const back = document.getElementById("ob-back-btn");
+  obCurrent > 0 ? back.classList.add("visible") : back.classList.remove("visible");
+}
+
+function obBack() {
+  if (obCurrent > 0) obGoTo(obCurrent - 1);
+}
+
+function finishOnboarding() {
+  localStorage.setItem("driftr_onboarded", "true");
+  const overlay = document.getElementById("onboarding-overlay");
+  overlay.style.opacity = "0";
+  setTimeout(() => { overlay.style.display = "none"; }, 400);
+}
+
+document.getElementById("ob-next-btn").addEventListener("click", () => {
+  if (obCurrent < obTotal - 1) obGoTo(obCurrent + 1);
+  else finishOnboarding();
+});
+
+if (localStorage.getItem("driftr_onboarded")) {
+  document.getElementById("onboarding-overlay").style.display = "none";
+}
+
+if (!localStorage.getItem("driftr_onboarded")) {
+  lottie.loadAnimation({
+    container: document.getElementById("beach-lottie"),
+    renderer: "svg",
+    loop: true,
+    autoplay: true,
+    path: "/Beach_Vacation.json"
+  });
 }
 
     window.addEventListener("resize", wResize);
