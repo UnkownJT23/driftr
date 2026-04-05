@@ -593,18 +593,21 @@
     .action-btn.copied { border-color: #22c55e; color: #22c55e; }
 
     /* ========== SUGGESTIONS & INPUT ========== */
+  
     #suggestions {
-      padding: 10px 16px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      flex-shrink: 0;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
+  padding: 10px 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: visible;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  position: relative;
+}
 
     #suggestions::-webkit-scrollbar { display: none; }
 
@@ -1402,6 +1405,167 @@
       #sidebar { width: 85%; max-width: 300px; }
       .message { max-width: 92%; font-size: 14px; }
     }
+
+.pinned-suggestion {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  background: var(--accent-glow) !important;
+}
+
+#budget-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+#budget-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  padding: 28px;
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+}
+
+#budget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+#budget-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+#budget-close {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+
+#budget-close:hover { border-color: var(--accent); color: var(--accent); }
+
+#budget-subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 24px;
+  font-weight: 300;
+  font-family: var(--font-body);
+}
+
+.budget-field { margin-bottom: 16px; }
+
+.budget-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 6px;
+  font-family: var(--font-body);
+}
+
+.budget-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 11px 16px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.budget-input:focus { border-color: var(--accent); }
+
+.budget-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.budget-option {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  padding: 8px 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.budget-option:hover { border-color: var(--accent); color: var(--accent); }
+.budget-option.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+#budget-submit {
+  width: 100%;
+  margin-top: 24px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#budget-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+
+#budget-tooltip {
+  position: fixed;
+  bottom: 130px;
+  left: 16px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--text2);
+  font-family: var(--font-body);
+  width: 220px;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  z-index: 200;
+}
+
+#budget-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 20px;
+  border: 6px solid transparent;
+  border-top-color: var(--accent);
+}
+
+#budget-tooltip.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
   </style>
 </head>
 <body>
@@ -1485,6 +1649,47 @@
       <button id="ob-skip-btn" onclick="finishOnboarding()">Skip</button>
     </div>
   </div>
+
+<!-- BUDGET CALCULATOR OVERLAY -->
+<div id="budget-overlay">
+  <div id="budget-card">
+    <div id="budget-header">
+      <span id="budget-title">💰 Trip Budget Calculator</span>
+      <button id="budget-close" onclick="closeBudgetCalc()">✕ Close</button>
+    </div>
+    <p id="budget-subtitle">Fill in your details and Bingus will estimate your costs.</p>
+
+    <div class="budget-field">
+      <label class="budget-label">Where do you want to go?</label>
+      <input class="budget-input" type="text" id="budget-dest" placeholder="e.g. Japan, Bali, Colombia..."/>
+    </div>
+
+    <div class="budget-field">
+      <label class="budget-label">How many days?</label>
+      <input class="budget-input" type="number" id="budget-days" placeholder="e.g. 10" min="1" max="365"/>
+    </div>
+
+    <div class="budget-field">
+      <label class="budget-label">How many travelers?</label>
+      <div class="budget-options" id="budget-travelers">
+        <button class="budget-option selected">Solo</button>
+        <button class="budget-option">2 people</button>
+        <button class="budget-option">3-4 people</button>
+      </div>
+    </div>
+
+    <div class="budget-field">
+      <label class="budget-label">Travel style</label>
+      <div class="budget-options" id="budget-style">
+        <button class="budget-option selected">Budget</button>
+        <button class="budget-option">Mid-range</button>
+        <button class="budget-option">Luxury</button>
+      </div>
+    </div>
+
+    <button id="budget-submit" onclick="submitBudgetCalc()">Calculate my budget →</button>
+  </div>
+</div>
 
   <!-- PROFILE OVERLAY -->
   <div id="profile-overlay">
@@ -1641,6 +1846,7 @@
   </div>
 
   <!-- SUGGESTIONS -->
+   <div id="budget-tooltip">Already know where you're going? Plan your budget here ✈️</div>
   <div id="suggestions"></div>
 
   <!-- INPUT -->
@@ -1807,9 +2013,17 @@
 
 function loadSuggestions() {
   const shuffled = [...allSuggestions].sort(() => Math.random() - 0.5);
-  const picked = shuffled.slice(0, 5);
-  suggestions.innerHTML = picked.map(s => `<button class="suggestion">${s}</button>`).join("");
-  suggestions.querySelectorAll(".suggestion").forEach(btn => {
+  const picked = shuffled.slice(0, 4);
+  suggestions.innerHTML = `<button class="suggestion pinned-suggestion" onclick="openBudgetCalc()">💰 Budget calculator</button>` +
+    picked.map(s => `<button class="suggestion">${s}</button>`).join("");
+    setTimeout(() => {
+  const tooltip = document.getElementById("budget-tooltip");
+  if (tooltip) {
+    tooltip.classList.add("show");
+    setTimeout(() => { tooltip.classList.remove("show"); }, 3000);
+  }
+}, 400);
+  suggestions.querySelectorAll(".suggestion:not(.pinned-suggestion)").forEach(btn => {
     btn.addEventListener("click", () => {
       const text = btn.textContent.replace(/^\S+\s/, "").trim();
       input.value = text;
@@ -2571,6 +2785,58 @@ loadSuggestions();
     if (localStorage.getItem("driftr_onboarded")) {
       document.getElementById("onboarding-overlay").style.display = "none";
     }
+
+// BUDGET CALCULATOR
+function openBudgetCalc() {
+  document.getElementById("budget-overlay").style.display = "flex";
+}
+
+function closeBudgetCalc() {
+  document.getElementById("budget-overlay").style.display = "none";
+}
+
+document.querySelectorAll("#budget-travelers .budget-option").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#budget-travelers .budget-option").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+  });
+});
+
+document.querySelectorAll("#budget-style .budget-option").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#budget-style .budget-option").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+  });
+});
+
+function submitBudgetCalc() {
+  const dest = document.getElementById("budget-dest").value.trim();
+  const days = document.getElementById("budget-days").value.trim();
+  const travelers = document.querySelector("#budget-travelers .budget-option.selected")?.textContent || "Solo";
+  const style = document.querySelector("#budget-style .budget-option.selected")?.textContent || "Budget";
+
+  if (!dest) {
+    document.getElementById("budget-dest").focus();
+    document.getElementById("budget-dest").style.borderColor = "#ef4444";
+    return;
+  }
+
+  if (!days) {
+    document.getElementById("budget-days").focus();
+    document.getElementById("budget-days").style.borderColor = "#ef4444";
+    return;
+  }
+
+  const travelerText = travelers === "Solo" ? "a solo traveler" :
+    travelers === "2 people" ? "2 travelers" : "a group of 3-4 travelers";
+
+  const prompt = `Give me a detailed budget breakdown for ${travelerText} going to ${dest} for ${days} days on a ${style.toLowerCase()} travel style. Break it down by flights, accommodation, food, transport, and activities. Include a total estimate and daily average.`;
+
+  closeBudgetCalc();
+  suggestions.style.display = "none";
+  input.value = prompt;
+  sendMessage();
+}
 
     window.addEventListener("resize", wResize);
     setTimeout(initFishing, 200);
