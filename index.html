@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <title>Driftr</title>
@@ -1568,6 +1567,11 @@ canvas#welcomeCanvas {
 .ob-day-line.short { width: 60%; }
 .ob-day-line.long { width: 85%; }
 
+@keyframes obGlobeSpin {
+  0%, 100% { transform: rotate(-5deg) scale(1); }
+  50% { transform: rotate(5deg) scale(1.05); }
+}
+
   </style>
 </head>
 <body>
@@ -1593,7 +1597,7 @@ canvas#welcomeCanvas {
     <!-- Slide 1 — Beach animation -->
     <div class="ob-slide active" id="ob-slide-0">
       <div class="ob-anim-container">
-        <div id="beach-lottie" style="width:200px;height:200px;"></div>
+        <span style="font-size:110px;animation:obGlobeSpin 4s ease-in-out infinite;display:block;text-align:center;">🌍</span>
       </div>
       <div class="ob-title">Meet <span>Bingus</span> 🦦</div>
       <div class="ob-desc">Your personal AI travel expert. Ask anything about destinations, safety, budget, and activities — get real answers instantly.</div>
@@ -2898,16 +2902,6 @@ document.getElementById("ob-next-btn").addEventListener("click", () => {
 
 if (localStorage.getItem("driftr_onboarded")) {
   document.getElementById("onboarding-overlay").style.display = "none";
-}
-
-if (!localStorage.getItem("driftr_onboarded")) {
-  lottie.loadAnimation({
-    container: document.getElementById("beach-lottie"),
-    renderer: "svg",
-    loop: true,
-    autoplay: true,
-    path: "https://assets5.lottiefiles.com/packages/lf20_jQt9EF.json"
-  });
 }
 
     window.addEventListener("resize", wResize);
