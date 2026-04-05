@@ -1641,13 +1641,7 @@
   </div>
 
   <!-- SUGGESTIONS -->
-  <div id="suggestions">
-    <button class="suggestion">🌍 Best budget countries right now</button>
-    <button class="suggestion">🏄 Plan me a surf trip</button>
-    <button class="suggestion">🌴 Hidden gems in Southeast Asia</button>
-    <button class="suggestion">🇨🇴 Is Colombia safe to visit?</button>
-    <button class="suggestion">✈️ Cheapest way to get to Europe</button>
-  </div>
+  <div id="suggestions"></div>
 
   <!-- INPUT -->
   <div id="input-area">
@@ -1783,14 +1777,49 @@
       }
     }
 
-    document.querySelectorAll(".suggestion").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const text = btn.textContent.replace(/^\S+\s/, "").trim();
-        input.value = text;
-        suggestions.style.display = "none";
-        sendMessage();
-      });
+    const allSuggestions = [
+  "🌍 Best budget countries right now",
+  "🏄 Plan me a surf trip",
+  "🌴 Hidden gems in Southeast Asia",
+  "🇨🇴 Is Colombia safe to visit?",
+  "✈️ Cheapest way to get to Europe",
+  "🏔️ Best hiking destinations in the world",
+  "🎒 How to travel Europe on $50 a day",
+  "🇯🇵 First time in Japan — where to start?",
+  "🌊 Best beaches no one talks about",
+  "🛡️ Safest countries for solo travel",
+  "🍜 Best countries for food lovers",
+  "🏕️ Top destinations for adventure travel",
+  "🇲🇦 Is Morocco worth visiting?",
+  "🌎 Most underrated countries in South America",
+  "🎿 Best ski trips on a budget",
+  "🤿 Top scuba diving destinations",
+  "🇹🇭 Thailand vs Bali — which is better?",
+  "🌍 Best African countries to visit",
+  "🏙️ Most exciting cities for nightlife",
+  "🇵🇹 Why is everyone going to Portugal?",
+  "🛶 Best kayaking and water adventures",
+  "🌿 Top eco-tourism destinations",
+  "🇬🇪 Tell me about Georgia the country",
+  "✈️ How to find cheap flights anywhere",
+  "🏝️ Best island hopping destinations"
+];
+
+function loadSuggestions() {
+  const shuffled = [...allSuggestions].sort(() => Math.random() - 0.5);
+  const picked = shuffled.slice(0, 5);
+  suggestions.innerHTML = picked.map(s => `<button class="suggestion">${s}</button>`).join("");
+  suggestions.querySelectorAll(".suggestion").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const text = btn.textContent.replace(/^\S+\s/, "").trim();
+      input.value = text;
+      suggestions.style.display = "none";
+      sendMessage();
     });
+  });
+}
+
+loadSuggestions();
 
     loadSavedMessages();
     document.getElementById("welcome").style.display = "flex";
@@ -2350,6 +2379,7 @@
           <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
         </div>`;
       suggestions.style.display = "flex";
+loadSuggestions();
       renderSidebar();
       closeSidebar();
     }
