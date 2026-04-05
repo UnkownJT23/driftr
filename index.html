@@ -2266,15 +2266,106 @@ function saveCurrentChat() {
   if (!currentChatId || messages.length === 0) return;
   const firstUserMsg = messages.find(m => m.role === "user");
   if (!firstUserMsg) return;
+  const existing = chatHistories[currentChatId];
   chatHistories[currentChatId] = {
     id: currentChatId,
     title: generateTitle(firstUserMsg.content),
     messages: [...messages],
-    updatedAt: chatHistories[currentChatId]?.updatedAt || Date.now()
+    updatedAt: existing ? existing.updatedAt : Date.now()
   };
   localStorage.setItem("driftr_histories", JSON.stringify(chatHistories));
   renderSidebar();
 }
+
+function loadChat(id) {
+  if (currentChatId !== id) saveCurrentChat();
+  currentChatId = id;
+  localStorage.setItem("driftr_current_chat", id);
+  const history = chatHistories[id];
+  if (!history) return;
+  messages = [...history.messages];
+  localStorage.setItem("atlas_messages", JSON.stringify(messages));
+  chat.innerHTML = `
+    <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
+    <div class="message-wrapper">
+      <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
+    </div>`;
+  messages.forEach(msg => addMessage(msg.role, msg.content));
+  suggestions.style.display = "none";
+  renderSidebar();
+  closeSidebar();
+}
+
+function newChat() {
+  saveCurrentChat();
+  currentChatId = generateId();
+  localStorage.setItem("driftr_current_chat", currentChatId);
+  messages = [];
+  localStorage.setItem("atlas_messages", JSON.stringify(messages));
+  chat.innerHTML = `
+    <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
+    <div class="message-wrapper">
+      <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
+    </div>`;
+  suggestions.style.display = "flex";
+  renderSidebar();
+  closeSidebar();
+}
+
+function deleteChat(id, e) {
+  e.stopPropagation();
+  delete chatHistories[id];
+  localStorage.setItem("driftr_histories", JSON.stringify(chatHistories));
+  if (currentChatId === id) newChat();
+  else renderSidebar();
+}
+
+function renderSidebar() {
+  const list = document.getElementById("chat-history-list");
+  const sorted = Object.values(chatHistories).sort((a, b) => b.updatedAt - a.updatedAt);
+  if (sorted.length === 0) {
+    list.innerHTML = `<div id="sidebar-empty">No saved chats yet.<br>Start a conversation!</div>`;
+    return;
+  }
+  list.innerHTML = sorted.map(h => `
+    <div class="history-item ${h.id === currentChatId ? 'active' : ''}" onclick="loadChat('${h.id}')">
+      <div class="history-item-title">${h.title}</div>
+      <div class="history-item-time">${formatTime(h.updatedAt)}</div>
+      <button class="history-item-delete" onclick="deleteChat('${h.id}', event)">✕</button>
+    </div>
+  `).join("");
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("open");
+}
+
+function closeSidebar() {
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sidebar-overlay").classList.remove("open");
+}
+
+// On app load — always resume the last active chat or start fresh
+const savedChatId = localStorage.getItem("driftr_current_chat");
+if (savedChatId && chatHistories[savedChatId]) {
+  currentChatId = savedChatId;
+  messages = [...chatHistories[savedChatId].messages];
+  localStorage.setItem("atlas_messages", JSON.stringify(messages));
+  if (messages.length > 0) {
+    const firstWrapper = chat.querySelector(".message-wrapper");
+    if (firstWrapper) firstWrapper.remove();
+    messages.forEach(msg => addMessage(msg.role, msg.content));
+  }
+} else {
+  currentChatId = generateId();
+  localStorage.setItem("driftr_current_chat", currentChatId);
+  messages = [];
+}
+
+renderSidebar();
 
 function loadChat(id) {
   saveCurrentChat();
