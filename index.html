@@ -311,14 +311,34 @@
     }
 
     .fishing-scene {
-      position: absolute;
-      bottom: 55px;
-      left: 0;
-      right: 0;
-      height: 180px;
-      pointer-events: none;
-      z-index: 2;
-    }
+  position: absolute;
+  bottom: 55px;
+  left: 0;
+  right: 0;
+  height: 180px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .fishing-scene {
+    bottom: 30px;
+    height: 100px;
+  }
+
+  .boat-el {
+    transform: scale(0.55);
+    transform-origin: center bottom;
+  }
+
+  .boat-right-el {
+    right: 8%;
+  }
+
+  .boat-left-el {
+    left: 8%;
+  }
+}
 
     .boat-el { position: absolute; bottom: 18px; z-index: 4; }
 
