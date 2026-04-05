@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
-<script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/insights/script.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <title>Driftr</title>
   <style>
@@ -53,6 +53,7 @@
       position: relative;
     }
 
+    /* ========== WELCOME SCREEN ========== */
     #welcome {
       position: fixed;
       inset: 0;
@@ -67,15 +68,15 @@
     }
 
     #welcome-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 480px;
-  width: 100%;
-  position: relative;
-  z-index: 10;
-}
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 480px;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+    }
 
     #welcome-badge {
       background: var(--accent-glow);
@@ -169,8 +170,190 @@
       box-shadow: 0 8px 32px rgba(59,130,246,0.3);
     }
 
+    #profile-btn {
+      background: transparent;
+      color: var(--accent2);
+      border: 1px solid var(--accent);
+      border-radius: 14px;
+      padding: 14px 48px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 16px;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    #profile-btn:hover { background: var(--accent-glow); transform: translateY(-2px); }
+
     #welcome-disclaimer { font-size: 12px; color: var(--text3); }
 
+    #welcome-theme-btn {
+      position: absolute;
+      top: 24px;
+      right: 74px;
+      background: transparent;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 20;
+      padding: 6px;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+
+    #welcome-theme-btn:hover { transform: scale(1.2); }
+
+    /* ========== WELCOME ANIMATIONS ========== */
+    .stars-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+    }
+
+    .star-dot {
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+      animation: twinkle-bg var(--d) ease-in-out infinite;
+    }
+
+    @keyframes twinkle-bg {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.4); }
+    }
+
+    .welcome-moon {
+      position: absolute;
+      top: 30px;
+      right: 80px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f0e6c8;
+      pointer-events: none;
+    }
+
+    .welcome-moon::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 5px;
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      background: var(--bg);
+    }
+
+    .welcome-moon-glow {
+      position: absolute;
+      top: 14px;
+      right: 64px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(240,230,200,0.05);
+      animation: moon-glow 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes moon-glow {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+
+    .welcome-waves {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 130px;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .welcome-wave-layer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .welcome-wave-svg {
+      position: absolute;
+      bottom: 0;
+      width: 200%;
+      height: 100%;
+    }
+
+    .welcome-wave-layer1 .welcome-wave-svg { animation: waveMove1 6s linear infinite; }
+    .welcome-wave-layer2 .welcome-wave-svg { animation: waveMove2 8s linear infinite; opacity: 0.7; }
+    .welcome-wave-layer3 .welcome-wave-svg { animation: waveMove3 10s linear infinite; opacity: 0.5; }
+
+    @keyframes waveMove1 { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    @keyframes waveMove2 { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+    @keyframes waveMove3 { 0% { transform: translateX(-25%); } 100% { transform: translateX(-75%); } }
+
+    .welcome-foam {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      animation: foam-anim var(--d) ease-in-out infinite var(--delay);
+    }
+
+    @keyframes foam-anim {
+      0%, 100% { transform: scale(1); opacity: 0.1; }
+      50% { transform: scale(1.3); opacity: 0.3; }
+    }
+
+    .fishing-scene {
+      position: absolute;
+      bottom: 55px;
+      left: 0;
+      right: 0;
+      height: 180px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .boat-el { position: absolute; bottom: 18px; z-index: 4; }
+
+    .boat-right-el {
+      right: 22%;
+      animation: boatFloatRight 3s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+
+    .boat-left-el {
+      left: 22%;
+      animation: boatFloatLeft 3.5s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+
+    @keyframes boatFloatRight {
+      0%,100% { transform: rotate(-2deg) translateY(0px); }
+      50% { transform: rotate(2deg) translateY(-6px); }
+    }
+
+    @keyframes boatFloatLeft {
+      0%,100% { transform: rotate(2deg) translateY(-2px); }
+      50% { transform: rotate(-2deg) translateY(4px); }
+    }
+
+    canvas#welcomeCanvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: all;
+    }
+
+    /* ========== HEADER ========== */
     #header {
       padding: 14px 20px;
       background: var(--surface);
@@ -213,8 +396,6 @@
     #header p { display: none; }
 
     #home-btn {
-      position: static;
-      transform: none;
       background: transparent;
       border: 1px solid var(--border2);
       color: var(--text2);
@@ -232,8 +413,6 @@
       display: flex;
       gap: 8px;
       align-items: center;
-      position: static;
-      transform: none;
     }
 
     #theme-btn, #clear {
@@ -250,6 +429,49 @@
 
     #theme-btn:hover, #clear:hover { border-color: var(--accent); color: var(--accent); }
 
+    #header-profile-btn {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #header-profile-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    #menu-btn {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      line-height: 1;
+    }
+
+    #menu-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    #header-new-chat-btn {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      line-height: 1;
+    }
+
+    #header-new-chat-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ========== CHAT ========== */
     #chat {
       flex: 1;
       overflow-y: auto;
@@ -267,15 +489,15 @@
     #chat::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
 
     .message {
-  max-width: 82%;
-  padding: 13px 17px;
-  border-radius: 20px;
-  line-height: 1.65;
-  font-size: 14px;
-  word-wrap: break-word;
-  font-weight: 300;
-  font-family: 'IBM Plex Mono', monospace;
-}
+      max-width: 82%;
+      padding: 13px 17px;
+      border-radius: 20px;
+      line-height: 1.65;
+      font-size: 14px;
+      word-wrap: break-word;
+      font-weight: 300;
+      font-family: 'IBM Plex Mono', monospace;
+    }
 
     .user {
       background: linear-gradient(135deg, #1d4ed8, #3b82f6);
@@ -340,6 +562,37 @@
     .user-timestamp { align-self: flex-end; }
     .assistant-timestamp { align-self: flex-start; }
 
+    .message-wrapper { display: flex; flex-direction: column; }
+
+    .message-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .message-wrapper:hover .message-actions { opacity: 1; }
+
+    .action-btn {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text3);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .action-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .action-btn.copied { border-color: #22c55e; color: #22c55e; }
+
+    /* ========== SUGGESTIONS & INPUT ========== */
     #suggestions {
       padding: 10px 16px;
       display: flex;
@@ -396,6 +649,7 @@
       outline: none;
       transition: border-color 0.2s;
       -webkit-appearance: none;
+      appearance: none;
     }
 
     #input::placeholder { color: var(--text3); }
@@ -443,1318 +697,896 @@
 
     #scroll-btn:hover { transform: translateY(-2px); }
 
-    .message-wrapper {
+    /* ========== SIDEBAR ========== */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 280px;
+      background: var(--surface);
+      border-right: 1px solid var(--border2);
+      z-index: 500;
       display: flex;
       flex-direction: column;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
     }
 
-    .message-actions {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
+    #sidebar.open { transform: translateX(0); }
 
-    .message-wrapper:hover .message-actions { opacity: 1; }
+    #sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 499;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-    .action-btn {
+    #sidebar-overlay.open { display: block; opacity: 1; }
+
+    #sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    #sidebar-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    #sidebar-close {
       background: transparent;
       border: 1px solid var(--border2);
+      color: var(--text2);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #sidebar-close:hover { border-color: var(--accent); color: var(--accent); }
+
+    #new-chat-btn {
+      margin: 12px 16px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      flex-shrink: 0;
+    }
+
+    #new-chat-btn:hover { opacity: 0.9; }
+
+    #chat-history-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border2) transparent;
+    }
+
+    #chat-history-list::-webkit-scrollbar { width: 4px; }
+    #chat-history-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+    .history-item {
+      padding: 12px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 4px;
+      position: relative;
+      border: 1px solid transparent;
+    }
+
+    .history-item:hover { background: var(--surface2); border-color: var(--border); }
+    .history-item.active { background: var(--accent-glow); border-color: var(--accent); }
+
+    .history-item-title {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+      font-family: var(--font-body);
+    }
+
+    .history-item-time {
+      font-size: 11px;
       color: var(--text3);
+      font-family: var(--font-body);
+    }
+
+    .history-item-delete {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text3);
+      font-size: 14px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+    .history-item:hover .history-item-delete { opacity: 1; }
+    .history-item-delete:hover { color: #ef4444; }
+
+    #sidebar-empty {
+      padding: 24px 16px;
+      text-align: center;
+      color: var(--text3);
+      font-size: 13px;
+      font-family: var(--font-body);
+      line-height: 1.6;
+    }
+
+    /* ========== PROFILE OVERLAY ========== */
+    #profile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    #profile-card {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 32px;
+      max-width: 480px;
+      width: 100%;
+      position: relative;
+    }
+
+    #profile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    #profile-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    #profile-close {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #profile-close:hover { border-color: var(--accent); color: var(--accent); }
+
+    #profile-subtitle {
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 28px;
+      font-weight: 300;
+    }
+
+    #profile-progress {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 28px;
+    }
+
+    .progress-dot {
+      flex: 1;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--border2);
+      transition: background 0.3s;
+    }
+
+    .progress-dot.active { background: var(--accent); }
+    .progress-dot.done { background: var(--accent2); }
+
+    .profile-question {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .profile-input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      padding: 13px 18px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 20px;
+    }
+
+    .profile-input:focus { border-color: var(--accent); }
+
+    .profile-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .profile-option {
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      padding: 10px 18px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .profile-option:hover { border-color: var(--accent); color: var(--accent); }
+    .profile-option.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    #profile-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    #profile-back {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #profile-back:hover { border-color: var(--accent); color: var(--accent); }
+
+    #profile-next {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 24px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #profile-next:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    #profile-skip {
+      font-size: 12px;
+      color: var(--text3);
+      cursor: pointer;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+    }
+
+    #profile-skip:hover { color: var(--text2); }
+
+    /* ========== ITINERARY OVERLAY ========== */
+    #itinerary-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 3000;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    #itinerary-overlay.open { display: flex; }
+
+    #itinerary-card {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 28px;
+      max-width: 600px;
+      width: 100%;
+      margin: auto;
+    }
+
+    #itinerary-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    #itinerary-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    #itinerary-close {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+    }
+
+    #itinerary-close:hover { border-color: var(--accent); color: var(--accent); }
+
+    #itinerary-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .itinerary-stat {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .itinerary-stat-label {
+      font-size: 11px;
+      color: var(--text3);
+      font-family: var(--font-body);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .itinerary-stat-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      font-family: var(--font-display);
+    }
+
+    #itinerary-days {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .itinerary-day {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .itinerary-day:hover { border-color: var(--accent); }
+
+    .itinerary-day-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .itinerary-day-number {
+      background: var(--accent);
+      color: #fff;
       border-radius: 8px;
       padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      flex-shrink: 0;
+    }
+
+    .itinerary-day-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .itinerary-day-content {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6;
+      font-family: var(--font-body);
+    }
+
+    .itinerary-day-content p { margin-bottom: 4px; }
+    .itinerary-day-content p:last-child { margin-bottom: 0; }
+
+    #itinerary-actions { display: flex; gap: 10px; }
+
+    #itinerary-copy-btn {
+      flex: 1;
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      border-radius: 12px;
+      padding: 12px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #itinerary-copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    #itinerary-share-btn {
+      flex: 1;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #itinerary-share-btn:hover { opacity: 0.9; }
+
+    .view-itinerary-btn {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: 8px;
+      padding: 5px 12px;
       font-size: 12px;
       cursor: pointer;
       font-family: var(--font-body);
       transition: all 0.2s;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      margin-top: 6px;
     }
 
-    .action-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .action-btn.copied { border-color: #22c55e; color: #22c55e; }
+    .view-itinerary-btn:hover { background: var(--accent); color: #fff; }
 
-    @media (max-width: 600px) {
-      .message { max-width: 92%; font-size: 14px; }
-      #welcome-title { font-size: 48px; }
-      #welcome-features { grid-template-columns: 1fr; }
+    /* ========== ONBOARDING OVERLAY ========== */
+    #onboarding-overlay {
+      position: fixed;
+      inset: 0;
+      background: #080c14;
+      z-index: 5000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: opacity 0.4s ease;
+    }
+
+    #onboarding-card {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 28px 28px 24px;
+      max-width: 380px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    #ob-back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: transparent;
+      border: none;
+      color: #8899bb;
+      font-size: 22px;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.2s;
+      visibility: hidden;
+      line-height: 1;
+    }
+
+    #ob-back-btn.visible { visibility: visible; }
+    #ob-back-btn:hover { color: #3b82f6; }
+
+    .ob-slide { display: none; flex-direction: column; align-items: center; width: 100%; }
+    .ob-slide.active { display: flex; }
+
+    .ob-anim-container {
+      width: 200px;
+      height: 200px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ob-emoji-anim {
+      font-size: 90px;
+      animation: obFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes obFloat {
+      0%, 100% { transform: translateY(0px) rotate(-5deg); }
+      50% { transform: translateY(-14px) rotate(5deg); }
+    }
+
+    @keyframes obGlobeSpin {
+      0%, 100% { transform: rotate(-5deg) scale(1); }
+      50% { transform: rotate(5deg) scale(1.05); }
+    }
+
+    .ob-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .ob-title span { color: var(--accent); }
+
+    .ob-desc {
+      font-size: 14px;
+      color: var(--text2);
+      text-align: center;
+      line-height: 1.6;
+      font-weight: 300;
+      font-family: var(--font-body);
+      margin-bottom: 4px;
+    }
+
+    .ob-dots {
+      display: flex;
+      gap: 6px;
+      margin: 20px 0 16px;
+    }
+
+    .ob-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transition: all 0.3s;
+    }
+
+    .ob-dot.active { background: var(--accent); width: 20px; border-radius: 3px; }
+
+    #ob-next-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 12px;
+    }
+
+    #ob-next-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    #ob-skip-btn {
+      background: none;
+      border: none;
+      color: var(--text3);
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: underline;
+      font-family: var(--font-body);
+      transition: color 0.2s;
+    }
+
+    #ob-skip-btn:hover { color: var(--text2); }
+
+    .ob-day-cards { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-bottom: 4px; }
+
+    .ob-day-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: obCardPop var(--d) ease-in-out infinite var(--delay);
+    }
+
+    @keyframes obCardPop {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    .ob-day-badge {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      flex-shrink: 0;
+    }
+
+    .ob-day-lines { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+
+    .ob-day-line { height: 4px; border-radius: 2px; background: var(--border2); }
+    .ob-day-line.short { width: 60%; }
+    .ob-day-line.long { width: 85%; }
+
+    /* ========== MOBILE ========== */
+    @media (max-width: 768px) {
+      #welcome-content { padding: 0 8px; }
+      #welcome-logo { font-size: 44px; margin-bottom: 12px; }
+      #welcome-title { font-size: 48px; margin-bottom: 10px; }
+      #welcome-subtitle { font-size: 14px; margin-bottom: 20px; }
+      #welcome-badge { font-size: 11px; padding: 5px 12px; margin-bottom: 16px; }
+      #welcome-features { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+      .feature { padding: 10px 12px; font-size: 12px; border-radius: 10px; }
+      #welcome-btn { padding: 14px 24px; font-size: 15px; margin-bottom: 10px; }
+      #profile-btn { padding: 12px 24px; font-size: 13px; margin-bottom: 10px; }
+      #welcome-disclaimer { font-size: 11px; }
+      #header { padding: 10px 12px; }
+      #header h1 { font-size: 16px; gap: 5px; }
+      #home-btn { padding: 6px 8px; font-size: 11px; }
+      #menu-btn { padding: 6px 8px; font-size: 14px; }
+      #header-buttons { gap: 5px; }
+      #theme-btn, #clear { padding: 6px 8px; font-size: 11px; }
+      #header-profile-btn { padding: 6px 8px; font-size: 12px; }
+      #header-new-chat-btn { padding: 6px 8px; font-size: 13px; }
+      #clear { display: none; }
+      .message { max-width: 95%; font-size: 13px; padding: 10px 13px; }
+      #input { font-size: 16px; padding: 11px 14px; }
       #send { width: 44px; height: 44px; }
+      #input-area { padding: 10px 12px; padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+      #suggestions { padding: 8px 12px; }
+      .suggestion { font-size: 12px; padding: 7px 12px; }
+      #sidebar { width: 85%; max-width: 300px; }
+      .message { max-width: 92%; font-size: 14px; }
     }
-
-    .stars-bg {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none;
-}
-
-.star-dot {
-  position: absolute;
-  border-radius: 50%;
-  background: #fff;
-  animation: twinkle-bg var(--d) ease-in-out infinite;
-}
-
-@keyframes twinkle-bg {
-  0%, 100% { opacity: 0.15; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.4); }
-}
-
-.welcome-moon {
-  position: absolute;
-  top: 30px;
-  right: 80px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #f0e6c8;
-  pointer-events: none;
-}
-
-.welcome-moon::after {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 5px;
-  width: 27px;
-  height: 27px;
-  border-radius: 50%;
-  background: var(--bg);
-}
-
-.welcome-moon-glow {
-  position: absolute;
-  top: 14px;
-  right: 64px;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(240,230,200,0.05);
-  animation: moon-glow 4s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes moon-glow {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.2); opacity: 1; }
-}
-
-.welcome-waves {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 130px;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.welcome-wave-layer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.welcome-wave-svg {
-  position: absolute;
-  bottom: 0;
-  width: 200%;
-  height: 100%;
-}
-
-.welcome-wave-layer1 .welcome-wave-svg { animation: waveMove1 6s linear infinite; }
-.welcome-wave-layer2 .welcome-wave-svg { animation: waveMove2 8s linear infinite; opacity: 0.7; }
-.welcome-wave-layer3 .welcome-wave-svg { animation: waveMove3 10s linear infinite; opacity: 0.5; }
-
-@keyframes waveMove1 {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-@keyframes waveMove2 {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
-}
-
-@keyframes waveMove3 {
-  0% { transform: translateX(-25%); }
-  100% { transform: translateX(-75%); }
-}
-
-.welcome-foam {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  animation: foam-anim var(--d) ease-in-out infinite var(--delay);
-}
-
-@keyframes foam-anim {
-  0%, 100% { transform: scale(1); opacity: 0.1; }
-  50% { transform: scale(1.3); opacity: 0.3; }
-}
-
-.fishing-scene {
-  position: absolute;
-  bottom: 55px;
-  left: 0;
-  right: 0;
-  height: 180px;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.boat-el {
-  position: absolute;
-  bottom: 18px;
-  z-index: 4;
-}
-
-.boat-right-el {
-  right: 22%;
-  animation: boatFloatRight 3s ease-in-out infinite;
-  transform-origin: center bottom;
-}
-
-.boat-left-el {
-  left: 22%;
-  animation: boatFloatLeft 3.5s ease-in-out infinite;
-  transform-origin: center bottom;
-}
-
-@keyframes boatFloatRight {
-  0%,100% { transform: rotate(-2deg) translateY(0px); }
-  50% { transform: rotate(2deg) translateY(-6px); }
-}
-
-@keyframes boatFloatLeft {
-  0%,100% { transform: rotate(2deg) translateY(-2px); }
-  50% { transform: rotate(-2deg) translateY(4px); }
-}
-
-@keyframes boatRock {
-  0%,100% { transform: translateX(-50%) rotate(-2deg) translateY(0px); }
-  50% { transform: translateX(-50%) rotate(2deg) translateY(-4px); }
-}
-
-canvas#welcomeCanvas {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-  pointer-events: all;
-}
-
-#welcome-theme-btn {
-  position: absolute;
-  top: 24px;
-  right: 74px;
-  background: transparent;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  z-index: 20;
-  padding: 6px;
-  border-radius: 50%;
-  transition: transform 0.3s ease;
-}
-
-#welcome-theme-btn:hover {
-  transform: scale(1.2);
-}
-
-#profile-btn {
-  background: transparent;
-  color: var(--accent2);
-  border: 1px solid var(--accent);
-  border-radius: 14px;
-  padding: 14px 48px;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom: 16px;
-  transition: all 0.2s;
-  letter-spacing: 0.02em;
-}
-
-#profile-btn:hover {
-  background: var(--accent-glow);
-  transform: translateY(-2px);
-}
-
-#profile-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  z-index: 2000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-#profile-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 24px;
-  padding: 32px;
-  max-width: 480px;
-  width: 100%;
-  position: relative;
-}
-
-#profile-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-#profile-title {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text);
-}
-
-#profile-close {
-  background: transparent;
-  border: 1px solid var(--border2);
-  color: var(--text2);
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#profile-close:hover { border-color: var(--accent); color: var(--accent); }
-
-#profile-subtitle {
-  font-size: 13px;
-  color: var(--text2);
-  margin-bottom: 28px;
-  font-weight: 300;
-}
-
-#profile-progress {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 28px;
-}
-
-.progress-dot {
-  flex: 1;
-  height: 3px;
-  border-radius: 2px;
-  background: var(--border2);
-  transition: background 0.3s;
-}
-
-.progress-dot.active { background: var(--accent); }
-.progress-dot.done { background: var(--accent2); }
-
-.profile-question {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 20px;
-}
-
-.profile-input {
-  width: 100%;
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 12px;
-  padding: 13px 18px;
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 15px;
-  outline: none;
-  transition: border-color 0.2s;
-  margin-bottom: 20px;
-}
-
-.profile-input:focus { border-color: var(--accent); }
-
-.profile-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.profile-option {
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 100px;
-  padding: 10px 18px;
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: var(--text2);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.profile-option:hover { border-color: var(--accent); color: var(--accent); }
-.profile-option.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-#profile-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 8px;
-}
-
-#profile-back {
-  background: transparent;
-  border: 1px solid var(--border2);
-  color: var(--text2);
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-family: var(--font-body);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#profile-back:hover { border-color: var(--accent); color: var(--accent); }
-
-#profile-next {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 24px;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#profile-next:hover { opacity: 0.9; transform: translateY(-1px); }
-#profile-skip {
-  font-size: 12px;
-  color: var(--text3);
-  cursor: pointer;
-  text-decoration: underline;
-  background: none;
-  border: none;
-  font-family: var(--font-body);
-}
-#profile-skip:hover { color: var(--text2); }
-
-#header-profile-btn {
-  background: transparent;
-  border: 1px solid var(--border2);
-  color: var(--text2);
-  border-radius: 10px;
-  padding: 7px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#header-profile-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 280px;
-  background: var(--surface);
-  border-right: 1px solid var(--border2);
-  z-index: 500;
-  display: flex;
-  flex-direction: column;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-}
-
-#sidebar.open { transform: translateX(0); }
-
-#sidebar-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 499;
-  display: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-#sidebar-overlay.open { display: block; opacity: 1; }
-
-#sidebar-header {
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-
-#sidebar-title {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-#sidebar-close {
-  background: transparent;
-  border: 1px solid var(--border2);
-  color: var(--text2);
-  border-radius: 8px;
-  padding: 5px 10px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#sidebar-close:hover { border-color: var(--accent); color: var(--accent); }
-
-#new-chat-btn {
-  margin: 12px 16px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 16px;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: left;
-  flex-shrink: 0;
-}
-
-#new-chat-btn:hover { opacity: 0.9; }
-
-#chat-history-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 8px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border2) transparent;
-}
-
-#chat-history-list::-webkit-scrollbar { width: 4px; }
-#chat-history-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
-
-.history-item {
-  padding: 12px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-bottom: 4px;
-  position: relative;
-  border: 1px solid transparent;
-}
-
-.history-item:hover { background: var(--surface2); border-color: var(--border); }
-.history-item.active { background: var(--accent-glow); border-color: var(--accent); }
-
-.history-item-title {
-  font-size: 13px;
-  color: var(--text);
-  font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 4px;
-  font-family: var(--font-body);
-}
-
-.history-item-time {
-  font-size: 11px;
-  color: var(--text3);
-  font-family: var(--font-body);
-}
-
-.history-item-delete {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  color: var(--text3);
-  font-size: 14px;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s;
-  padding: 4px;
-  border-radius: 4px;
-}
-
-.history-item:hover .history-item-delete { opacity: 1; }
-.history-item-delete:hover { color: #ef4444; }
-
-#sidebar-empty {
-  padding: 24px 16px;
-  text-align: center;
-  color: var(--text3);
-  font-size: 13px;
-  font-family: var(--font-body);
-  line-height: 1.6;
-}
-
-#menu-btn {
-  background: transparent;
-  border: 1px solid var(--border2);
-  color: var(--text2);
-  border-radius: 10px;
-  padding: 7px 12px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  line-height: 1;
-}
-
-#menu-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-#header-new-chat-btn {
-  background: transparent;
-  border: 1px solid var(--border2);
-  color: var(--text2);
-  border-radius: 10px;
-  padding: 7px 12px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  line-height: 1;
-  font-weight: 600;
-}
-
-#header-new-chat-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-#itinerary-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  z-index: 3000;
-  display: none;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-#itinerary-overlay.open { display: flex; }
-
-#itinerary-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 24px;
-  padding: 28px;
-  max-width: 600px;
-  width: 100%;
-  margin: auto;
-}
-
-#itinerary-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-#itinerary-title {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text);
-}
-
-#itinerary-close {
-  background: transparent;
-  border: 1px solid var(--border2);
-  color: var(--text2);
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: var(--font-body);
-}
-
-#itinerary-close:hover { border-color: var(--accent); color: var(--accent); }
-
-#itinerary-summary {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.itinerary-stat {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px;
-  text-align: center;
-}
-
-.itinerary-stat-label {
-  font-size: 11px;
-  color: var(--text3);
-  font-family: var(--font-body);
-  margin-bottom: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.itinerary-stat-value {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  font-family: var(--font-display);
-}
-
-#itinerary-days {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.itinerary-day {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px;
-  transition: border-color 0.2s;
-}
-
-.itinerary-day:hover { border-color: var(--accent); }
-
-.itinerary-day-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.itinerary-day-number {
-  background: var(--accent);
-  color: #fff;
-  border-radius: 8px;
-  padding: 4px 10px;
-  font-size: 12px;
-  font-weight: 700;
-  font-family: var(--font-display);
-  flex-shrink: 0;
-}
-
-.itinerary-day-title {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.itinerary-day-content {
-  font-size: 13px;
-  color: var(--text2);
-  line-height: 1.6;
-  font-family: var(--font-body);
-}
-
-.itinerary-day-content p { margin-bottom: 4px; }
-.itinerary-day-content p:last-child { margin-bottom: 0; }
-
-#itinerary-actions {
-  display: flex;
-  gap: 10px;
-}
-
-#itinerary-copy-btn {
-  flex: 1;
-  background: transparent;
-  border: 1px solid var(--border2);
-  color: var(--text2);
-  border-radius: 12px;
-  padding: 12px;
-  font-family: var(--font-body);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#itinerary-copy-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-#itinerary-share-btn {
-  flex: 1;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  padding: 12px;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#itinerary-share-btn:hover { opacity: 0.9; }
-
-.view-itinerary-btn {
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  border-radius: 8px;
-  padding: 5px 12px;
-  font-size: 12px;
-  cursor: pointer;
-  font-family: var(--font-body);
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 6px;
-}
-
-.view-itinerary-btn:hover { background: var(--accent); color: #fff; }
-
-
-@media (max-width: 768px) {
-
-  /* WELCOME SCREEN MOBILE */
-  #welcome-content {
-    padding: 0 8px;
-  }
-
-  #welcome-logo {
-    font-size: 44px;
-    margin-bottom: 12px;
-  }
-
-  #welcome-title {
-    font-size: 48px;
-    margin-bottom: 10px;
-  }
-
-  #welcome-subtitle {
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-
-  #welcome-badge {
-    font-size: 11px;
-    padding: 5px 12px;
-    margin-bottom: 16px;
-  }
-
-  #welcome-features {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-
-  .feature {
-    padding: 10px 12px;
-    font-size: 12px;
-    border-radius: 10px;
-  }
-
-  #welcome-btn {
-    padding: 14px 24px;
-    font-size: 15px;
-    margin-bottom: 10px;
-  }
-
-  #profile-btn {
-    padding: 12px 24px;
-    font-size: 13px;
-    margin-bottom: 10px;
-  }
-
-  #welcome-disclaimer {
-    font-size: 11px;
-  }
-
-  /* CHAT HEADER MOBILE */
-  #header {
-    padding: 10px 12px;
-  }
-
-  #header h1 {
-    font-size: 16px;
-    gap: 5px;
-  }
-
-  #home-btn {
-    padding: 6px 8px;
-    font-size: 11px;
-  }
-
-  #menu-btn {
-    padding: 6px 8px;
-    font-size: 14px;
-  }
-
-  #header-buttons {
-    gap: 5px;
-  }
-
-  #theme-btn, #clear {
-    padding: 6px 8px;
-    font-size: 11px;
-  }
-
-  #header-profile-btn {
-    padding: 6px 8px;
-    font-size: 12px;
-  }
-
-  #header-new-chat-btn {
-    padding: 6px 8px;
-    font-size: 13px;
-  }
-
-  #clear {
-    display: none;
-  }
-
-  /* CHAT MOBILE */
-  .message {
-    max-width: 95%;
-    font-size: 13px;
-    padding: 10px 13px;
-  }
-
-  #input {
-    font-size: 16px;
-    padding: 11px 14px;
-  }
-
-  #send {
-    width: 44px;
-    height: 44px;
-  }
-
-  #input-area {
-    padding: 10px 12px;
-    padding-bottom: max(10px, env(safe-area-inset-bottom));
-  }
-
-  #suggestions {
-    padding: 8px 12px;
-  }
-
-  .suggestion {
-    font-size: 12px;
-    padding: 7px 12px;
-  }
-
-  /* SIDEBAR MOBILE */
-  #sidebar {
-    width: 85%;
-    max-width: 300px;
-  }
-}
-
-#onboarding-overlay {
-  position: fixed;
-  inset: 0;
-  background: #080c14;
-  z-index: 5000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  transition: opacity 0.4s ease;
-}
-
-#onboarding-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 24px;
-  padding: 28px 28px 24px;
-  max-width: 380px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-#ob-back-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background: transparent;
-  border: none;
-  color: #8899bb;
-  font-size: 22px;
-  cursor: pointer;
-  padding: 4px 8px;
-  transition: color 0.2s;
-  visibility: hidden;
-  line-height: 1;
-}
-
-#ob-back-btn.visible { visibility: visible; }
-#ob-back-btn:hover { color: #3b82f6; }
-
-.ob-slide {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.ob-slide.active { display: flex; }
-
-.ob-anim-container {
-  width: 200px;
-  height: 200px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ob-emoji-anim {
-  font-size: 90px;
-  animation: obFloat 3s ease-in-out infinite;
-}
-
-@keyframes obFloat {
-  0%, 100% { transform: translateY(0px) rotate(-5deg); }
-  50% { transform: translateY(-14px) rotate(5deg); }
-}
-
-.ob-title {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text);
-  text-align: center;
-  margin-bottom: 10px;
-  letter-spacing: -0.5px;
-}
-
-.ob-title span { color: var(--accent); }
-
-.ob-desc {
-  font-size: 14px;
-  color: var(--text2);
-  text-align: center;
-  line-height: 1.6;
-  font-weight: 300;
-  font-family: var(--font-body);
-  margin-bottom: 4px;
-}
-
-.ob-dots {
-  display: flex;
-  gap: 6px;
-  margin: 20px 0 16px;
-}
-
-.ob-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  transition: all 0.3s;
-}
-
-.ob-dot.active {
-  background: var(--accent);
-  width: 20px;
-  border-radius: 3px;
-}
-
-#ob-next-btn {
-  width: 100%;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  padding: 14px;
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-bottom: 12px;
-}
-
-#ob-next-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-
-#ob-skip-btn {
-  background: none;
-  border: none;
-  color: var(--text3);
-  font-size: 13px;
-  cursor: pointer;
-  text-decoration: underline;
-  font-family: var(--font-body);
-  transition: color 0.2s;
-}
-
-#ob-skip-btn:hover { color: var(--text2); }
-
-.ob-day-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-  margin-bottom: 4px;
-}
-
-.ob-day-card {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  animation: obCardPop var(--d) ease-in-out infinite var(--delay);
-}
-
-@keyframes obCardPop {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
-
-.ob-day-badge {
-  background: var(--accent);
-  color: #fff;
-  border-radius: 8px;
-  padding: 4px 10px;
-  font-size: 11px;
-  font-weight: 700;
-  font-family: var(--font-display);
-  flex-shrink: 0;
-}
-
-.ob-day-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-.ob-day-line {
-  height: 4px;
-  border-radius: 2px;
-  background: var(--border2);
-}
-
-.ob-day-line.short { width: 60%; }
-.ob-day-line.long { width: 85%; }
-
-@keyframes obGlobeSpin {
-  0%, 100% { transform: rotate(-5deg) scale(1); }
-  50% { transform: rotate(5deg) scale(1.05); }
-}
-
   </style>
 </head>
 <body>
 
+  <!-- ITINERARY OVERLAY -->
   <div id="itinerary-overlay">
-  <div id="itinerary-card">
-    <div id="itinerary-header">
-      <span id="itinerary-title">✈️ Your Itinerary</span>
-      <button id="itinerary-close" onclick="closeItinerary()">✕ Close</button>
-    </div>
-    <div id="itinerary-summary"></div>
-    <div id="itinerary-days"></div>
-    <div id="itinerary-actions">
-      <button id="itinerary-copy-btn" onclick="copyItinerary()">📋 Copy Full Itinerary</button>
-      <button id="itinerary-share-btn" onclick="shareItinerary()">↗ Share</button>
+    <div id="itinerary-card">
+      <div id="itinerary-header">
+        <span id="itinerary-title">✈️ Your Itinerary</span>
+        <button id="itinerary-close" onclick="closeItinerary()">✕ Close</button>
+      </div>
+      <div id="itinerary-summary"></div>
+      <div id="itinerary-days"></div>
+      <div id="itinerary-actions">
+        <button id="itinerary-copy-btn" onclick="copyItinerary()">📋 Copy Full Itinerary</button>
+        <button id="itinerary-share-btn" onclick="shareItinerary()">↗ Share</button>
+      </div>
     </div>
   </div>
-</div>
-<div id="onboarding-overlay">
-  <div id="onboarding-card">
-    <button id="ob-back-btn" onclick="obBack()">←</button>
 
-    <!-- Slide 1 — Beach animation -->
-    <div class="ob-slide active" id="ob-slide-0">
-      <div class="ob-anim-container">
-        <span style="font-size:110px;animation:obGlobeSpin 4s ease-in-out infinite;display:block;text-align:center;">🌍</span>
+  <!-- ONBOARDING OVERLAY -->
+  <div id="onboarding-overlay">
+    <div id="onboarding-card">
+      <button id="ob-back-btn" onclick="obBack()">←</button>
+
+      <!-- Slide 1 — Globe -->
+      <div class="ob-slide active" id="ob-slide-0">
+        <div class="ob-anim-container">
+          <span style="font-size:110px;animation:obGlobeSpin 4s ease-in-out infinite;display:block;text-align:center;">🌍</span>
+        </div>
+        <div class="ob-title">Meet <span>Bingus</span> 🦦</div>
+        <div class="ob-desc">Your personal AI travel expert. Ask anything about destinations, safety, budget, and activities — get real answers instantly.</div>
       </div>
-      <div class="ob-title">Meet <span>Bingus</span> 🦦</div>
-      <div class="ob-desc">Your personal AI travel expert. Ask anything about destinations, safety, budget, and activities — get real answers instantly.</div>
-    </div>
 
-    <!-- Slide 2 — Itinerary -->
-    <div class="ob-slide" id="ob-slide-1">
-      <div class="ob-anim-container" style="height:160px;">
-        <div class="ob-day-cards">
-          <div class="ob-day-card" style="--d:2s;--delay:0s;">
-            <span class="ob-day-badge">Day 1-2</span>
-            <div class="ob-day-lines">
-              <div class="ob-day-line long"></div>
-              <div class="ob-day-line short"></div>
+      <!-- Slide 2 — Itinerary cards -->
+      <div class="ob-slide" id="ob-slide-1">
+        <div class="ob-anim-container" style="height:160px;">
+          <div class="ob-day-cards">
+            <div class="ob-day-card" style="--d:2s;--delay:0s;">
+              <span class="ob-day-badge">Day 1-2</span>
+              <div class="ob-day-lines">
+                <div class="ob-day-line long"></div>
+                <div class="ob-day-line short"></div>
+              </div>
             </div>
-          </div>
-          <div class="ob-day-card" style="--d:2.3s;--delay:0.2s;">
-            <span class="ob-day-badge" style="background:var(--accent2);">Day 3-4</span>
-            <div class="ob-day-lines">
-              <div class="ob-day-line long"></div>
-              <div class="ob-day-line short"></div>
+            <div class="ob-day-card" style="--d:2.3s;--delay:0.2s;">
+              <span class="ob-day-badge" style="background:var(--accent2);">Day 3-4</span>
+              <div class="ob-day-lines">
+                <div class="ob-day-line long"></div>
+                <div class="ob-day-line short"></div>
+              </div>
             </div>
-          </div>
-          <div class="ob-day-card" style="--d:2.6s;--delay:0.4s;">
-            <span class="ob-day-badge" style="background:#0f3a8a;">Day 5-6</span>
-            <div class="ob-day-lines">
-              <div class="ob-day-line long"></div>
-              <div class="ob-day-line short"></div>
+            <div class="ob-day-card" style="--d:2.6s;--delay:0.4s;">
+              <span class="ob-day-badge" style="background:#0f3a8a;">Day 5-6</span>
+              <div class="ob-day-lines">
+                <div class="ob-day-line long"></div>
+                <div class="ob-day-line short"></div>
+              </div>
             </div>
           </div>
         </div>
+        <div class="ob-title">Plan Your <span>Itinerary</span></div>
+        <div class="ob-desc">Ask Bingus to plan a trip and get a beautiful day by day breakdown with restaurants, activities, and insider tips.</div>
       </div>
-      <div class="ob-title">Plan Your <span>Itinerary</span></div>
-      <div class="ob-desc">Ask Bingus to plan a trip and get a beautiful day by day breakdown with restaurants, activities, and insider tips.</div>
-    </div>
 
-    <!-- Slide 3 — Otter -->
-    <div class="ob-slide" id="ob-slide-2">
-      <div class="ob-anim-container">
-        <span class="ob-emoji-anim">🦦</span>
+      <!-- Slide 3 — Otter -->
+      <div class="ob-slide" id="ob-slide-2">
+        <div class="ob-anim-container">
+          <span class="ob-emoji-anim">🦦</span>
+        </div>
+        <div class="ob-title">Make it <span>Yours</span></div>
+        <div class="ob-desc">Set up your travel profile — your vibe, budget, and experience level — so Bingus personalizes every recommendation just for you.</div>
       </div>
-      <div class="ob-title">Make it <span>Yours</span></div>
-      <div class="ob-desc">Set up your travel profile — your vibe, budget, and experience level — so Bingus personalizes every recommendation just for you.</div>
-    </div>
 
-    <div class="ob-dots">
-      <div class="ob-dot active" id="ob-dot-0"></div>
-      <div class="ob-dot" id="ob-dot-1"></div>
-      <div class="ob-dot" id="ob-dot-2"></div>
+      <div class="ob-dots">
+        <div class="ob-dot active" id="ob-dot-0"></div>
+        <div class="ob-dot" id="ob-dot-1"></div>
+        <div class="ob-dot" id="ob-dot-2"></div>
+      </div>
+      <button id="ob-next-btn">Next →</button>
+      <button id="ob-skip-btn" onclick="finishOnboarding()">Skip</button>
     </div>
-    <button id="ob-next-btn">Next →</button>
-    <button id="ob-skip-btn" onclick="finishOnboarding()">Skip</button>
   </div>
-</div>
+
+  <!-- PROFILE OVERLAY -->
   <div id="profile-overlay">
-  <div id="profile-card">
-    <div id="profile-header">
-      <span id="profile-title">Tell Bingus about you</span>
-      <button id="profile-close" onclick="closeProfile()">✕ Close</button>
-    </div>
-    <p id="profile-subtitle">So Bingus can give you personalized recommendations from day one.</p>
-    <div id="profile-progress"></div>
-    <div id="profile-step-content"></div>
-    <div id="profile-nav">
-      <button id="profile-back" onclick="profileBack()">← Back</button>
-      <button id="profile-skip" onclick="profileSkip()">Skip</button>
-      <button id="profile-next" onclick="profileNext()">Next →</button>
+    <div id="profile-card">
+      <div id="profile-header">
+        <span id="profile-title">Tell Bingus about you</span>
+        <button id="profile-close" onclick="closeProfile()">✕ Close</button>
+      </div>
+      <p id="profile-subtitle">So Bingus can give you personalized recommendations from day one.</p>
+      <div id="profile-progress"></div>
+      <div id="profile-step-content"></div>
+      <div id="profile-nav">
+        <button id="profile-back" onclick="profileBack()">← Back</button>
+        <button id="profile-skip" onclick="profileSkip()">Skip</button>
+        <button id="profile-next" onclick="profileNext()">Next →</button>
+      </div>
     </div>
   </div>
-</div>
 
+  <!-- WELCOME SCREEN -->
   <div id="welcome">
-
-  <div class="stars-bg">
-    <div class="star-dot" style="left:5%;top:8%;width:2px;height:2px;--d:2.1s"></div>
-    <div class="star-dot" style="left:12%;top:5%;width:1px;height:1px;--d:3.2s"></div>
-    <div class="star-dot" style="left:22%;top:12%;width:2px;height:2px;--d:1.8s"></div>
-    <div class="star-dot" style="left:35%;top:6%;width:1px;height:1px;--d:2.7s"></div>
-    <div class="star-dot" style="left:48%;top:10%;width:2px;height:2px;--d:3.5s"></div>
-    <div class="star-dot" style="left:58%;top:4%;width:1px;height:1px;--d:2.3s"></div>
-    <div class="star-dot" style="left:70%;top:14%;width:2px;height:2px;--d:1.6s"></div>
-    <div class="star-dot" style="left:15%;top:20%;width:1px;height:1px;--d:3.8s"></div>
-    <div class="star-dot" style="left:42%;top:18%;width:2px;height:2px;--d:2.4s"></div>
-    <div class="star-dot" style="left:65%;top:22%;width:1px;height:1px;--d:1.9s"></div>
-    <div class="star-dot" style="left:88%;top:9%;width:2px;height:2px;--d:2.8s"></div>
-    <div class="star-dot" style="left:78%;top:16%;width:1px;height:1px;--d:3.1s"></div>
-  </div>
-
-  <div class="welcome-moon-glow"></div>
-<div class="welcome-moon"></div>
-<button id="welcome-theme-btn" onclick="toggleTheme()">🌙</button>
-
-  <div class="fishing-scene">
-  <canvas id="welcomeCanvas"></canvas>
-
-  <div class="boat-el boat-right-el">
-    <svg width="120" height="60" viewBox="0 0 120 60" fill="none">
-      <ellipse cx="60" cy="48" rx="48" ry="12" fill="#2d1b0e"/>
-      <path d="M15 48 Q60 36 105 48" fill="#3d2510"/>
-      <rect x="38" y="20" width="44" height="28" rx="4" fill="#3d2510"/>
-      <rect x="44" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
-      <rect x="66" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
-      <rect x="54" y="12" width="3" height="20" fill="#8B7355"/>
-      <path d="M57 13 L72 20 L57 27 Z" fill="#f0e6c8" opacity="0.8"/>
-      <g transform="translate(75, 18)">
-        <ellipse cx="8" cy="6" rx="6" ry="6" fill="#C9956B"/>
-        <rect x="5" y="10" width="6" height="8" rx="2" fill="#4a6fa5"/>
-        <line x1="14" y1="8" x2="22" y2="14" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
-        <ellipse cx="22" cy="15" rx="3" ry="2" fill="#8B7355"/>
-      </g>
-    </svg>
-  </div>
-
-  <div class="boat-el boat-left-el">
-    <svg width="120" height="60" viewBox="0 0 120 60" fill="none" style="transform: scaleX(-1)">
-      <ellipse cx="60" cy="48" rx="48" ry="12" fill="#2d1b0e"/>
-      <path d="M15 48 Q60 36 105 48" fill="#3d2510"/>
-      <rect x="38" y="20" width="44" height="28" rx="4" fill="#3d2510"/>
-      <rect x="44" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
-      <rect x="66" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
-      <rect x="54" y="12" width="3" height="20" fill="#8B7355"/>
-      <path d="M57 13 L72 20 L57 27 Z" fill="#f0e6c8" opacity="0.8"/>
-      <g transform="translate(75, 18)">
-        <ellipse cx="8" cy="6" rx="6" ry="6" fill="#C9956B"/>
-        <rect x="5" y="10" width="6" height="8" rx="2" fill="#4a6fa5"/>
-        <line x1="14" y1="8" x2="22" y2="14" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
-        <ellipse cx="22" cy="15" rx="3" ry="2" fill="#8B7355"/>
-      </g>
-    </svg>
-  </div>
-
-</div>
-
-  <div class="welcome-waves">
-    <div class="welcome-wave-layer welcome-wave-layer1">
-      <svg class="welcome-wave-svg" viewBox="0 0 1440 130" preserveAspectRatio="none">
-        <path d="M0,60 C180,20 360,100 540,60 C720,20 900,100 1080,60 C1260,20 1440,100 1440,60 L1440,130 L0,130 Z" fill="#0d2137"/>
-      </svg>
+    <div class="stars-bg">
+      <div class="star-dot" style="left:5%;top:8%;width:2px;height:2px;--d:2.1s"></div>
+      <div class="star-dot" style="left:12%;top:5%;width:1px;height:1px;--d:3.2s"></div>
+      <div class="star-dot" style="left:22%;top:12%;width:2px;height:2px;--d:1.8s"></div>
+      <div class="star-dot" style="left:35%;top:6%;width:1px;height:1px;--d:2.7s"></div>
+      <div class="star-dot" style="left:48%;top:10%;width:2px;height:2px;--d:3.5s"></div>
+      <div class="star-dot" style="left:58%;top:4%;width:1px;height:1px;--d:2.3s"></div>
+      <div class="star-dot" style="left:70%;top:14%;width:2px;height:2px;--d:1.6s"></div>
+      <div class="star-dot" style="left:15%;top:20%;width:1px;height:1px;--d:3.8s"></div>
+      <div class="star-dot" style="left:42%;top:18%;width:2px;height:2px;--d:2.4s"></div>
+      <div class="star-dot" style="left:65%;top:22%;width:1px;height:1px;--d:1.9s"></div>
+      <div class="star-dot" style="left:88%;top:9%;width:2px;height:2px;--d:2.8s"></div>
+      <div class="star-dot" style="left:78%;top:16%;width:1px;height:1px;--d:3.1s"></div>
     </div>
-    <div class="welcome-wave-layer welcome-wave-layer2">
-      <svg class="welcome-wave-svg" viewBox="0 0 1440 130" preserveAspectRatio="none">
-        <path d="M0,80 C240,40 480,110 720,70 C960,30 1200,100 1440,65 L1440,130 L0,130 Z" fill="rgba(59,130,246,0.12)"/>
-      </svg>
-    </div>
-    <div class="welcome-wave-layer welcome-wave-layer3">
-      <svg class="welcome-wave-svg" viewBox="0 0 1440 130" preserveAspectRatio="none">
-        <path d="M0,85 C200,50 400,105 600,75 C800,45 1000,105 1200,75 C1440,45 1440,90 1440,80 L1440,130 L0,130 Z" fill="rgba(96,165,250,0.08)"/>
-      </svg>
-    </div>
-    <div class="welcome-foam" style="left:10%;bottom:70px;width:20px;height:8px;--d:3s;--delay:0s"></div>
-    <div class="welcome-foam" style="left:30%;bottom:75px;width:14px;height:6px;--d:4s;--delay:0.5s"></div>
-    <div class="welcome-foam" style="left:55%;bottom:72px;width:18px;height:7px;--d:3.5s;--delay:1s"></div>
-    <div class="welcome-foam" style="left:75%;bottom:68px;width:12px;height:5px;--d:4.5s;--delay:0.3s"></div>
-    <div class="welcome-foam" style="left:88%;bottom:74px;width:16px;height:6px;--d:3.2s;--delay:0.8s"></div>
-  </div>
 
-  <div id="welcome-content">
+    <div class="welcome-moon-glow"></div>
+    <div class="welcome-moon"></div>
+    <button id="welcome-theme-btn" onclick="toggleTheme()">🌙</button>
+
+    <div class="fishing-scene">
+      <canvas id="welcomeCanvas"></canvas>
+      <div class="boat-el boat-right-el">
+        <svg width="120" height="60" viewBox="0 0 120 60" fill="none">
+          <ellipse cx="60" cy="48" rx="48" ry="12" fill="#2d1b0e"/>
+          <path d="M15 48 Q60 36 105 48" fill="#3d2510"/>
+          <rect x="38" y="20" width="44" height="28" rx="4" fill="#3d2510"/>
+          <rect x="44" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
+          <rect x="66" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
+          <rect x="54" y="12" width="3" height="20" fill="#8B7355"/>
+          <path d="M57 13 L72 20 L57 27 Z" fill="#f0e6c8" opacity="0.8"/>
+          <g transform="translate(75, 18)">
+            <ellipse cx="8" cy="6" rx="6" ry="6" fill="#C9956B"/>
+            <rect x="5" y="10" width="6" height="8" rx="2" fill="#4a6fa5"/>
+            <line x1="14" y1="8" x2="22" y2="14" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
+            <ellipse cx="22" cy="15" rx="3" ry="2" fill="#8B7355"/>
+          </g>
+        </svg>
+      </div>
+      <div class="boat-el boat-left-el">
+        <svg width="120" height="60" viewBox="0 0 120 60" fill="none" style="transform: scaleX(-1)">
+          <ellipse cx="60" cy="48" rx="48" ry="12" fill="#2d1b0e"/>
+          <path d="M15 48 Q60 36 105 48" fill="#3d2510"/>
+          <rect x="38" y="20" width="44" height="28" rx="4" fill="#3d2510"/>
+          <rect x="44" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
+          <rect x="66" y="24" width="10" height="8" rx="2" fill="#4a9eff" opacity="0.6"/>
+          <rect x="54" y="12" width="3" height="20" fill="#8B7355"/>
+          <path d="M57 13 L72 20 L57 27 Z" fill="#f0e6c8" opacity="0.8"/>
+          <g transform="translate(75, 18)">
+            <ellipse cx="8" cy="6" rx="6" ry="6" fill="#C9956B"/>
+            <rect x="5" y="10" width="6" height="8" rx="2" fill="#4a6fa5"/>
+            <line x1="14" y1="8" x2="22" y2="14" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
+            <ellipse cx="22" cy="15" rx="3" ry="2" fill="#8B7355"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="welcome-waves">
+      <div class="welcome-wave-layer welcome-wave-layer1">
+        <svg class="welcome-wave-svg" viewBox="0 0 1440 130" preserveAspectRatio="none">
+          <path d="M0,60 C180,20 360,100 540,60 C720,20 900,100 1080,60 C1260,20 1440,100 1440,60 L1440,130 L0,130 Z" fill="#0d2137"/>
+        </svg>
+      </div>
+      <div class="welcome-wave-layer welcome-wave-layer2">
+        <svg class="welcome-wave-svg" viewBox="0 0 1440 130" preserveAspectRatio="none">
+          <path d="M0,80 C240,40 480,110 720,70 C960,30 1200,100 1440,65 L1440,130 L0,130 Z" fill="rgba(59,130,246,0.12)"/>
+        </svg>
+      </div>
+      <div class="welcome-wave-layer welcome-wave-layer3">
+        <svg class="welcome-wave-svg" viewBox="0 0 1440 130" preserveAspectRatio="none">
+          <path d="M0,85 C200,50 400,105 600,75 C800,45 1000,105 1200,75 C1440,45 1440,90 1440,80 L1440,130 L0,130 Z" fill="rgba(96,165,250,0.08)"/>
+        </svg>
+      </div>
+      <div class="welcome-foam" style="left:10%;bottom:70px;width:20px;height:8px;--d:3s;--delay:0s"></div>
+      <div class="welcome-foam" style="left:30%;bottom:75px;width:14px;height:6px;--d:4s;--delay:0.5s"></div>
+      <div class="welcome-foam" style="left:55%;bottom:72px;width:18px;height:7px;--d:3.5s;--delay:1s"></div>
+      <div class="welcome-foam" style="left:75%;bottom:68px;width:12px;height:5px;--d:4.5s;--delay:0.3s"></div>
+      <div class="welcome-foam" style="left:88%;bottom:74px;width:16px;height:6px;--d:3.2s;--delay:0.8s"></div>
+    </div>
+
+    <div id="welcome-content">
       <span id="welcome-badge">🦦 Your AI Travel Companion</span>
       <div id="welcome-logo">🦦</div>
       <h1 id="welcome-title">Drif<span>tr</span></h1>
@@ -1766,39 +1598,41 @@ canvas#welcomeCanvas {
         <div class="feature">🛡️ Real safety info</div>
       </div>
       <button id="welcome-btn">Start Exploring →</button>
-<button id="profile-btn" onclick="openProfile()">👤 Personalize Bingus</button>
-<p id="welcome-disclaimer">Free to use · Powered by Claude AI</p>
+      <button id="profile-btn" onclick="openProfile()">👤 Personalize Bingus</button>
+      <p id="welcome-disclaimer">Free to use · Powered by Claude AI</p>
     </div>
   </div>
 
+  <!-- SIDEBAR -->
   <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+  <div id="sidebar">
+    <div id="sidebar-header">
+      <span id="sidebar-title">💬 Chats</span>
+      <button id="sidebar-close" onclick="closeSidebar()">✕</button>
+    </div>
+    <button id="new-chat-btn" onclick="newChat()">＋ New Chat</button>
+    <div id="chat-history-list">
+      <div id="sidebar-empty">No saved chats yet.<br>Start a conversation!</div>
+    </div>
+  </div>
 
-<div id="sidebar">
-  <div id="sidebar-header">
-    <span id="sidebar-title">💬 Chats</span>
-    <button id="sidebar-close" onclick="closeSidebar()">✕</button>
-  </div>
-  <button id="new-chat-btn" onclick="newChat()">＋ New Chat</button>
-  <div id="chat-history-list">
-    <div id="sidebar-empty">No saved chats yet.<br>Start a conversation!</div>
-  </div>
-</div>
-
-<div id="header">
-  <div style="display:flex;gap:8px;align-items:center;">
-    <button id="menu-btn" onclick="toggleSidebar()">☰</button>
-    <button id="home-btn" onclick="goHome()">← Home</button>
-  </div>
-    <h1 onclick="goHome()" style="cursor: pointer;">🦦 Driftr <span id="header-dot"></span></h1>
-    <p>Your budget travel expert for young adventurers</p>
+  <!-- HEADER -->
+  <div id="header">
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button id="menu-btn" onclick="toggleSidebar()">☰</button>
+      <button id="home-btn" onclick="goHome()">← Home</button>
+    </div>
+    <h1 onclick="goHome()" style="cursor:pointer;">🦦 Driftr <span id="header-dot"></span></h1>
+    <p>Your AI travel expert</p>
     <div id="header-buttons">
-  <button id="theme-btn" onclick="toggleTheme()">☀️</button>
-  <button id="header-profile-btn" onclick="openProfile()">👤</button>
-  <button id="header-new-chat-btn" onclick="newChat()">＋</button>
-  <button id="clear" onclick="clearChat()">Clear Chat</button>
-</div>
+      <button id="theme-btn" onclick="toggleTheme()">☀️</button>
+      <button id="header-profile-btn" onclick="openProfile()">👤</button>
+      <button id="header-new-chat-btn" onclick="newChat()">＋</button>
+      <button id="clear" onclick="clearChat()">Clear Chat</button>
+    </div>
   </div>
 
+  <!-- CHAT -->
   <div id="chat">
     <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
     <div class="message-wrapper">
@@ -1806,6 +1640,7 @@ canvas#welcomeCanvas {
     </div>
   </div>
 
+  <!-- SUGGESTIONS -->
   <div id="suggestions">
     <button class="suggestion">🌍 Best budget countries right now</button>
     <button class="suggestion">🏄 Plan me a surf trip</button>
@@ -1814,6 +1649,7 @@ canvas#welcomeCanvas {
     <button class="suggestion">✈️ Cheapest way to get to Europe</button>
   </div>
 
+  <!-- INPUT -->
   <div id="input-area">
     <input id="input" type="text" placeholder="Ask Bingus anything about travel..." />
     <button id="send">➤</button>
@@ -1827,12 +1663,21 @@ canvas#welcomeCanvas {
     let messages = JSON.parse(localStorage.getItem("atlas_messages") || "[]");
     let userScrolled = false;
 
+    // ========== THEME ==========
     if (localStorage.getItem("atlas_theme") === "light") {
       document.body.classList.add("light");
       document.getElementById("theme-btn").textContent = "🌙";
       document.getElementById("welcome-theme-btn").textContent = "☀️";
     }
 
+    function toggleTheme() {
+      const isLight = document.body.classList.toggle("light");
+      localStorage.setItem("atlas_theme", isLight ? "light" : "dark");
+      document.getElementById("theme-btn").textContent = isLight ? "🌙" : "☀️";
+      document.getElementById("welcome-theme-btn").textContent = isLight ? "☀️" : "🌙";
+    }
+
+    // ========== NAVIGATION ==========
     function startChat() {
       const welcome = document.getElementById("welcome");
       welcome.style.transition = "opacity 0.4s ease";
@@ -1840,16 +1685,13 @@ canvas#welcomeCanvas {
       setTimeout(() => { welcome.style.display = "none"; welcome.style.opacity = "1"; }, 400);
     }
 
-    const welcomeBtn = document.getElementById("welcome-btn");
-    if (welcomeBtn) {
-      welcomeBtn.onclick = function() {
-        newChat();
-        const welcome = document.getElementById("welcome");
-        welcome.style.transition = "opacity 0.4s ease";
-        welcome.style.opacity = "0";
-        setTimeout(() => { welcome.style.display = "none"; }, 400);
-      };
-    }
+    document.getElementById("welcome-btn").onclick = function() {
+      newChat();
+      const welcome = document.getElementById("welcome");
+      welcome.style.transition = "opacity 0.4s ease";
+      welcome.style.opacity = "0";
+      setTimeout(() => { welcome.style.display = "none"; }, 400);
+    };
 
     function goHome() {
       const welcome = document.getElementById("welcome");
@@ -1862,13 +1704,7 @@ canvas#welcomeCanvas {
       }, 10);
     }
 
-    function toggleTheme() {
-      const isLight = document.body.classList.toggle("light");
-      localStorage.setItem("atlas_theme", isLight ? "light" : "dark");
-      document.getElementById("theme-btn").textContent = isLight ? "🌙" : "☀️";
-      document.getElementById("welcome-theme-btn").textContent = isLight ? "☀️" : "🌙";
-    }
-
+    // ========== CHAT UTILS ==========
     function clearChat() {
       messages = [];
       localStorage.removeItem("atlas_messages");
@@ -1957,10 +1793,10 @@ canvas#welcomeCanvas {
     });
 
     loadSavedMessages();
-
     document.getElementById("welcome").style.display = "flex";
     document.getElementById("welcome").style.opacity = "1";
 
+    // ========== SEND MESSAGE ==========
     async function sendMessage() {
       const text = input.value.trim();
       if (!text) return;
@@ -2006,9 +1842,9 @@ canvas#welcomeCanvas {
                   if (window.responseDiv) {
                     const actions = document.createElement("div");
                     actions.className = "message-actions";
-if (isItineraryResponse(fullResponse)) {
-  addItineraryButton(actions, fullResponse);
-}
+                    if (isItineraryResponse(fullResponse)) {
+                      addItineraryButton(actions, fullResponse);
+                    }
                     const copyBtn = document.createElement("button");
                     copyBtn.className = "action-btn";
                     copyBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`;
@@ -2067,7 +1903,7 @@ if (isItineraryResponse(fullResponse)) {
     send.addEventListener("click", sendMessage);
     input.addEventListener("keydown", e => { if (e.key === "Enter") sendMessage(); });
 
-    // FISHING ANIMATION
+    // ========== FISHING ANIMATION ==========
     let wW, wH, waterY;
     let wctx = null;
     let animationStarted = false;
@@ -2289,16 +2125,13 @@ if (isItineraryResponse(fullResponse)) {
       wResize();
       newRCast(); newLCast();
       wAnimate();
-
       welcomeCanvas.style.cursor = "default";
-
       welcomeCanvas.addEventListener("mousemove", (e) => {
         const rect = welcomeCanvas.getBoundingClientRect();
         const mx = e.clientX - rect.left;
         const my = e.clientY - rect.top;
         welcomeCanvas.style.cursor = (pillHitbox && mx >= pillHitbox.x && mx <= pillHitbox.x + pillHitbox.w && my >= pillHitbox.y && my <= pillHitbox.y + pillHitbox.h) ? "pointer" : "default";
       });
-
       welcomeCanvas.addEventListener("click", (e) => {
         const rect = welcomeCanvas.getBoundingClientRect();
         const mx = e.clientX - rect.left;
@@ -2320,594 +2153,397 @@ if (isItineraryResponse(fullResponse)) {
       });
     }
 
-// PROFILE SYSTEM
-const profileSteps = [
-  {
-    id: "name",
-    question: "What's your name?",
-    type: "text",
-    placeholder: "Enter your name...",
-    multi: false
-  },
-  {
-    id: "age",
-    question: "How old are you?",
-    type: "single",
-    options: ["18-21", "22-25", "26-30", "30+"],
-    multi: false
-  },
-  {
-    id: "location",
-    question: "Where are you based?",
-    type: "text",
-    placeholder: "City, Country...",
-    multi: false
-  },
-  {
-    id: "style",
-    question: "How do you like to travel?",
-    type: "single",
-    options: ["Solo", "With friends", "Couple", "Flexible"],
-    multi: false
-  },
-  {
-    id: "vibe",
-    question: "What's your travel vibe?",
-    type: "multi",
-    options: ["🏖️ Beaches", "🏙️ Cities", "🏔️ Mountains", "🎉 Nightlife", "🏛️ Culture", "🧗 Adventure", "🌿 Nature", "🍜 Food"],
-    multi: true
-  },
-  {
-    id: "budget",
-    question: "What's your daily budget?",
-    type: "multi",
-    options: ["Under $50", "$50-100", "$100-200", "$200+"],
-    multi: true
-  },
-  {
-    id: "tripLength",
-    question: "How long do you usually travel?",
-    type: "multi",
-    options: ["Weekend", "1-2 weeks", "1 month+", "Flexible"],
-    multi: true
-  },
-  {
-    id: "experience",
-    question: "How experienced are you?",
-    type: "single",
-    options: ["First timer", "Some experience", "Seasoned backpacker", "Full nomad"],
-    multi: false
-  }
-];
+    // ========== PROFILE SYSTEM ==========
+    const profileSteps = [
+      { id: "name", question: "What's your name?", type: "text", placeholder: "Enter your name...", multi: false },
+      { id: "age", question: "How old are you?", type: "single", options: ["18-21", "22-25", "26-30", "30+"], multi: false },
+      { id: "location", question: "Where are you based?", type: "text", placeholder: "City, Country...", multi: false },
+      { id: "style", question: "How do you like to travel?", type: "single", options: ["Solo", "With friends", "Couple", "Flexible"], multi: false },
+      { id: "vibe", question: "What's your travel vibe?", type: "multi", options: ["🏖️ Beaches", "🏙️ Cities", "🏔️ Mountains", "🎉 Nightlife", "🏛️ Culture", "🧗 Adventure", "🌿 Nature", "🍜 Food"], multi: true },
+      { id: "budget", question: "What's your daily budget?", type: "multi", options: ["Under $50", "$50-100", "$100-200", "$200+"], multi: true },
+      { id: "tripLength", question: "How long do you usually travel?", type: "multi", options: ["Weekend", "1-2 weeks", "1 month+", "Flexible"], multi: true },
+      { id: "experience", question: "How experienced are you?", type: "single", options: ["First timer", "Some experience", "Seasoned backpacker", "Full nomad"], multi: false }
+    ];
 
-let currentProfileStep = 0;
-let profileData = JSON.parse(localStorage.getItem("driftr_profile") || "{}");
-let tempProfileData = {};
+    let currentProfileStep = 0;
+    let profileData = JSON.parse(localStorage.getItem("driftr_profile") || "{}");
+    let tempProfileData = {};
 
-function openProfile() {
-  tempProfileData = { ...profileData };
-  currentProfileStep = 0;
-  document.getElementById("profile-overlay").style.display = "flex";
-  renderProfileStep();
-  updateProfileBtn();
-}
-
-function closeProfile() {
-  document.getElementById("profile-overlay").style.display = "none";
-}
-
-function updateProfileBtn() {
-  const btn = document.getElementById("profile-btn");
-  const hasProfile = Object.keys(profileData).length > 0;
-  btn.textContent = hasProfile ? "✏️ Edit Profile" : "👤 Personalize Bingus";
-}
-
-function renderProfileStep() {
-  const step = profileSteps[currentProfileStep];
-  const content = document.getElementById("profile-step-content");
-  const progress = document.getElementById("profile-progress");
-
-  progress.innerHTML = profileSteps.map((s, i) => `
-    <div class="progress-dot ${i < currentProfileStep ? 'done' : i === currentProfileStep ? 'active' : ''}"></div>
-  `).join("");
-
-  document.getElementById("profile-back").style.visibility = currentProfileStep === 0 ? "hidden" : "visible";
-  document.getElementById("profile-next").textContent = currentProfileStep === profileSteps.length - 1 ? "Save Profile ✓" : "Next →";
-
-  if (step.type === "text") {
-    content.innerHTML = `
-      <div class="profile-question">${step.question}</div>
-      <input class="profile-input" type="text" placeholder="${step.placeholder}" id="profile-input-field" value="${tempProfileData[step.id] || ""}"/>
-    `;
-    document.getElementById("profile-input-field").focus();
-  } else {
-    const currentVal = tempProfileData[step.id] || (step.multi ? [] : "");
-    content.innerHTML = `
-      <div class="profile-question">${step.question}</div>
-      <div class="profile-options">
-        ${step.options.map(opt => `
-          <button class="profile-option ${step.multi ? (currentVal.includes(opt) ? 'selected' : '') : (currentVal === opt ? 'selected' : '')}" onclick="selectProfileOption(this, '${opt}', ${step.multi})">${opt}</button>
-        `).join("")}
-      </div>
-    `;
-  }
-}
-
-function selectProfileOption(btn, value, multi) {
-  const step = profileSteps[currentProfileStep];
-  if (multi) {
-    const current = tempProfileData[step.id] || [];
-    if (current.includes(value)) {
-      tempProfileData[step.id] = current.filter(v => v !== value);
-      btn.classList.remove("selected");
-    } else {
-      tempProfileData[step.id] = [...current, value];
-      btn.classList.add("selected");
+    function openProfile() {
+      tempProfileData = { ...profileData };
+      currentProfileStep = 0;
+      document.getElementById("profile-overlay").style.display = "flex";
+      renderProfileStep();
+      updateProfileBtn();
     }
-  } else {
-    document.querySelectorAll(".profile-option").forEach(b => b.classList.remove("selected"));
-    tempProfileData[step.id] = value;
-    btn.classList.add("selected");
-  }
-}
 
-function profileNext() {
-  const step = profileSteps[currentProfileStep];
-  if (step.type === "text") {
-    const val = document.getElementById("profile-input-field").value.trim();
-    if (val) tempProfileData[step.id] = val;
-  }
-
-  if (currentProfileStep === profileSteps.length - 1) {
-    profileData = { ...tempProfileData };
-    localStorage.setItem("driftr_profile", JSON.stringify(profileData));
-    closeProfile();
-    updateProfileBtn();
-    alert("Profile saved! Bingus now knows you 🦦");
-    return;
-  }
-
-  currentProfileStep++;
-  renderProfileStep();
-}
-
-function profileBack() {
-  if (currentProfileStep > 0) {
-    const step = profileSteps[currentProfileStep];
-    if (step.type === "text") {
-      const val = document.getElementById("profile-input-field")?.value.trim();
-      if (val) tempProfileData[step.id] = val;
+    function closeProfile() {
+      document.getElementById("profile-overlay").style.display = "none";
     }
-    currentProfileStep--;
-    renderProfileStep();
-  }
-}
 
-function profileSkip() {
-  if (currentProfileStep === profileSteps.length - 1) {
-    profileData = { ...tempProfileData };
-    localStorage.setItem("driftr_profile", JSON.stringify(profileData));
-    closeProfile();
-    updateProfileBtn();
-    return;
-  }
-  currentProfileStep++;
-  renderProfileStep();
-}
-
-updateProfileBtn();
-
-// CHAT HISTORY SYSTEM
-let currentChatId = null;
-let chatHistories = JSON.parse(localStorage.getItem("driftr_histories") || "{}");
-
-function generateId() {
-  return "chat_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
-}
-
-function generateTitle(firstMessage) {
-  if (!firstMessage) return "New conversation";
-  const clean = firstMessage.replace(/^[\u{1F300}-\u{1F9FF}]\s*/u, "").trim();
-  return clean.length > 40 ? clean.substring(0, 40) + "..." : clean;
-}
-
-function formatTime(timestamp) {
-  const now = Date.now();
-  const diff = now - timestamp;
-  const mins = Math.floor(diff / 60000);
-  const hours = Math.floor(diff / 3600000);
-  const days = Math.floor(diff / 86400000);
-  if (mins < 1) return "Just now";
-  if (mins < 60) return `${mins}m ago`;
-  if (hours < 24) return `${hours}h ago`;
-  if (days < 7) return `${days}d ago`;
-  return new Date(timestamp).toLocaleDateString();
-}
-
-function saveCurrentChat() {
-  if (!currentChatId || messages.length === 0) return;
-  const firstUserMsg = messages.find(m => m.role === "user");
-  if (!firstUserMsg) return;
-  const existing = chatHistories[currentChatId];
-  chatHistories[currentChatId] = {
-    id: currentChatId,
-    title: generateTitle(firstUserMsg.content),
-    messages: [...messages],
-    updatedAt: existing ? existing.updatedAt : Date.now()
-  };
-  localStorage.setItem("driftr_histories", JSON.stringify(chatHistories));
-  renderSidebar();
-}
-
-function loadChat(id) {
-  if (currentChatId !== id) saveCurrentChat();
-  currentChatId = id;
-  localStorage.setItem("driftr_current_chat", id);
-  const history = chatHistories[id];
-  if (!history) return;
-  messages = [...history.messages];
-  localStorage.setItem("atlas_messages", JSON.stringify(messages));
-  chat.innerHTML = `
-    <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
-    <div class="message-wrapper">
-      <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
-    </div>`;
-  messages.forEach(msg => addMessage(msg.role, msg.content));
-  suggestions.style.display = "none";
-  renderSidebar();
-  closeSidebar();
-}
-
-function newChat() {
-  saveCurrentChat();
-  currentChatId = generateId();
-  localStorage.setItem("driftr_current_chat", currentChatId);
-  messages = [];
-  localStorage.setItem("atlas_messages", JSON.stringify(messages));
-  chat.innerHTML = `
-    <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
-    <div class="message-wrapper">
-      <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
-    </div>`;
-  suggestions.style.display = "flex";
-  renderSidebar();
-  closeSidebar();
-}
-
-function deleteChat(id, e) {
-  e.stopPropagation();
-  delete chatHistories[id];
-  localStorage.setItem("driftr_histories", JSON.stringify(chatHistories));
-  if (currentChatId === id) newChat();
-  else renderSidebar();
-}
-
-function renderSidebar() {
-  const list = document.getElementById("chat-history-list");
-  const sorted = Object.values(chatHistories).sort((a, b) => b.updatedAt - a.updatedAt);
-  if (sorted.length === 0) {
-    list.innerHTML = `<div id="sidebar-empty">No saved chats yet.<br>Start a conversation!</div>`;
-    return;
-  }
-  list.innerHTML = sorted.map(h => `
-    <div class="history-item ${h.id === currentChatId ? 'active' : ''}" onclick="loadChat('${h.id}')">
-      <div class="history-item-title">${h.title}</div>
-      <div class="history-item-time">${formatTime(h.updatedAt)}</div>
-      <button class="history-item-delete" onclick="deleteChat('${h.id}', event)">✕</button>
-    </div>
-  `).join("");
-}
-
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("sidebar-overlay");
-  sidebar.classList.toggle("open");
-  overlay.classList.toggle("open");
-}
-
-function closeSidebar() {
-  document.getElementById("sidebar").classList.remove("open");
-  document.getElementById("sidebar-overlay").classList.remove("open");
-}
-
-// On app load — always resume the last active chat or start fresh
-const savedChatId = localStorage.getItem("driftr_current_chat");
-if (savedChatId && chatHistories[savedChatId]) {
-  currentChatId = savedChatId;
-  messages = [...chatHistories[savedChatId].messages];
-  localStorage.setItem("atlas_messages", JSON.stringify(messages));
-  if (messages.length > 0) {
-    const firstWrapper = chat.querySelector(".message-wrapper");
-    if (firstWrapper) firstWrapper.remove();
-    messages.forEach(msg => addMessage(msg.role, msg.content));
-  }
-} else {
-  currentChatId = generateId();
-  localStorage.setItem("driftr_current_chat", currentChatId);
-  messages = [];
-}
-
-renderSidebar();
-
-function loadChat(id) {
-  saveCurrentChat();
-  currentChatId = id;
-  localStorage.setItem("driftr_current_chat", id);
-  const history = chatHistories[id];
-  if (!history) return;
-  messages = [...history.messages];
-  localStorage.setItem("atlas_messages", JSON.stringify(messages));
-  chat.innerHTML = `
-    <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
-    <div class="message-wrapper">
-      <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
-    </div>`;
-  messages.forEach(msg => addMessage(msg.role, msg.content));
-  suggestions.style.display = "none";
-  renderSidebar();
-  closeSidebar();
-}
-
-function newChat() {
-  saveCurrentChat();
-  currentChatId = generateId();
-  messages = [];
-  localStorage.setItem("atlas_messages", JSON.stringify(messages));
-  chat.innerHTML = `
-    <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
-    <div class="message-wrapper">
-      <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
-    </div>`;
-  suggestions.style.display = "flex";
-  renderSidebar();
-  closeSidebar();
-}
-
-function deleteChat(id, e) {
-  e.stopPropagation();
-  delete chatHistories[id];
-  localStorage.setItem("driftr_histories", JSON.stringify(chatHistories));
-  if (currentChatId === id) newChat();
-  else renderSidebar();
-}
-
-function renderSidebar() {
-  const list = document.getElementById("chat-history-list");
-  const empty = document.getElementById("sidebar-empty");
-  const sorted = Object.values(chatHistories).sort((a, b) => b.updatedAt - a.updatedAt);
-
-  if (sorted.length === 0) {
-    list.innerHTML = `<div id="sidebar-empty">No saved chats yet.<br>Start a conversation!</div>`;
-    return;
-  }
-
-  list.innerHTML = sorted.map(h => `
-    <div class="history-item ${h.id === currentChatId ? 'active' : ''}" onclick="loadChat('${h.id}')">
-      <div class="history-item-title">${h.title}</div>
-      <div class="history-item-time">${formatTime(h.updatedAt)}</div>
-      <button class="history-item-delete" onclick="deleteChat('${h.id}', event)">✕</button>
-    </div>
-  `).join("");
-}
-
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("sidebar-overlay");
-  sidebar.classList.toggle("open");
-  overlay.classList.toggle("open");
-}
-
-function closeSidebar() {
-  document.getElementById("sidebar").classList.remove("open");
-  document.getElementById("sidebar-overlay").classList.remove("open");
-}
-
-// Initialize first chat
-if (!currentChatId) {
-  currentChatId = generateId();
-}
-
-// Auto-save when sending messages
-const originalSendMessage = sendMessage;
-
-renderSidebar();
-
-// ITINERARY SYSTEM
-let currentItineraryText = "";
-
-function isItineraryResponse(text) {
-  const lower = text.toLowerCase();
-  const hasDays = /day\s*\d+|days?\s*\d+[-–]\d+/i.test(text);
-  const hasMultipleDays = (text.match(/day\s*\d+/gi) || []).length >= 2;
-  const hasPlanningWords = lower.includes("itinerary") || lower.includes("morning") || lower.includes("afternoon") || lower.includes("evening") || lower.includes("overnight") || lower.includes("hostel") || lower.includes("accommodation");
-  const hasDestination = lower.includes("fly") || lower.includes("bus") || lower.includes("hotel") || lower.includes("arrive") || lower.includes("depart");
-  return hasDays || (hasPlanningWords && hasDestination) || hasMultipleDays;
-}
-
-function parseItinerary(text) {
-  const lines = text.split("\n").filter(l => l.trim());
-  const days = [];
-  let currentDay = null;
-  let intro = "";
-  let foundFirstDay = false;
-
-  const destMatch = text.match(/(?:trip to|visiting|explore|in)\s+([A-Z][a-zA-Z\s,]+?)(?:\s+for|\s+—|\s+-|\.|,|!)/);
-  const destination = destMatch ? destMatch[1].trim() : "Your Trip";
-
-  const daysMatch = text.match(/(\d+)\s*(?:days?|nights?)/i);
-  const totalDays = daysMatch ? daysMatch[1] : "?";
-
-  const budgetMatch = text.match(/\$[\d,]+[-–]\$?[\d,]+(?:\/day|per day)?|\$[\d,]+(?:\/day|per day)/i);
-  const budget = budgetMatch ? budgetMatch[0] : "See details";
-
-  const flightMatch = text.match(/flights?\s*(?:from\s+\w+\s+)?(?:run|cost|are|around)?\s*\$[\d,]+[-–]\$?[\d,]+/i);
-  const flights = flightMatch ? flightMatch[0].replace(/flights?\s*/i, "").trim() : "Check Skyscanner";
-
-  for (const line of lines) {
-    const dayMatch = line.match(/^(?:#{1,3}\s*)?days?\s*(\d+)(?:[-–]\d+)?[:\s]*(.*)$/i);
-    if (dayMatch) {
-      if (currentDay) days.push(currentDay);
-      currentDay = {
-        label: line.replace(/#{1,3}\s*/, "").trim(),
-        content: []
-      };
-      foundFirstDay = true;
-    } else if (currentDay) {
-      if (line.trim()) currentDay.content.push(line.trim());
-    } else if (!foundFirstDay && line.trim() && !line.startsWith("#")) {
-      intro += line.trim() + " ";
+    function updateProfileBtn() {
+      const btn = document.getElementById("profile-btn");
+      const hasProfile = Object.keys(profileData).length > 0;
+      btn.textContent = hasProfile ? "✏️ Edit Profile" : "👤 Personalize Bingus";
     }
-  }
 
-  if (currentDay) days.push(currentDay);
-
-  return { destination, totalDays, budget, flights, days, intro: intro.trim() };
-}
-
-function openItinerary(text) {
-  currentItineraryText = text;
-
-  const destMatch = text.match(/(?:in|to|visiting|explore)\s+([A-Z][a-zA-Z\s]+?)(?:\s+for|\s+is|\s+—|\.|,|!)/);
-  const destination = destMatch ? destMatch[1].trim() : "Your Trip";
-
-  const daysMatch = text.match(/(\d+)\s*(?:days?|nights?)/i);
-  const totalDays = daysMatch ? daysMatch[1] : "?";
-
-  const budgetMatch = text.match(/\$[\d,]+[-–]\$?[\d,]+(?:\/day|per day)?/i);
-  const budget = budgetMatch ? budgetMatch[0] : "See details";
-
-  const flightMatch = text.match(/\$[\d,]+[-–]\$?[\d,]+(?=.*flight)|flights?.*\$[\d,]+[-–]\$?[\d,]+/i);
-  const flights = flightMatch ? flightMatch[0].replace(/flights?\s*/i, "").trim() : "Check Skyscanner";
-
-  document.getElementById("itinerary-title").textContent = `✈️ ${destination}`;
-  document.getElementById("itinerary-summary").innerHTML = `
-    <div class="itinerary-stat">
-      <div class="itinerary-stat-label">Duration</div>
-      <div class="itinerary-stat-value">${totalDays} Days</div>
-    </div>
-    <div class="itinerary-stat">
-      <div class="itinerary-stat-label">Daily Budget</div>
-      <div class="itinerary-stat-value">${budget}</div>
-    </div>
-    <div class="itinerary-stat">
-      <div class="itinerary-stat-label">Flights</div>
-      <div class="itinerary-stat-value">${flights}</div>
-    </div>
-  `;
-
-  const dayRegex = /\*\*Days?\s*[\d\-–]+[:\s]*([^*]*)\*\*|##?\s*Days?\s*[\d\-–]+[:\s]*([^\n]*)|Days?\s*[\d\-–]+[:\s]+([^\n]+)/gi;
-  const sections = [];
-  const parts = text.split(/(?=\*\*Days?\s*[\d\-–]+|\n#{1,3}\s*Days?\s*[\d\-–]+|\nDays?\s*[\d\-–]+:)/i);
-
-  parts.forEach(part => {
-    const headerMatch = part.match(/^(?:\*\*)?Days?\s*([\d\-–]+)[:\s]*([^*\n]*)\*?\*?/i);
-    if (headerMatch) {
-      const dayNum = headerMatch[1];
-      const location = headerMatch[2].replace(/\*+/g, "").trim();
-      const content = part.replace(/^(?:\*\*)?Days?\s*[\d\-–]+[:\s]*[^*\n]*\*?\*?\n?/i, "").replace(/\*+/g, "").trim();
-      if (content || location) {
-        sections.push({ dayNum, location, content });
+    function renderProfileStep() {
+      const step = profileSteps[currentProfileStep];
+      const content = document.getElementById("profile-step-content");
+      const progress = document.getElementById("profile-progress");
+      progress.innerHTML = profileSteps.map((s, i) => `
+        <div class="progress-dot ${i < currentProfileStep ? 'done' : i === currentProfileStep ? 'active' : ''}"></div>
+      `).join("");
+      document.getElementById("profile-back").style.visibility = currentProfileStep === 0 ? "hidden" : "visible";
+      document.getElementById("profile-next").textContent = currentProfileStep === profileSteps.length - 1 ? "Save Profile ✓" : "Next →";
+      if (step.type === "text") {
+        content.innerHTML = `
+          <div class="profile-question">${step.question}</div>
+          <input class="profile-input" type="text" placeholder="${step.placeholder}" id="profile-input-field" value="${tempProfileData[step.id] || ""}"/>
+        `;
+        document.getElementById("profile-input-field").focus();
+      } else {
+        const currentVal = tempProfileData[step.id] || (step.multi ? [] : "");
+        content.innerHTML = `
+          <div class="profile-question">${step.question}</div>
+          <div class="profile-options">
+            ${step.options.map(opt => `
+              <button class="profile-option ${step.multi ? (currentVal.includes(opt) ? 'selected' : '') : (currentVal === opt ? 'selected' : '')}" onclick="selectProfileOption(this, '${opt}', ${step.multi})">${opt}</button>
+            `).join("")}
+          </div>
+        `;
       }
     }
-  });
 
-  if (sections.length > 0) {
-    document.getElementById("itinerary-days").innerHTML = sections.map(s => `
-      <div class="itinerary-day">
-        <div class="itinerary-day-header">
-          <span class="itinerary-day-number">Day ${s.dayNum}</span>
-          <span class="itinerary-day-title">${s.location}</span>
+    function selectProfileOption(btn, value, multi) {
+      const step = profileSteps[currentProfileStep];
+      if (multi) {
+        const current = tempProfileData[step.id] || [];
+        if (current.includes(value)) {
+          tempProfileData[step.id] = current.filter(v => v !== value);
+          btn.classList.remove("selected");
+        } else {
+          tempProfileData[step.id] = [...current, value];
+          btn.classList.add("selected");
+        }
+      } else {
+        document.querySelectorAll(".profile-option").forEach(b => b.classList.remove("selected"));
+        tempProfileData[step.id] = value;
+        btn.classList.add("selected");
+      }
+    }
+
+    function profileNext() {
+      const step = profileSteps[currentProfileStep];
+      if (step.type === "text") {
+        const val = document.getElementById("profile-input-field").value.trim();
+        if (val) tempProfileData[step.id] = val;
+      }
+      if (currentProfileStep === profileSteps.length - 1) {
+        profileData = { ...tempProfileData };
+        localStorage.setItem("driftr_profile", JSON.stringify(profileData));
+        closeProfile();
+        updateProfileBtn();
+        alert("Profile saved! Bingus now knows you 🦦");
+        return;
+      }
+      currentProfileStep++;
+      renderProfileStep();
+    }
+
+    function profileBack() {
+      if (currentProfileStep > 0) {
+        const step = profileSteps[currentProfileStep];
+        if (step.type === "text") {
+          const val = document.getElementById("profile-input-field")?.value.trim();
+          if (val) tempProfileData[step.id] = val;
+        }
+        currentProfileStep--;
+        renderProfileStep();
+      }
+    }
+
+    function profileSkip() {
+      if (currentProfileStep === profileSteps.length - 1) {
+        profileData = { ...tempProfileData };
+        localStorage.setItem("driftr_profile", JSON.stringify(profileData));
+        closeProfile();
+        updateProfileBtn();
+        return;
+      }
+      currentProfileStep++;
+      renderProfileStep();
+    }
+
+    updateProfileBtn();
+
+    // ========== CHAT HISTORY SYSTEM ==========
+    let currentChatId = null;
+    let chatHistories = JSON.parse(localStorage.getItem("driftr_histories") || "{}");
+
+    function generateId() {
+      return "chat_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+    }
+
+    function generateTitle(firstMessage) {
+      if (!firstMessage) return "New conversation";
+      const clean = firstMessage.replace(/^[\u{1F300}-\u{1F9FF}]\s*/u, "").trim();
+      return clean.length > 40 ? clean.substring(0, 40) + "..." : clean;
+    }
+
+    function formatTime(timestamp) {
+      const now = Date.now();
+      const diff = now - timestamp;
+      const mins = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+      if (mins < 1) return "Just now";
+      if (mins < 60) return `${mins}m ago`;
+      if (hours < 24) return `${hours}h ago`;
+      if (days < 7) return `${days}d ago`;
+      return new Date(timestamp).toLocaleDateString();
+    }
+
+    function saveCurrentChat() {
+      if (!currentChatId || messages.length === 0) return;
+      const firstUserMsg = messages.find(m => m.role === "user");
+      if (!firstUserMsg) return;
+      const existing = chatHistories[currentChatId];
+      chatHistories[currentChatId] = {
+        id: currentChatId,
+        title: generateTitle(firstUserMsg.content),
+        messages: [...messages],
+        updatedAt: existing ? existing.updatedAt : Date.now()
+      };
+      localStorage.setItem("driftr_histories", JSON.stringify(chatHistories));
+      renderSidebar();
+    }
+
+    function loadChat(id) {
+      if (currentChatId !== id) saveCurrentChat();
+      currentChatId = id;
+      localStorage.setItem("driftr_current_chat", id);
+      const history = chatHistories[id];
+      if (!history) return;
+      messages = [...history.messages];
+      localStorage.setItem("atlas_messages", JSON.stringify(messages));
+      chat.innerHTML = `
+        <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
+        <div class="message-wrapper">
+          <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
+        </div>`;
+      messages.forEach(msg => addMessage(msg.role, msg.content));
+      suggestions.style.display = "none";
+      renderSidebar();
+      closeSidebar();
+    }
+
+    function newChat() {
+      saveCurrentChat();
+      currentChatId = generateId();
+      localStorage.setItem("driftr_current_chat", currentChatId);
+      messages = [];
+      localStorage.setItem("atlas_messages", JSON.stringify(messages));
+      chat.innerHTML = `
+        <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
+        <div class="message-wrapper">
+          <div class="message assistant">Hey! I'm Bingus, your personal travel expert 🌍 Ask me anything — best countries for budget travel, hidden gems, safety tips, hiking, surfing, nightlife, you name it.</div>
+        </div>`;
+      suggestions.style.display = "flex";
+      renderSidebar();
+      closeSidebar();
+    }
+
+    function deleteChat(id, e) {
+      e.stopPropagation();
+      delete chatHistories[id];
+      localStorage.setItem("driftr_histories", JSON.stringify(chatHistories));
+      if (currentChatId === id) newChat();
+      else renderSidebar();
+    }
+
+    function renderSidebar() {
+      const list = document.getElementById("chat-history-list");
+      const sorted = Object.values(chatHistories).sort((a, b) => b.updatedAt - a.updatedAt);
+      if (sorted.length === 0) {
+        list.innerHTML = `<div id="sidebar-empty">No saved chats yet.<br>Start a conversation!</div>`;
+        return;
+      }
+      list.innerHTML = sorted.map(h => `
+        <div class="history-item ${h.id === currentChatId ? 'active' : ''}" onclick="loadChat('${h.id}')">
+          <div class="history-item-title">${h.title}</div>
+          <div class="history-item-time">${formatTime(h.updatedAt)}</div>
+          <button class="history-item-delete" onclick="deleteChat('${h.id}', event)">✕</button>
         </div>
-        <div class="itinerary-day-content">
-          ${s.content.split("\n").filter(l => l.trim()).map(l => `<p>${l.replace(/^[-•*]\s*/, "")}</p>`).join("")}
-        </div>
-      </div>
-    `).join("");
-  } else {
-    const chunks = text.split("\n\n").filter(c => c.trim().length > 20);
-    document.getElementById("itinerary-days").innerHTML = chunks.map((chunk, i) => `
-      <div class="itinerary-day">
-        <div class="itinerary-day-header">
-          <span class="itinerary-day-number">Part ${i+1}</span>
-          <span class="itinerary-day-title"></span>
-        </div>
-        <div class="itinerary-day-content">
-          ${chunk.split("\n").filter(l => l.trim()).map(l => `<p>${l.replace(/\*+/g, "").replace(/^[-•*]\s*/, "").trim()}</p>`).join("")}
-        </div>
-      </div>
-    `).join("");
-  }
+      `).join("");
+    }
 
-  document.getElementById("itinerary-overlay").classList.add("open");
-}
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+      document.getElementById("sidebar-overlay").classList.toggle("open");
+    }
 
-function closeItinerary() {
-  document.getElementById("itinerary-overlay").classList.remove("open");
-}
+    function closeSidebar() {
+      document.getElementById("sidebar").classList.remove("open");
+      document.getElementById("sidebar-overlay").classList.remove("open");
+    }
 
-function copyItinerary() {
-  navigator.clipboard.writeText(currentItineraryText).then(() => {
-    const btn = document.getElementById("itinerary-copy-btn");
-    btn.textContent = "✅ Copied!";
-    setTimeout(() => { btn.textContent = "📋 Copy Full Itinerary"; }, 2000);
-  });
-}
+    // On app load — always start fresh, save previous
+    const savedChatId = localStorage.getItem("driftr_current_chat");
+    if (savedChatId && chatHistories[savedChatId]) {
+      currentChatId = savedChatId;
+      messages = [...chatHistories[savedChatId].messages];
+      localStorage.setItem("atlas_messages", JSON.stringify(messages));
+      if (messages.length > 0) {
+        const firstWrapper = chat.querySelector(".message-wrapper");
+        if (firstWrapper) firstWrapper.remove();
+        messages.forEach(msg => addMessage(msg.role, msg.content));
+      }
+    } else {
+      currentChatId = generateId();
+      localStorage.setItem("driftr_current_chat", currentChatId);
+      messages = [];
+    }
 
-function shareItinerary() {
-  if (navigator.share) {
-    navigator.share({ title: "My Driftr Itinerary", text: currentItineraryText });
-  } else {
-    copyItinerary();
-  }
-}
+    renderSidebar();
 
-function addItineraryButton(wrapper, text) {
-  const btn = document.createElement("button");
-  btn.className = "view-itinerary-btn";
-  btn.innerHTML = "📋 View as Itinerary";
-  btn.onclick = () => openItinerary(text);
-  wrapper.appendChild(btn);
-}
+    // ========== ITINERARY SYSTEM ==========
+    let currentItineraryText = "";
 
-// ONBOARDING SYSTEM
-let obCurrent = 0;
-const obTotal = 3;
+    function isItineraryResponse(text) {
+      const lower = text.toLowerCase();
+      const hasDays = /day\s*\d+|days?\s*\d+[-–]\d+/i.test(text);
+      const hasMultipleDays = (text.match(/day\s*\d+/gi) || []).length >= 2;
+      const hasPlanningWords = lower.includes("itinerary") || lower.includes("morning") || lower.includes("afternoon") || lower.includes("evening") || lower.includes("overnight") || lower.includes("hostel") || lower.includes("accommodation");
+      const hasDestination = lower.includes("fly") || lower.includes("bus") || lower.includes("hotel") || lower.includes("arrive") || lower.includes("depart");
+      return hasDays || (hasPlanningWords && hasDestination) || hasMultipleDays;
+    }
 
-function obGoTo(n) {
-  document.getElementById(`ob-slide-${obCurrent}`).classList.remove("active");
-  document.getElementById(`ob-dot-${obCurrent}`).classList.remove("active");
-  obCurrent = n;
-  document.getElementById(`ob-slide-${obCurrent}`).classList.add("active");
-  document.getElementById(`ob-dot-${obCurrent}`).classList.add("active");
-  document.getElementById("ob-next-btn").textContent = obCurrent === obTotal - 1 ? "Get Started →" : "Next →";
-  const back = document.getElementById("ob-back-btn");
-  obCurrent > 0 ? back.classList.add("visible") : back.classList.remove("visible");
-}
+    function openItinerary(text) {
+      currentItineraryText = text;
+      const destMatch = text.match(/(?:in|to|visiting|explore)\s+([A-Z][a-zA-Z\s]+?)(?:\s+for|\s+is|\s+—|\.|,|!)/);
+      const destination = destMatch ? destMatch[1].trim() : "Your Trip";
+      const daysMatch = text.match(/(\d+)\s*(?:days?|nights?)/i);
+      const totalDays = daysMatch ? daysMatch[1] : "?";
+      const budgetMatch = text.match(/\$[\d,]+[-–]\$?[\d,]+(?:\/day|per day)?/i);
+      const budget = budgetMatch ? budgetMatch[0] : "See details";
+      const flightMatch = text.match(/\$[\d,]+[-–]\$?[\d,]+(?=.*flight)|flights?.*\$[\d,]+[-–]\$?[\d,]+/i);
+      const flights = flightMatch ? flightMatch[0].replace(/flights?\s*/i, "").trim() : "Check Skyscanner";
 
-function obBack() {
-  if (obCurrent > 0) obGoTo(obCurrent - 1);
-}
+      document.getElementById("itinerary-title").textContent = `✈️ ${destination}`;
+      document.getElementById("itinerary-summary").innerHTML = `
+        <div class="itinerary-stat"><div class="itinerary-stat-label">Duration</div><div class="itinerary-stat-value">${totalDays} Days</div></div>
+        <div class="itinerary-stat"><div class="itinerary-stat-label">Daily Budget</div><div class="itinerary-stat-value">${budget}</div></div>
+        <div class="itinerary-stat"><div class="itinerary-stat-label">Flights</div><div class="itinerary-stat-value">${flights}</div></div>
+      `;
 
-function finishOnboarding() {
-  localStorage.setItem("driftr_onboarded", "true");
-  const overlay = document.getElementById("onboarding-overlay");
-  overlay.style.opacity = "0";
-  setTimeout(() => { overlay.style.display = "none"; }, 400);
-}
+      const sections = [];
+      const parts = text.split(/(?=\*\*Days?\s*[\d\-–]+|\n#{1,3}\s*Days?\s*[\d\-–]+|\nDays?\s*[\d\-–]+:)/i);
+      parts.forEach(part => {
+        const headerMatch = part.match(/^(?:\*\*)?Days?\s*([\d\-–]+)[:\s]*([^*\n]*)\*?\*?/i);
+        if (headerMatch) {
+          const dayNum = headerMatch[1];
+          const location = headerMatch[2].replace(/\*+/g, "").trim();
+          const content = part.replace(/^(?:\*\*)?Days?\s*[\d\-–]+[:\s]*[^*\n]*\*?\*?\n?/i, "").replace(/\*+/g, "").trim();
+          if (content || location) sections.push({ dayNum, location, content });
+        }
+      });
 
-document.getElementById("ob-next-btn").addEventListener("click", () => {
-  if (obCurrent < obTotal - 1) obGoTo(obCurrent + 1);
-  else finishOnboarding();
-});
+      if (sections.length > 0) {
+        document.getElementById("itinerary-days").innerHTML = sections.map(s => `
+          <div class="itinerary-day">
+            <div class="itinerary-day-header">
+              <span class="itinerary-day-number">Day ${s.dayNum}</span>
+              <span class="itinerary-day-title">${s.location}</span>
+            </div>
+            <div class="itinerary-day-content">
+              ${s.content.split("\n").filter(l => l.trim()).map(l => `<p>${l.replace(/^[-•*]\s*/, "")}</p>`).join("")}
+            </div>
+          </div>
+        `).join("");
+      } else {
+        const chunks = text.split("\n\n").filter(c => c.trim().length > 20);
+        document.getElementById("itinerary-days").innerHTML = chunks.map((chunk, i) => `
+          <div class="itinerary-day">
+            <div class="itinerary-day-header">
+              <span class="itinerary-day-number">Part ${i+1}</span>
+              <span class="itinerary-day-title"></span>
+            </div>
+            <div class="itinerary-day-content">
+              ${chunk.split("\n").filter(l => l.trim()).map(l => `<p>${l.replace(/\*+/g, "").replace(/^[-•*]\s*/, "").trim()}</p>`).join("")}
+            </div>
+          </div>
+        `).join("");
+      }
 
-if (localStorage.getItem("driftr_onboarded")) {
-  document.getElementById("onboarding-overlay").style.display = "none";
-}
+      document.getElementById("itinerary-overlay").classList.add("open");
+    }
+
+    function closeItinerary() {
+      document.getElementById("itinerary-overlay").classList.remove("open");
+    }
+
+    function copyItinerary() {
+      navigator.clipboard.writeText(currentItineraryText).then(() => {
+        const btn = document.getElementById("itinerary-copy-btn");
+        btn.textContent = "✅ Copied!";
+        setTimeout(() => { btn.textContent = "📋 Copy Full Itinerary"; }, 2000);
+      });
+    }
+
+    function shareItinerary() {
+      if (navigator.share) {
+        navigator.share({ title: "My Driftr Itinerary", text: currentItineraryText });
+      } else {
+        copyItinerary();
+      }
+    }
+
+    function addItineraryButton(wrapper, text) {
+      const btn = document.createElement("button");
+      btn.className = "view-itinerary-btn";
+      btn.innerHTML = "📋 View as Itinerary";
+      btn.onclick = () => openItinerary(text);
+      wrapper.appendChild(btn);
+    }
+
+    // ========== ONBOARDING SYSTEM ==========
+    let obCurrent = 0;
+    const obTotal = 3;
+
+    function obGoTo(n) {
+      document.getElementById(`ob-slide-${obCurrent}`).classList.remove("active");
+      document.getElementById(`ob-dot-${obCurrent}`).classList.remove("active");
+      obCurrent = n;
+      document.getElementById(`ob-slide-${obCurrent}`).classList.add("active");
+      document.getElementById(`ob-dot-${obCurrent}`).classList.add("active");
+      document.getElementById("ob-next-btn").textContent = obCurrent === obTotal - 1 ? "Get Started →" : "Next →";
+      const back = document.getElementById("ob-back-btn");
+      obCurrent > 0 ? back.classList.add("visible") : back.classList.remove("visible");
+    }
+
+    function obBack() {
+      if (obCurrent > 0) obGoTo(obCurrent - 1);
+    }
+
+    function finishOnboarding() {
+      localStorage.setItem("driftr_onboarded", "true");
+      const overlay = document.getElementById("onboarding-overlay");
+      overlay.style.opacity = "0";
+      setTimeout(() => { overlay.style.display = "none"; }, 400);
+    }
+
+    document.getElementById("ob-next-btn").addEventListener("click", () => {
+      if (obCurrent < obTotal - 1) obGoTo(obCurrent + 1);
+      else finishOnboarding();
+    });
+
+    if (localStorage.getItem("driftr_onboarded")) {
+      document.getElementById("onboarding-overlay").style.display = "none";
+    }
 
     window.addEventListener("resize", wResize);
     setTimeout(initFishing, 200);
-
-</script>
-
+  </script>
 </body>
 </html>
