@@ -8,8 +8,16 @@
   ],
   "routes": [
     {
+      "src": "/DriftrTextLogo.svg",
+      "dest": "server.js"
+    },
+    {
+      "src": "/DriftTogether.svg",
+      "dest": "server.js"
+    },
+    {
       "src": "/Beach_Vacation.json",
-      "dest": "/Beach_Vacation.json"
+      "dest": "server.js"
     },
     {
       "src": "/chat",
