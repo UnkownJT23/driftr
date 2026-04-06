@@ -1634,17 +1634,6 @@ body.light #header-logo {
 #explore-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
 #community-content { display: none; flex-direction: column; align-items: center; width: 100%; text-align: center; }
 
-.community-title {
-  font-family: var(--font-display);
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--text);
-  margin-bottom: 12px;
-  letter-spacing: -1px;
-  line-height: 1.1;
-}
-
-.community-title span { color: var(--accent); }
 
 .community-subtitle {
   font-size: 15px;
@@ -1756,6 +1745,78 @@ body.light #header-logo {
 .community-disclaimer {
   font-size: 11px;
   color: var(--text3);
+}
+
+body.light #drift-together-logo {
+  filter: invert(0);
+}
+
+@media (max-width: 768px) {
+  #drift-together-logo {
+    max-width: 260px !important;
+  }
+
+  .community-badge {
+    font-size: 10px;
+    padding: 4px 10px;
+    margin-bottom: 12px;
+  }
+
+  .community-subtitle {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .community-features {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .community-feature {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .community-feature-icon {
+    font-size: 16px;
+  }
+
+  .community-feature-title {
+    font-size: 13px;
+  }
+
+  .community-feature-desc {
+    font-size: 11px;
+  }
+
+  .community-signup {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .community-email-input {
+    padding: 11px 14px;
+    font-size: 14px;
+  }
+
+  .community-notify-btn {
+    padding: 12px;
+    width: 100%;
+  }
+
+  #welcome-theme-btn {
+    top: 16px;
+    right: 16px;
+    font-size: 18px;
+  }
+
+  #welcome-tabs {
+    margin-bottom: 16px;
+  }
+
+  #community-content {
+    padding: 0 4px;
+  }
 }
 
   </style>
@@ -2007,7 +2068,7 @@ body.light #header-logo {
 
   <div id="community-content">
     <span class="community-badge">🚀 Coming Soon</span>
-    <h2 class="community-title">Drift <span>Together</span></h2>
+    <img src="/DriftTogether.svg" alt="Drift Together" id="drift-together-logo" style="width:100%;max-width:420px;height:auto;margin-bottom:16px;filter:invert(1);" />
 <p class="community-subtitle">A home for group trips and adventures. Find your crew, join influencer-led journeys, and never travel alone again.</p>
 
     <div class="community-features">
