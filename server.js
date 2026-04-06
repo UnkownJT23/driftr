@@ -14,6 +14,9 @@ app.get("/", (req, res) => {
 app.get("/DriftrTextLogo.svg", (req, res) => {
   res.sendFile(path.join(__dirname, "DriftrTextLogo.svg"));
 });
+app.get("/DriftTogether.svg", (req, res) => {
+  res.sendFile(path.join(__dirname, "DriftTogether.svg"));
+});
 
 const client = new Anthropic.Anthropic();
 
