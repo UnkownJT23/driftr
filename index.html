@@ -1598,6 +1598,166 @@ body.light #header-logo {
   filter: invert(0);
 }
 
+#welcome-tabs {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  padding: 4px;
+  margin-bottom: 28px;
+  gap: 4px;
+}
+
+.welcome-tab {
+  padding: 8px 24px;
+  border-radius: 100px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--text2);
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.welcome-tab.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.welcome-tab:hover:not(.active) {
+  color: var(--text);
+}
+
+#explore-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
+#community-content { display: none; flex-direction: column; align-items: center; width: 100%; text-align: center; }
+
+.community-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.community-title span { color: var(--accent); }
+
+.community-subtitle {
+  font-size: 15px;
+  color: var(--text2);
+  margin-bottom: 32px;
+  line-height: 1.6;
+  font-weight: 300;
+  max-width: 360px;
+}
+
+.community-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.community-feature {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.community-feature-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.community-feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.community-feature-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.community-feature-desc {
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.community-badge {
+  background: var(--accent-glow);
+  border: 1px solid rgba(59,130,246,0.3);
+  color: var(--accent2);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.community-signup {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.community-email-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 13px 16px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.community-email-input::placeholder { color: var(--text3); }
+.community-email-input:focus { border-color: var(--accent); }
+
+.community-notify-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 20px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.community-notify-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.community-disclaimer {
+  font-size: 11px;
+  color: var(--text3);
+}
+
   </style>
 </head>
 <body>
@@ -1824,8 +1984,14 @@ body.light #header-logo {
     </div>
 
     <div id="welcome-content">
-      <span id="welcome-badge">Your AI Travel Companion</span>
-      <div id="welcome-logo">🦦</div>
+
+  <div id="welcome-tabs">
+    <button class="welcome-tab active" onclick="switchTab('explore')">Explore</button>
+    <button class="welcome-tab" onclick="switchTab('community')">Community</button>
+  </div>
+
+  <div id="explore-content">
+    <div id="welcome-logo">🦦</div>
       <img id="welcome-title" src="/DriftrTextLogo.svg" alt="Driftr" />
       <p id="welcome-subtitle">Float into your next adventure. Budget hacks, hidden gems, and real advice — not tourist trap nonsense.</p>
       <div id="welcome-features">
@@ -1837,6 +2003,46 @@ body.light #header-logo {
       <button id="welcome-btn">Start Exploring →</button>
       <button id="profile-btn" onclick="openProfile()">👤 Personalize Bingus</button>
       <p id="welcome-disclaimer">Free to use · Powered by Claude AI</p>
+  </div>
+
+  <div id="community-content">
+    <span class="community-badge">🚀 Coming Soon</span>
+    <h2 class="community-title">Drift <span>Together</span></h2>
+<p class="community-subtitle">A home for group trips and adventures. Find your crew, join influencer-led journeys, and never travel alone again.</p>
+
+    <div class="community-features">
+      <div class="community-feature">
+        <span class="community-feature-icon">🗺️</span>
+        <div class="community-feature-text">
+          <span class="community-feature-title">Group Trip Listings</span>
+          <span class="community-feature-desc">Browse curated group trips posted by travel influencers and operators worldwide.</span>
+        </div>
+      </div>
+      <div class="community-feature">
+        <span class="community-feature-icon">🤝</span>
+        <div class="community-feature-text">
+          <span class="community-feature-title">Find Your Crew</span>
+          <span class="community-feature-desc">Connect with like-minded travelers heading to the same destinations.</span>
+        </div>
+      </div>
+      <div class="community-feature">
+        <span class="community-feature-icon">✈️</span>
+        <div class="community-feature-text">
+          <span class="community-feature-title">One Platform</span>
+          <span class="community-feature-desc">No more scattered Instagram DMs and Facebook groups. Everything in one place.</span>
+        </div>
+      </div>
+    </div>
+
+    <form action="https://formspree.io/f/mdapyvln" method="POST" style="width:100%;" onsubmit="handleSignup(event)">
+      <div class="community-signup">
+        <input class="community-email-input" type="email" name="email" placeholder="Enter your email..." required />
+        <button class="community-notify-btn" type="submit">Notify Me</button>
+      </div>
+    </form>
+    <p class="community-disclaimer">No spam. We'll only email you when we launch.</p>
+  </div>
+
     </div>
   </div>
 
@@ -2897,6 +3103,39 @@ function submitBudgetCalc() {
   suggestions.style.display = "none";
   input.value = prompt;
   sendMessage();
+}
+
+function switchTab(tab) {
+  const explore = document.getElementById("explore-content");
+  const community = document.getElementById("community-content");
+  const tabs = document.querySelectorAll(".welcome-tab");
+
+  if (tab === "explore") {
+    explore.style.display = "flex";
+    community.style.display = "none";
+    tabs[0].classList.add("active");
+    tabs[1].classList.remove("active");
+  } else {
+    explore.style.display = "none";
+    community.style.display = "flex";
+    tabs[0].classList.remove("active");
+    tabs[1].classList.add("active");
+  }
+}
+
+function handleSignup(e) {
+  e.preventDefault();
+  const form = e.target;
+  const email = form.querySelector("input[type='email']").value;
+  fetch(form.action, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email })
+  }).then(() => {
+    form.innerHTML = `<p style="color:var(--accent2);font-size:14px;font-weight:600;">✅ You're on the list! We'll be in touch.</p>`;
+  }).catch(() => {
+    form.innerHTML = `<p style="color:var(--accent2);font-size:14px;font-weight:600;">✅ You're on the list! We'll be in touch.</p>`;
+  });
 }
 
     window.addEventListener("resize", wResize);
