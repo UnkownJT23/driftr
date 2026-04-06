@@ -105,14 +105,15 @@
     }
 
     #welcome-title {
-      font-family: var(--font-display);
-      font-size: 64px;
-      font-weight: 800;
-      color: var(--text);
-      line-height: 1;
-      margin-bottom: 16px;
-      letter-spacing: -2px;
-    }
+  width: 280px;
+  height: auto;
+  margin-bottom: 16px;
+  filter: invert(1);
+}
+
+body.light #welcome-title {
+  filter: invert(0);
+}
 
     #welcome-title span { color: var(--accent); }
 
@@ -1589,6 +1590,14 @@
   transform: translateY(0);
 }
 
+body.light #welcome-title {
+  filter: invert(0);
+}
+
+body.light #header-logo {
+  filter: invert(0);
+}
+
   </style>
 </head>
 <body>
@@ -1817,7 +1826,7 @@
     <div id="welcome-content">
       <span id="welcome-badge">🦦 Your AI Travel Companion</span>
       <div id="welcome-logo">🦦</div>
-      <h1 id="welcome-title">Drif<span>tr</span></h1>
+      <img id="welcome-title" src="/DriftrTextLogo.svg" alt="Driftr" />
       <p id="welcome-subtitle">Float into your next adventure. Budget hacks, hidden gems, and real advice — not tourist trap nonsense.</p>
       <div id="welcome-features">
         <div class="feature">🌍 Hidden gem destinations</div>
@@ -1850,7 +1859,10 @@
       <button id="menu-btn" onclick="toggleSidebar()">☰</button>
       <button id="home-btn" onclick="goHome()">← Home</button>
     </div>
-    <h1 onclick="goHome()" style="cursor:pointer;">🦦 Driftr <span id="header-dot"></span></h1>
+    <h1 onclick="goHome()" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
+  <img src="/DriftrTextLogo.svg" alt="Driftr" id="header-logo" style="height:28px;width:auto;filter:invert(1);" />
+  <span id="header-dot"></span>
+</h1>
     <p>Your AI travel expert</p>
     <div id="header-buttons">
       <button id="theme-btn" onclick="toggleTheme()">☀️</button>

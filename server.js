@@ -11,8 +11,8 @@ app.use(express.static(path.join(__dirname)));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
-app.get("/Beach_Vacation.json", (req, res) => {
-  res.sendFile(path.join(__dirname, "Beach_Vacation.json"));
+app.get("/DriftrTextLogo.svg", (req, res) => {
+  res.sendFile(path.join(__dirname, "DriftrTextLogo.svg"));
 });
 
 const client = new Anthropic.Anthropic();
