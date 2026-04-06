@@ -2475,7 +2475,7 @@ window.responseDiv.innerHTML = marked.parse(fullResponse);
     const destinations = [
       "Colombia", "Bali", "Albania", "Japan", "Morocco", "Peru",
       "Georgia", "Vietnam", "Portugal", "Kyrgyzstan", "Costa Rica",
-      "Tanzania", "Iceland", "Nepal", "Argentina", "Ethiopia", "Jordan", "Philippines"
+      "Tanzania", "Iceland", "Nepal", "Argentina", "Brazil", "Ecuador", "Philippines"
     ];
 
     const activities = [
@@ -2729,8 +2729,8 @@ if (leftBoat) leftBoat.style.bottom = (22 + waveOffset2) + "px";
       { id: "name", question: "What's your name?", type: "text", placeholder: "Enter your name...", multi: false },
       { id: "age", question: "How old are you?", type: "single", options: ["18-21", "22-25", "26-30", "30+"], multi: false },
       { id: "location", question: "Where are you based?", type: "text", placeholder: "City, Country...", multi: false },
-      { id: "style", question: "How do you like to travel?", type: "single", options: ["Solo", "With friends", "Couple", "Flexible"], multi: false },
-      { id: "vibe", question: "What's your travel vibe?", type: "multi", options: ["🏖️ Beaches", "🏙️ Cities", "🏔️ Mountains", "🎉 Nightlife", "🏛️ Culture", "🧗 Adventure", "🌿 Nature", "🍜 Food"], multi: true },
+      { id: "style", question: "How do you like to travel?", type: "multi", options: ["Solo", "With friends", "Couple", "Flexible"], multi: true },
+      { id: "vibe", question: "What's your travel vibe?", type: "multi", options: ["🏖️ Beaches", "🏙️ Cities", "🏔️ Mountains", "🎉 Nightlife", "🏛️ Culture", "🧗 Adventure", "🌿 Nature", "🍜 Food", "🧘 Wellness & Yoga"], multi: true },
       { id: "budget", question: "What's your daily budget?", type: "multi", options: ["Under $50", "$50-100", "$100-200", "$200+"], multi: true },
       { id: "tripLength", question: "How long do you usually travel?", type: "multi", options: ["Weekend", "1-2 weeks", "1 month+", "Flexible"], multi: true },
       { id: "experience", question: "How experienced are you?", type: "single", options: ["First timer", "Some experience", "Seasoned backpacker", "Full nomad"], multi: false }
