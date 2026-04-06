@@ -1897,6 +1897,7 @@ body.light #header-logo {
     const suggestions = document.getElementById("suggestions");
     let messages = JSON.parse(localStorage.getItem("atlas_messages") || "[]");
     let userScrolled = false;
+    let fullResponseText = "";  // ← add it here
 
     // ========== THEME ==========
     if (localStorage.getItem("atlas_theme") === "light") {
@@ -1929,15 +1930,29 @@ body.light #header-logo {
     };
 
     function goHome() {
-      const welcome = document.getElementById("welcome");
-      welcome.style.display = "flex";
-      welcome.style.opacity = "0";
-      setTimeout(() => {
-        welcome.style.opacity = "1";
-        welcome.style.transition = "opacity 0.4s ease";
-        wResize();
-      }, 10);
-    }
+  if (window.activeReader) {
+    window.activeReader.cancel();
+    window.activeReader = null;
+  }
+  if (window.responseDiv && fullResponseText.length > 0) {
+    window.responseDiv.innerHTML = marked.parse(fullResponseText);
+    messages.push({ role: "assistant", content: fullResponseText });
+    localStorage.setItem("atlas_messages", JSON.stringify(messages));
+    saveCurrentChat();
+    window.responseDiv = null;
+    fullResponseText = "";
+  }
+  hideTyping();
+  send.disabled = false;
+  const welcome = document.getElementById("welcome");
+  welcome.style.display = "flex";
+  welcome.style.opacity = "0";
+  setTimeout(() => {
+    welcome.style.opacity = "1";
+    welcome.style.transition = "opacity 0.4s ease";
+    wResize();
+  }, 10);
+}
 
     // ========== CHAT UTILS ==========
     function clearChat() {
@@ -2086,6 +2101,7 @@ loadSuggestions();
       localStorage.setItem("atlas_messages", JSON.stringify(messages));
       showTyping();
       let fullResponse = "";
+fullResponseText = "";
 
       try {
         const res = await fetch("/chat", {
@@ -2094,7 +2110,8 @@ loadSuggestions();
           body: JSON.stringify({ messages, profile: JSON.parse(localStorage.getItem("driftr_profile") || "{}") })
         });
         const reader = res.body.getReader();
-        const decoder = new TextDecoder();
+window.activeReader = reader;
+const decoder = new TextDecoder();
 
         while (true) {
           const { done, value } = await reader.read();
@@ -2111,7 +2128,8 @@ loadSuggestions();
                     window.responseDiv = addMessage("assistant", "");
                   }
                   fullResponse += data.text;
-                  window.responseDiv.innerHTML = marked.parse(fullResponse);
+fullResponseText = fullResponse;
+window.responseDiv.innerHTML = marked.parse(fullResponse);
                   if (!userScrolled) chat.scrollTop = chat.scrollHeight;
                 }
                 if (data.done) {
