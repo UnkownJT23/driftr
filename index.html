@@ -3120,6 +3120,9 @@ function switchTab(tab) {
     community.style.display = "flex";
     tabs[0].classList.remove("active");
     tabs[1].classList.add("active");
+    if (localStorage.getItem("driftr_waitlist")) {
+      showWaitlistConfirmation();
+    }
   }
 }
 
@@ -3132,10 +3135,24 @@ function handleSignup(e) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email })
   }).then(() => {
-    form.innerHTML = `<p style="color:var(--accent2);font-size:14px;font-weight:600;">✅ You're on the list! We'll be in touch.</p>`;
+    localStorage.setItem("driftr_waitlist", email);
+    showWaitlistConfirmation();
   }).catch(() => {
-    form.innerHTML = `<p style="color:var(--accent2);font-size:14px;font-weight:600;">✅ You're on the list! We'll be in touch.</p>`;
+    localStorage.setItem("driftr_waitlist", email);
+    showWaitlistConfirmation();
   });
+}
+
+function showWaitlistConfirmation() {
+  const form = document.querySelector("#community-content form");
+  const disclaimer = document.querySelector(".community-disclaimer");
+  if (form) form.innerHTML = `
+    <div style="background:var(--accent-glow);border:1px solid rgba(59,130,246,0.3);border-radius:14px;padding:16px;width:100%;text-align:center;">
+      <p style="color:var(--accent2);font-size:15px;font-weight:700;margin-bottom:4px;">✅ You're on the list!</p>
+      <p style="color:var(--text2);font-size:13px;font-weight:300;">We'll email you the moment Driftr Community launches.</p>
+    </div>
+  `;
+  if (disclaimer) disclaimer.style.display = "none";
 }
 
     window.addEventListener("resize", wResize);
